@@ -9,10 +9,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logout } from "../firebase";
+import { logout } from "../firebase";
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({ name, url }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -24,8 +23,6 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const [user, loading, error] = useAuthState(auth);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -59,14 +56,11 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            {user?.displayName ?? user?.email ?? "guest"}
+            {name}
           </Typography>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt={user?.displayName ?? user?.email ?? "guest"}
-                src={user?.photoURL ?? undefined}
-              ></Avatar>
+              <Avatar alt={name} src={url}></Avatar>
             </IconButton>
           </Tooltip>
           <Menu
@@ -86,7 +80,7 @@ const ResponsiveAppBar = () => {
           >
             <MenuItem onClick={handleCloseUserMenu}>
               <Typography textAlign="center" onClick={logout}>
-                LogOut
+                Log out
               </Typography>
             </MenuItem>
           </Menu>
