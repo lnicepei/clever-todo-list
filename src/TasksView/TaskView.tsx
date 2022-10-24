@@ -8,7 +8,8 @@ import ResponsiveAppBar from "./ResponsiveAppBar";
 import Task from "./Task";
 
 const TaskView = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+  const [name, setName] = useState("");
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   const fetchUserName = async () => {
@@ -17,22 +18,24 @@ const TaskView = () => {
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
       setTasks(data.tasks);
-      console.log(user?.photoURL);
+      setName(data.name);
     } catch (err) {
       console.error(err);
-      alert("An error occured while fetching user data");
+      alert("An error occurred while fetching user data");
     }
   };
 
   useEffect(() => {
     if (!user) return navigate("/login");
-    if (loading) return;
     fetchUserName();
   }, [user, loading]);
 
   return (
     <>
-      <ResponsiveAppBar />
+      <ResponsiveAppBar
+        name={name ?? user?.displayName ?? user?.email}
+        url={user?.photoURL}
+      />
       <NewTask />
       {tasks?.map((task) => (
         <Task content={task} />
