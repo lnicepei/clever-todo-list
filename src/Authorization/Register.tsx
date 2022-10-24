@@ -1,55 +1,83 @@
-import { Button, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  registerWithEmailAndPassword,
-  signInWithGoogle,
-} from "../firebase";
+import { Box, Button, TextField } from "@mui/material";
+import Grid from "@mui/material/Grid"; // Grid version 1
+import { Link } from "react-router-dom";
+import { registerWithEmailAndPassword, signInWithGoogle } from "../firebase";
 
-function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, loading] = useAuthState(auth);
-
-  const navigate = useNavigate();
-
+const Register = ({
+  name,
+  setName,
+  password,
+  setPassword,
+  email,
+  setEmail,
+  handleErrorMessage,
+}) => {
   const register = () => {
-    registerWithEmailAndPassword(email, password);
+    registerWithEmailAndPassword(name, email, password, handleErrorMessage);
   };
 
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/tasks");
-  }, [user, loading]);
-
   return (
-    <div>
-      <div>
+    <Box>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          register();
+        }}
+      >
+        <TextField
+          variant="outlined"
+          fullWidth
+          margin="dense"
+          label="Name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <TextField
           variant="outlined"
           label="Email"
-          type="email"
-          required={true}
+          fullWidth
+          margin="dense"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           variant="outlined"
-          type="password"
           label="Password"
-          required={true}
+          type="password"
+          fullWidth
+          margin="dense"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={register}>Register</Button>
-        <Button onClick={signInWithGoogle}>Continue with Google</Button>
-        <div>
-          Already have an account? <Link to="/login">Login</Link> now.
-        </div>
-      </div>
-    </div>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Sign Up
+        </Button>
+      </Box>
+      <Grid container spacing={6} sx={{ margin: 0 }}>
+        <Grid xs={8}>
+          <Button
+            // fullWidth
+            variant="outlined"
+            onClick={() => signInWithGoogle(handleErrorMessage)}
+          >
+            Continue with Google
+          </Button>
+        </Grid>
+        <Grid xs={6}>
+          <Link to="/login">Have an account? Log In</Link>
+        </Grid>
+      </Grid>
+    </Box>
   );
-}
+};
 export default Register;

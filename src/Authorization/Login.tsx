@@ -1,46 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
-import { useNavigate, Link } from "react-router-dom";
+import { Box, Button, TextField } from "@mui/material";
+import { logInWithEmailAndPassword } from "../firebase";
+import { Link } from "react-router-dom";
 
-const Login = () => {
-  const [user, loading] = useAuthState(auth);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/tasks");
-  }, [user, loading]);
+const Login = ({
+  password,
+  setPassword,
+  email,
+  setEmail,
+  handleErrorMessage,
+}) => {
+  const login = () => {
+    logInWithEmailAndPassword(email, password, handleErrorMessage);
+  };
 
   return (
-    <div>
+    <Box>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          login();
+        }}
+      >
         <TextField
           variant="outlined"
           label="Email"
-          type="text"
-          required={true}
+          name="email"
+          fullWidth
+          margin="dense"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           variant="outlined"
           label="Password"
+          name="password"
           type="password"
-          required={true}
+          fullWidth
+          margin="dense"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={() => logInWithEmailAndPassword(email, password)}>
-          Login
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 2, mb: 2 }}
+        >
+          Sign In
         </Button>
-        <Button onClick={signInWithGoogle}>Continue with Google</Button>
-        <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
-        </div>
-    </div>
+      </Box>
+      <Link to="/register">Do not have an account? Register</Link>
+    </Box>
   );
 };
 
