@@ -31,7 +31,7 @@ export const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (handleErrorMessage) => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
@@ -45,32 +45,35 @@ export const signInWithGoogle = async () => {
       });
     }
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    handleErrorMessage(err.message);
   }
 };
 
-export const logInWithEmailAndPassword = async (email, password) => {
+export const logInWithEmailAndPassword = async (email, password, handleErrorMessage) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    handleErrorMessage(err.message);
   }
 };
 
-export const registerWithEmailAndPassword = async (email, password) => {
+export const registerWithEmailAndPassword = async (
+  name,
+  email,
+  password,
+  handleErrorMessage
+) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
     await addDoc(collection(db, "users"), {
       uid: user.uid,
       authProvider: "local",
+      name,
       email,
     });
   } catch (err) {
-    console.error(err);
-    alert(err.message);
+    handleErrorMessage(err.message);
   }
 };
 
