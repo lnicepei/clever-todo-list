@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import BasicSnackbar from "../Error";
+import BasicSnackbar from "../BasicSnackbar";
 
 const Auth = ({ content, operation }) => {
   const [user] = useAuthState(auth);
@@ -13,6 +13,7 @@ const Auth = ({ content, operation }) => {
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleErrorMessage = (error) => {
     setErrorMessage(error);
@@ -25,8 +26,6 @@ const Auth = ({ content, operation }) => {
     }
     setOpen(false);
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) navigate("/tasks");
@@ -59,6 +58,7 @@ const Auth = ({ content, operation }) => {
         setEmail,
         handleErrorMessage,
       })}
+
       <BasicSnackbar open={open} onClose={handleClose} message={errorMessage} />
     </Container>
   );
