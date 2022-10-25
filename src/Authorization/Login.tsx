@@ -1,7 +1,7 @@
-import { Box, Button, Grid, TextField, Link } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = ({
   password,
@@ -65,8 +65,10 @@ const Login = ({
             Use Google
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Link onClick={() => navigate("/register")}>Sign up</Link>
+        <Grid item xs={12} textAlign="center">
+          <Button variant="text">
+            <Link to="/register">Sign up</Link>
+          </Button>
         </Grid>
       </Grid>
     </Box>
