@@ -1,22 +1,17 @@
-import { Box, Button, TextField, Grid } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import { Box, Button, Grid, TextField } from "@mui/material";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { registerWithEmailAndPassword, signInWithGoogle } from "../firebase";
-import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
-const Register = ({
-  name,
-  setName,
-  password,
-  setPassword,
-  email,
-  setEmail,
-  handleErrorMessage,
-}) => {
+const Register = () => {
+  const { name, setName, password, setPassword, email, setEmail, handleErrorMessage } =
+    useContext(AuthContext);
+
   const register = () => {
     registerWithEmailAndPassword(name, email, password, handleErrorMessage);
   };
-
-  const navigate = useNavigate();
 
   return (
     <Box
