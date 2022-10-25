@@ -1,31 +1,14 @@
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Avatar, Box, Container, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import BasicSnackbar from "../BasicSnackbar";
+import { AuthContextProvider } from "./AuthContext";
 
-const Auth = ({ content, operation }) => {
+const Auth = (props) => {
   const [user] = useAuthState(auth);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleErrorMessage = (error) => {
-    setErrorMessage(error);
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
 
   useEffect(() => {
     if (user) navigate("/tasks");
@@ -44,22 +27,11 @@ const Auth = ({ content, operation }) => {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          {operation}
+        <Typography component="h1" variant="h4">
+          {matchPath(useLocation().pathname, "/login") ? "Log in" : "Register"}
         </Typography>
       </Box>
-
-      {React.cloneElement(content, {
-        password,
-        setPassword,
-        name,
-        setName,
-        email,
-        setEmail,
-        handleErrorMessage,
-      })}
-
-      <BasicSnackbar open={open} onClose={handleClose} message={errorMessage} />
+      <AuthContextProvider>{props.children}</AuthContextProvider>
     </Container>
   );
 };
