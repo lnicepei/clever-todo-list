@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
+  signOut
 } from "firebase/auth";
 import {
   addDoc,
@@ -13,7 +13,7 @@ import {
   getDocs,
   getFirestore,
   query,
-  where,
+  where
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -40,7 +40,7 @@ export const signInWithGoogle = async (handleErrorMessage) => {
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
-        authProvider: "google",
+        tasks: [],
         email: user.email,
       });
     }
@@ -68,7 +68,7 @@ export const registerWithEmailAndPassword = async (
     const user = res.user;
     await addDoc(collection(db, "users"), {
       uid: user.uid,
-      authProvider: "local",
+      tasks: [], //FIXME: if a user who has tasks tries to log in with google, they'll lose all their tasks 
       name,
       email,
     });
