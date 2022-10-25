@@ -1,7 +1,8 @@
-import { Box, Button, TextField } from "@mui/material";
-import Grid from "@mui/material/Grid"; // Grid version 1
-import { Link } from "react-router-dom";
+import { Box, Button, TextField, Grid, Link } from "@mui/material";
+// import { Link } from "react-router-dom";
+import GoogleIcon from "@mui/icons-material/Google";
 import { registerWithEmailAndPassword, signInWithGoogle } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Register = ({
   name,
@@ -16,65 +17,68 @@ const Register = ({
     registerWithEmailAndPassword(name, email, password, handleErrorMessage);
   };
 
+  const navigate = useNavigate();
+
   return (
-    <Box>
-      <Box
-        component="form"
-        noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          register();
-        }}
-      >
-        <TextField
-          variant="outlined"
-          fullWidth
-          margin="dense"
-          label="Name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          label="Email"
-          fullWidth
-          margin="dense"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          variant="outlined"
-          label="Password"
-          type="password"
-          fullWidth
-          margin="dense"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign Up
-        </Button>
-      </Box>
-      <Grid container spacing={6} sx={{ margin: 0 }}>
-        <Grid xs={8}>
+    <Box
+      component="form"
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault();
+        register();
+      }}
+      sx={{ mt: 3 }}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            label="Email"
+            fullWidth
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            label="Password"
+            name="password"
+            type="password"
+            fullWidth
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button type="submit" fullWidth variant="contained">
+            Sign Up
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <Button
-            // fullWidth
+            fullWidth
             variant="outlined"
             onClick={() => signInWithGoogle(handleErrorMessage)}
           >
-            Continue with Google
+            <GoogleIcon />
+            Use Google
           </Button>
         </Grid>
-        <Grid xs={6}>
-          <Link to="/login">Have an account? Log In</Link>
+        <Grid item xs={12}>
+          <Link onClick={() => navigate("/login")}>Log in</Link>
         </Grid>
       </Grid>
     </Box>
