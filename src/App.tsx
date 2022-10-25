@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes,
+  Routes
 } from "react-router-dom";
 import Auth from "./Authorization/Auth";
 import Login from "./Authorization/Login";
@@ -20,12 +20,20 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route
             path="login"
-            element={<Auth content={<Login />} operation="Log In" />}
-          />
+            element={
+              <Auth>
+                <Login />
+              </Auth>
+            }
+          ></Route>
           <Route
             path="register"
-            element={<Auth content={<Register />} operation="Sign Up" />}
-          />
+            element={
+              <Auth>
+                <Register />
+              </Auth>
+            }
+          ></Route>
           <Route path="tasks" element={<TaskView />} />
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
