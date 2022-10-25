@@ -24,7 +24,7 @@ function App() {
           />
           <Route
             path="register"
-            element={<Auth content={<Register />} operation="Register" />}
+            element={<Auth content={<Register />} operation="Sign Up" />}
           />
           <Route path="tasks" element={<TaskView />} />
           <Route path="404" element={<NotFound />} />
