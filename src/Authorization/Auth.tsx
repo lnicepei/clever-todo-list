@@ -3,7 +3,7 @@ import { Avatar, Box, Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "../firebase/firebase";
 import { AuthContextProvider } from "./AuthContext";
 
 const Auth = (props) => {
@@ -28,7 +28,7 @@ const Auth = (props) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h4">
-          {matchPath(useLocation().pathname, "/login") ? "Log in" : "Register"}
+          {matchPath(useLocation().pathname, "/login") ? "Log In" : "Sign Up"}
         </Typography>
       </Box>
       <AuthContextProvider>{props.children}</AuthContextProvider>
