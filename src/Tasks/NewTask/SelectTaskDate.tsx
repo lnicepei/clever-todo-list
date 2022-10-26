@@ -5,8 +5,8 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 const SelectTaskDateAndTime = ({ taskContent, setTaskContent }) => {
-  const handleChange = (value) => {
-    setTaskContent({ ...taskContent, date: value });
+  const handleChange = (date) => {
+    setTaskContent({ ...taskContent, date: date.toString() });
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -14,9 +14,7 @@ const SelectTaskDateAndTime = ({ taskContent, setTaskContent }) => {
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
         value={taskContent.date}
-        onChange={(newValue) => {
-          handleChange(newValue);
-        }}
+        onChange={handleChange}
       />
     </LocalizationProvider>
   );
