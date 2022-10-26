@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import { Box, Step, StepContent, StepLabel, Stepper } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../../firebase/firebase";
+import SelectTaskDateAndTime from "./SelectTaskDate";
 import SelectTaskName from "./SelectTaskName";
 import { Task } from "./TaskInterface";
-import { Stepper, Step, StepLabel, StepContent, Box } from "@mui/material";
-import SelectTaskDateAndTime from "./SelectTaskDate";
 
-const NewTask = () => {
+const NewTask = ({ setTasks }) => {
+  const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [taskContent, setTaskContent] = useState<Task>({
@@ -43,12 +54,15 @@ const NewTask = () => {
   };
 
   const createNewTask = async () => {
-    // const [user, loading, error] = useAuthState(auth);
-    // const userDoc = doc(db, "users", user?.uid);
-    // await updateDoc(userDoc, {
-    //   tasks: tasks.push(taskName),
-    // });
-    alert(JSON.stringify(taskContent));
+    const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+    const doc1 = await getDocs(q);
+    const data = doc1.docs[0].data();
+    await setDoc(doc(db, "users", doc1.docs[0].id), {
+      ...data,
+      tasks: data.tasks.concat(taskContent),
+    });
+
+    setTasks((prevTasks) => prevTasks.concat(taskContent));
 
     handleClose();
     handleReset();
