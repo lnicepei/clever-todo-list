@@ -68,7 +68,7 @@ export const registerWithEmailAndPassword = async (
     const user = res.user;
     await addDoc(collection(db, "users"), {
       uid: user.uid,
-      tasks: [], //FIXME: if a user who has tasks tries to log in with google, they'll lose all their tasks 
+      tasks: [],
       name,
       email,
     });
