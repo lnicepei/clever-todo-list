@@ -3,10 +3,10 @@ import React from "react";
 import { Task } from "./TaskInterface";
 
 const SelectTaskName = ({ taskContent, setTaskContent }) => {
-  const handleChange =
-    (prop: keyof Task) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTaskContent({ ...taskContent, [prop]: event.target.value });
-    };
+  const handleChange = (e) => {
+    setTaskContent({ ...taskContent, name: e.target.value });
+  };
+
   return (
     <TextField
       autoFocus
@@ -18,7 +18,7 @@ const SelectTaskName = ({ taskContent, setTaskContent }) => {
       fullWidth
       variant="standard"
       value={taskContent.name}
-      onChange={handleChange("name")}
+      onChange={handleChange}
     />
   );
 };
