@@ -18,7 +18,7 @@ import SelectTaskDateAndTime from "./SelectTaskDate";
 import SelectTaskName from "./SelectTaskName";
 import { Task } from "./TaskInterface";
 
-const NewTask = ({ setTasks }) => {
+const NewTask = ({ setAllTasks }) => {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -62,7 +62,7 @@ const NewTask = ({ setTasks }) => {
       tasks: data.tasks.concat(taskContent),
     });
 
-    setTasks((prevTasks) => prevTasks.concat(taskContent));
+    setAllTasks((prevTasks) => prevTasks.concat(taskContent));
 
     handleClose();
     handleReset();
