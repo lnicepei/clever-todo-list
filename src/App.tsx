@@ -3,14 +3,14 @@ import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes
+  Routes,
 } from "react-router-dom";
 import Auth from "./Authorization/Auth";
 import Login from "./Authorization/Login";
 import Register from "./Authorization/Register";
 import HomePage from "./HomePage/HomePage";
 import NotFound from "./NotFound";
-import TaskView from "./TasksView/TaskView";
+import Tasks from "./Tasks/Tasks";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
               </Auth>
             }
           ></Route>
-          <Route path="tasks" element={<TaskView />} />
+          <Route path="tasks" element={<Tasks />} />
           <Route path="404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
