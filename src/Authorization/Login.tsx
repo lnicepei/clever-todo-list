@@ -1,6 +1,9 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
-import { logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
+import {
+  logInWithEmailAndPassword,
+  signInWithGoogle,
+} from "../firebase/firebase";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthContext";

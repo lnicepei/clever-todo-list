@@ -2,12 +2,22 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { registerWithEmailAndPassword, signInWithGoogle } from "../firebase";
+import {
+  registerWithEmailAndPassword,
+  signInWithGoogle,
+} from "../firebase/firebase";
 import { AuthContext } from "./AuthContext";
 
 const Register = () => {
-  const { name, setName, password, setPassword, email, setEmail, handleErrorMessage } =
-    useContext(AuthContext);
+  const {
+    name,
+    setName,
+    password,
+    setPassword,
+    email,
+    setEmail,
+    handleErrorMessage,
+  } = useContext(AuthContext);
 
   const register = () => {
     registerWithEmailAndPassword(name, email, password, handleErrorMessage);
@@ -38,6 +48,7 @@ const Register = () => {
           <TextField
             variant="outlined"
             label="Email"
+            autoComplete="off"
             fullWidth
             required
             value={email}
