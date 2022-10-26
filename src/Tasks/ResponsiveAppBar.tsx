@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { logout } from "../firebase";
+import { logout } from "../firebase/firebase";
 
 const ResponsiveAppBar = ({ name, url }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
