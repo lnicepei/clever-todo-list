@@ -1,3 +1,4 @@
+import { SnackbarCloseReason } from "@mui/material";
 import React, { createContext, useState } from "react";
 import BasicSnackbar from "../../Snackbar/BasicSnackbar";
 
@@ -13,6 +14,10 @@ interface AuthContextValue {
   handleErrorMessage: (message: string) => void;
 }
 
+export interface ChildrenProps {
+  children: React.ReactNode;
+}
+
 export const AuthContext = createContext<AuthContextValue>({
   password: "",
   setPassword: () => {},
@@ -25,18 +30,21 @@ export const AuthContext = createContext<AuthContextValue>({
   handleErrorMessage: () => {},
 });
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }: ChildrenProps) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
-  const handleErrorMessage = (error) => {
+  const handleErrorMessage = (error: string) => {
     setErrorMessage(error);
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (
+    event: Event | React.SyntheticEvent<any, Event>,
+    reason?: SnackbarCloseReason
+  ) => {
     if (reason === "clickaway") {
       return;
     }
