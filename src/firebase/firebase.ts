@@ -1,11 +1,11 @@
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
 } from "firebase/auth";
 import {
   addDoc,
@@ -13,7 +13,7 @@ import {
   getDocs,
   getFirestore,
   query,
-  where
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -31,7 +31,9 @@ export const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async (handleErrorMessage) => {
+export const signInWithGoogle = async (
+  handleErrorMessage: (message: string) => void
+) => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
@@ -44,24 +46,32 @@ export const signInWithGoogle = async (handleErrorMessage) => {
         email: user.email,
       });
     }
-  } catch (err) {
-    handleErrorMessage(err.message);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      handleErrorMessage(error.message);
+    }
   }
 };
 
-export const logInWithEmailAndPassword = async (email, password, handleErrorMessage) => {
+export const logInWithEmailAndPassword = async (
+  email: string,
+  password: string,
+  handleErrorMessage: (message: string) => void
+) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    handleErrorMessage(err.message);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      handleErrorMessage(error.message);
+    }
   }
 };
 
 export const registerWithEmailAndPassword = async (
-  name,
-  email,
-  password,
-  handleErrorMessage
+  name: string,
+  email: string,
+  password: string,
+  handleErrorMessage: (message: string) => void
 ) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -72,8 +82,10 @@ export const registerWithEmailAndPassword = async (
       name,
       email,
     });
-  } catch (err) {
-    handleErrorMessage(err.message);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      handleErrorMessage(error.message);
+    }
   }
 };
 
