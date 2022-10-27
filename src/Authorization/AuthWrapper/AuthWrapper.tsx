@@ -4,9 +4,9 @@ import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
-import { AuthContextProvider } from "../AuthContext/AuthContext";
+import { AuthContextProvider, ChildrenProps } from "../AuthContext/AuthContext";
 
-const Auth = (props) => {
+const Auth = ({ children }: ChildrenProps) => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const Auth = (props) => {
           {matchPath(useLocation().pathname, "/login") ? "Log In" : "Sign Up"}
         </Typography>
       </Box>
-      <AuthContextProvider>{props.children}</AuthContextProvider>
+      <AuthContextProvider>{children}</AuthContextProvider>
     </Container>
   );
 };
