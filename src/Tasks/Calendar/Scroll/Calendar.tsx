@@ -3,8 +3,8 @@ import { endOfMonth } from "date-fns/esm";
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "./Calendar.css";
-import Day from "./Day";
-import useDrag from "./UseDrag";
+import Day from "../Day/Day";
+import useDrag from "../UseDrag";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 

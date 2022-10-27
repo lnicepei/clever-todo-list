@@ -13,10 +13,10 @@ import {
 } from "firebase/firestore";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../firebase/firebase";
-import SelectTaskDateAndTime from "./SelectTaskDate";
-import SelectTaskName from "./SelectTaskName";
-import { Task } from "./TaskInterface";
+import { auth, db } from "../../../firebase/firebase";
+import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
+import SelectTaskName from "../NameSelector/SelectTaskName";
+import { Task } from "../TaskInterface";
 
 const NewTask = ({ setAllTasks }) => {
   const [user, loading, error] = useAuthState(auth);

@@ -3,8 +3,8 @@ import { Avatar, Box, Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebase";
-import { AuthContextProvider } from "./AuthContext";
+import { auth } from "../../firebase/firebase";
+import { AuthContextProvider } from "../AuthContext/AuthContext";
 
 const Auth = (props) => {
   const [user] = useAuthState(auth);

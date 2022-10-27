@@ -3,10 +3,10 @@ import { useContext } from "react";
 import {
   logInWithEmailAndPassword,
   signInWithGoogle,
-} from "../firebase/firebase";
+} from "../../firebase/firebase";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../AuthContext/AuthContext";
 
 const Login = () => {
   const { password, setPassword, email, setEmail, handleErrorMessage } =

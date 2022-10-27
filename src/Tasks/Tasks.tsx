@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
-import Calendar from "./Calendar/Calendar";
-import NewTask from "./NewTask/NewTask";
+import Calendar from "./Calendar/Scroll/Calendar";
+import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
-import TaskView from "./TasksView/TaskView";
+import TaskView from "./TasksView/TaskWrapper/TaskView";
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);

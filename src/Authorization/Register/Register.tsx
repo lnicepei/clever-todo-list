@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import {
   registerWithEmailAndPassword,
   signInWithGoogle,
-} from "../firebase/firebase";
-import { AuthContext } from "./AuthContext";
+} from "../../firebase/firebase";
+import { AuthContext } from "../AuthContext/AuthContext";
 
 const Register = () => {
   const {

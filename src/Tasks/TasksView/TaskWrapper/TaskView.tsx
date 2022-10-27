@@ -1,4 +1,4 @@
-import Task from "./Task";
+import Task from "../Task/Task";
 
 const TaskView = ({ tasks }) => {
   console.log(tasks);

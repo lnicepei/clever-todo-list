@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import BasicSnackbar from "../BasicSnackbar";
+import BasicSnackbar from "../../Snackbar/BasicSnackbar";
 
 interface AuthContextValue {
   password: string;
