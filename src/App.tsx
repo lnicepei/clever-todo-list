@@ -5,11 +5,11 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Auth from "./Authorization/Auth";
-import Login from "./Authorization/Login";
-import Register from "./Authorization/Register";
+import Auth from "./Authorization/Auth/Auth";
+import Login from "./Authorization/Login/Login";
+import Register from "./Authorization/Register/Register";
 import HomePage from "./HomePage/HomePage";
-import NotFound from "./NotFound";
+import NotFound from "./NotFound/NotFound";
 import Tasks from "./Tasks/Tasks";
 
 function App() {
