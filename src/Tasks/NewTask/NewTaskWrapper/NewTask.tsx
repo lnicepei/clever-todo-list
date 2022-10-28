@@ -4,22 +4,34 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import {
-  collection,
   doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
+  DocumentData,
+  QueryDocumentSnapshot,
+  setDoc
 } from "firebase/firestore";
-import { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../../firebase/firebase";
+import React, { SetStateAction, useState } from "react";
+import { db } from "../../../firebase/firebase";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
 import SelectTaskName from "../NameSelector/SelectTaskName";
-import { Task } from "../TaskInterface";
 
-const NewTask = ({ setAllTasks }) => {
-  const [user, loading, error] = useAuthState(auth);
+export interface TaskContentInterface {
+  taskContent: Task;
+  setTaskContent: React.Dispatch<SetStateAction<Task>>;
+}
+
+interface NewTaskProps {
+  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
+}
+
+export interface UserFromDB {
+  name?: string;
+  email: string;
+  id: string;
+  tasks: Task[];
+}
+
+const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [taskContent, setTaskContent] = useState<Task>({
@@ -53,16 +65,14 @@ const NewTask = ({ setAllTasks }) => {
     setOpen(false);
   };
 
+  // console.log(userFromDB?.data()?.tasks)
   const createNewTask = async () => {
-    const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-    const doc1 = await getDocs(q);
-    const data = doc1.docs[0].data();
-    await setDoc(doc(db, "users", doc1.docs[0].id), {
-      ...data,
-      tasks: data.tasks.concat(taskContent),
+    await setDoc(doc(db, "users", userFromDB!.id), {
+      ...userFromDB!.data(),
+      tasks: userFromDB!.data().tasks.concat(taskContent),
     });
 
-    setAllTasks((prevTasks) => prevTasks.concat(taskContent));
+    setAllTasks((prevTasks: Task[]) => prevTasks.concat(taskContent));
 
     handleClose();
     handleReset();
@@ -109,7 +119,7 @@ const NewTask = ({ setAllTasks }) => {
                   <div>
                     <Button
                       variant="contained"
-                      disabled={taskContent.date === ""}
+                      // disabled={!isValid(taskContent.date)}
                       onClick={createNewTask}
                       sx={{ mt: 1, mr: 1 }}
                     >

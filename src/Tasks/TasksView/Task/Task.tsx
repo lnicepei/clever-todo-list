@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import React from "react";
 
 declare global {
   interface Task {
@@ -9,10 +8,11 @@ declare global {
   }
 }
 
-const Task = ({ content }) => {
+const Task = ({ task }: { task: Task }) => {
   return (
     <div>
-      {content.name}:{`${format(new Date(content.date), "MMM")}`}:{`${content.complete}`}
+      {task.name}:{`${format(new Date(task.date), "MMM")}`}:
+      {`${task.complete}`}
     </div>
   );
 };

@@ -1,9 +1,14 @@
 import { TextField } from "@mui/material";
 import React from "react";
-import { Task } from "../TaskInterface";
+import { TaskContentInterface } from "../NewTaskWrapper/NewTask";
 
-const SelectTaskName = ({ taskContent, setTaskContent }) => {
-  const handleChange = (e) => {
+const SelectTaskName = ({
+  taskContent,
+  setTaskContent,
+}: TaskContentInterface) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setTaskContent({ ...taskContent, name: e.target.value });
   };
 

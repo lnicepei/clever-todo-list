@@ -1,12 +1,13 @@
 import Task from "../Task/Task";
 
-const TaskView = ({ tasks }) => {
-  console.log(tasks);
+const TaskView = ({ tasks }: { tasks: Task[] }) => {
   return (
     <>
       {tasks?.length
-        ? tasks?.map((task, index) => <Task content={task} key={index} />)
-        : "Loading..."}
+        ? tasks?.map((task: Task, index: number) => (
+            <Task task={task} key={index} />
+          ))
+        : "No tasks for today"}
     </>
   );
 };

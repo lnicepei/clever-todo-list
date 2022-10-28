@@ -1,6 +1,6 @@
 import { addDays, isBefore, startOfMonth, subDays } from "date-fns";
 import { endOfMonth } from "date-fns/esm";
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "./Calendar.css";
 import Day from "../Day/Day";
@@ -8,12 +8,16 @@ import useDrag from "../UseDrag";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-const Calendar = ({ setDayToShowTasks }) => {
+interface CalendarProps {
+  setDayToShowTasks: React.Dispatch<SetStateAction<string>>;
+}
+
+const Calendar = ({ setDayToShowTasks }: CalendarProps) => {
   const calendar: string[] = [];
   const startDay = startOfMonth(new Date());
   const endDay = endOfMonth(new Date());
 
-  const todayRef = useRef(null);
+  const todayRef = useRef<null | HTMLDivElement>(null);
 
   let day = subDays(startDay, 1);
 
@@ -36,6 +40,7 @@ const Calendar = ({ setDayToShowTasks }) => {
   const [selected, setSelected] = useState<number>(
     calendar.indexOf(new Date().toDateString())
   );
+
   const handleItemClick = (key: number) => () => {
     if (dragging) {
       return false;
@@ -55,7 +60,6 @@ const Calendar = ({ setDayToShowTasks }) => {
         onMouseDown={() => dragStart}
         onMouseUp={() => dragStop}
         onMouseMove={handleDrag}
-        wrapperClassName="scroll"
       >
         {calendar.map((dayOfMonth, key) => (
           <Day
