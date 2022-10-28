@@ -11,7 +11,12 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { logout } from "../firebase/firebase";
 
-const ResponsiveAppBar = ({ name, url }) => {
+interface ResponsiveAppBarProps {
+  name: string;
+  url: string | undefined;
+}
+
+const ResponsiveAppBar = ({ name, url }: ResponsiveAppBarProps) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
