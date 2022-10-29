@@ -9,36 +9,36 @@ const NotFound = () => {
   };
 
   return (
-    <Box
+    <Container
+      maxWidth="md"
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        height: "90vh",
+        boxSizing: "border-box",
       }}
     >
-      <Container maxWidth="md">
-        <Grid container spacing={2}>
-          <Grid xs={6}>
-            <Typography variant="h1">404</Typography>
-            <Typography variant="h6">
-              The page you're looking for doesn't exist.
-            </Typography>
-            <Button variant="contained" onClick={goHome}>
-              Back Home
-            </Button>
-          </Grid>
-          <Grid xs={6}>
-            <img
-              src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
-              alt=""
-              width={500}
-              height={250}
-            />
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid xs={3}>
+          <Typography variant="h1" gutterBottom sx={{ fontWeight: 700 }}>
+            404
+          </Typography>
         </Grid>
-      </Container>
-    </Box>
+        <Grid xs={10}>
+          <Typography variant="h3" sx={{ fontWeight: 500 }}>
+            The page you're looking for can't be found.
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ marginTop: "30px" }}
+            onClick={goHome}
+          >
+            Back Home
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 export default NotFound;
