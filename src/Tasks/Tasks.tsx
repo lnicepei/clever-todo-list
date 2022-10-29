@@ -46,7 +46,7 @@ const Tasks = () => {
   }, [dayToShowTasks, allTasks]);
 
   useEffect(() => {
-    if (!user) return navigate("/login");
+    if (!user) return navigate("/");
     fetchUserName();
   }, [user, loading]);
 
