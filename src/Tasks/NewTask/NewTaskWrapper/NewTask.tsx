@@ -9,6 +9,7 @@ import {
   QueryDocumentSnapshot,
   setDoc,
 } from "firebase/firestore";
+import { nanoid } from "nanoid";
 import React, { SetStateAction, useState } from "react";
 import { db } from "../../../firebase/firebase";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
@@ -38,6 +39,7 @@ const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
     name: "",
     date: "",
     complete: false,
+    id: nanoid(),
   });
 
   const handleNext = () => {
@@ -53,6 +55,7 @@ const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
       name: "",
       date: "",
       complete: false,
+      id: taskContent.id,
     });
     setActiveStep(0);
   };
