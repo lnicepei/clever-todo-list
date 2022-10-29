@@ -7,7 +7,7 @@ import {
   doc,
   DocumentData,
   QueryDocumentSnapshot,
-  setDoc
+  setDoc,
 } from "firebase/firestore";
 import React, { SetStateAction, useState } from "react";
 import { db } from "../../../firebase/firebase";
@@ -65,7 +65,6 @@ const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
     setOpen(false);
   };
 
-  // console.log(userFromDB?.data()?.tasks)
   const createNewTask = async () => {
     await setDoc(doc(db, "users", userFromDB!.id), {
       ...userFromDB!.data(),
@@ -119,7 +118,7 @@ const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
                   <div>
                     <Button
                       variant="contained"
-                      // disabled={!isValid(taskContent.date)}
+                      disabled={!taskContent.date}
                       onClick={createNewTask}
                       sx={{ mt: 1, mr: 1 }}
                     >
