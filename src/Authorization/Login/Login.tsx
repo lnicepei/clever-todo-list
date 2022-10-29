@@ -67,7 +67,9 @@ const Login = () => {
         </Grid>
         <Grid item xs={12} textAlign="center">
           <Button variant="text">
-            <Link to="/register">Sign up</Link>
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              Sign up
+            </Link>
           </Button>
         </Grid>
       </Grid>
