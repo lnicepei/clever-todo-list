@@ -1,12 +1,9 @@
-import { Card, CardContent, Typography, Checkbox } from "@mui/material";
+import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { format } from "date-fns";
-import {
-  doc,
-  DocumentData,
-  QueryDocumentSnapshot,
-  setDoc,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { useContext } from "react";
 import { db } from "../../../firebase/firebase";
+import { TasksContext } from "../../Tasks";
 
 declare global {
   interface Task {
@@ -19,13 +16,12 @@ declare global {
 
 interface TaskProps {
   task: Task;
-  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
-  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const Task = ({ task, userFromDB, setAllTasks, allTasks }: TaskProps) => {
+const Task = ({ task }: TaskProps) => {
+  const tasksContext = useContext(TasksContext);
   const toggleComplete = async () => {
-    setAllTasks((prevTasks) =>
+    tasksContext!.setAllTasks((prevTasks) =>
       prevTasks.map((taskFromDB: Task) => {
         if (taskFromDB.id === task.id) {
           return { ...taskFromDB, complete: !task.complete };
@@ -33,9 +29,9 @@ const Task = ({ task, userFromDB, setAllTasks, allTasks }: TaskProps) => {
         return { ...taskFromDB };
       })
     );
-    await setDoc(doc(db, "users", userFromDB!.id), {
-      ...userFromDB!.data(),
-      tasks: allTasks.map((taskFromDB: Task) => {
+    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
+      ...tasksContext!.userFromDB!.data(),
+      tasks: tasksContext!.allTasks.map((taskFromDB: Task) => {
         if (taskFromDB.id === task.id) {
           return { ...taskFromDB, complete: !task.complete };
         }

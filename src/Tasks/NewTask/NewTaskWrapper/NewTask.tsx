@@ -3,26 +3,17 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import {
-  doc,
-  DocumentData,
-  QueryDocumentSnapshot,
-  setDoc,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useContext, useState } from "react";
 import { db } from "../../../firebase/firebase";
+import { TasksContext } from "../../Tasks";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
 import SelectTaskName from "../NameSelector/SelectTaskName";
 
 export interface TaskContentInterface {
   taskContent: Task;
   setTaskContent: React.Dispatch<SetStateAction<Task>>;
-}
-
-interface NewTaskProps {
-  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
 }
 
 export interface UserFromDB {
@@ -32,7 +23,8 @@ export interface UserFromDB {
   tasks: Task[];
 }
 
-const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
+const NewTask = () => {
+  const tasksContext = useContext(TasksContext);
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [taskContent, setTaskContent] = useState<Task>({
@@ -69,12 +61,14 @@ const NewTask = ({ setAllTasks, userFromDB }: NewTaskProps) => {
   };
 
   const createNewTask = async () => {
-    await setDoc(doc(db, "users", userFromDB!.id), {
-      ...userFromDB!.data(),
-      tasks: userFromDB!.data().tasks.concat(taskContent),
+    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
+      ...tasksContext!.userFromDB!.data(),
+      tasks: tasksContext!.userFromDB!.data().tasks.concat(taskContent),
     });
 
-    setAllTasks((prevTasks: Task[]) => prevTasks.concat(taskContent));
+    tasksContext!.setAllTasks((prevTasks: Task[]) =>
+      prevTasks.concat(taskContent)
+    );
 
     handleClose();
     handleReset();

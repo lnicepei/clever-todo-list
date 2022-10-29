@@ -8,18 +8,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { logout } from "../firebase/firebase";
+import { TasksContext } from "./Tasks";
 
-interface ResponsiveAppBarProps {
-  name: string;
-  url: string | undefined;
-}
+const ResponsiveAppBar = () => {
+  const tasksContext = useContext(TasksContext);
 
-const ResponsiveAppBar = ({ name, url }: ResponsiveAppBarProps) => {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -61,11 +57,14 @@ const ResponsiveAppBar = ({ name, url }: ResponsiveAppBarProps) => {
               textDecoration: "none",
             }}
           >
-            {name}
+            {tasksContext!.name}
           </Typography>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={name} src={url}></Avatar>
+              <Avatar
+                alt={tasksContext!.name}
+                src={tasksContext!.user?.photoURL ?? undefined}
+              ></Avatar>
             </IconButton>
           </Tooltip>
           <Menu

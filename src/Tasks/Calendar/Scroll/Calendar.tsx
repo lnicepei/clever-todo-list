@@ -1,18 +1,16 @@
 import { addDays, isBefore, startOfMonth, subDays } from "date-fns";
 import { endOfMonth } from "date-fns/esm";
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "./Calendar.css";
 import Day from "../Day/Day";
 import useDrag from "../UseDrag";
+import { TasksContext } from "../../Tasks";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-interface CalendarProps {
-  setDayToShowTasks: React.Dispatch<SetStateAction<string>>;
-}
-
-const Calendar = ({ setDayToShowTasks }: CalendarProps) => {
+const Calendar = () => {
+  const tasksContext = useContext(TasksContext);
   const calendar: string[] = [];
   const startDay = startOfMonth(new Date());
   const endDay = endOfMonth(new Date());
@@ -46,7 +44,7 @@ const Calendar = ({ setDayToShowTasks }: CalendarProps) => {
       return false;
     }
 
-    setDayToShowTasks(calendar[key]);
+    tasksContext!.setDayToShowTasks(calendar[key]);
     setSelected(selected !== key ? key : selected);
   };
 
