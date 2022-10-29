@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes,
+  Routes
 } from "react-router-dom";
 import Auth from "./Authorization/AuthWrapper/AuthWrapper";
 import Login from "./Authorization/Login/Login";
