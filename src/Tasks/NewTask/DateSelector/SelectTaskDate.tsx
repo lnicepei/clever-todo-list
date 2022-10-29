@@ -9,7 +9,7 @@ const SelectTaskDateAndTime = ({
   setTaskContent,
 }: TaskContentInterface) => {
   const handleChange = (date: Date | null) => {
-    setTaskContent({ ...taskContent, date: date!.toString() });
+    setTaskContent({ ...taskContent, date: date?.toString() ?? "" });
   };
 
   return (
@@ -17,7 +17,7 @@ const SelectTaskDateAndTime = ({
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
-        value={taskContent.date}
+        value={taskContent.date ?? ''}
         onChange={handleChange}
       />
     </LocalizationProvider>
