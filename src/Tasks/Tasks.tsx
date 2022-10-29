@@ -1,13 +1,14 @@
 import { isSameDay } from "date-fns";
+import { User } from "firebase/auth";
 import {
   collection,
   DocumentData,
   getDocs,
   query,
   QueryDocumentSnapshot,
-  where,
+  where
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
@@ -15,6 +16,18 @@ import Calendar from "./Calendar/Scroll/Calendar";
 import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
+
+interface TasksContextInterface {
+  name: string;
+  user: User | null | undefined;
+  tasksFromDay: Task[];
+  allTasks: Task[];
+  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  setDayToShowTasks: React.Dispatch<React.SetStateAction<string>>;
+  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
+}
+
+export const TasksContext = createContext<TasksContextInterface | null>(null);
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);
@@ -51,17 +64,22 @@ const Tasks = () => {
   }, [user, loading]);
 
   return (
-    <>
-      <ResponsiveAppBar name={name} url={user?.photoURL || undefined} />
-      <Calendar setDayToShowTasks={setDayToShowTasks} />
-      <NewTask setAllTasks={setAllTasks} userFromDB={userFromDB} />
-      <TaskView
-        tasksFromDay={tasksFromDay}
-        userFromDB={userFromDB}
-        setAllTasks={setAllTasks}
-        allTasks={allTasks}
-      />
-    </>
+    <TasksContext.Provider
+      value={{
+        name,
+        user,
+        tasksFromDay,
+        allTasks,
+        setAllTasks,
+        setDayToShowTasks,
+        userFromDB,
+      }}
+    >
+      <ResponsiveAppBar />
+      <Calendar />
+      <NewTask />
+      <TaskView />
+    </TasksContext.Provider>
   );
 };
 
