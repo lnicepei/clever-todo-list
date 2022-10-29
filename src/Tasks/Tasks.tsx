@@ -28,7 +28,7 @@ const Tasks = () => {
   );
   const navigate = useNavigate();
 
-  const fetchUserName = async () => {
+  const fetchUserData = async () => {
     const q = query(collection(db, "users"), where("uid", "==", user?.uid));
     const doc = await getDocs(q);
     const data = doc.docs[0].data();
@@ -47,7 +47,7 @@ const Tasks = () => {
 
   useEffect(() => {
     if (!user) return navigate("/");
-    fetchUserName();
+    fetchUserData();
   }, [user, loading]);
 
   return (
@@ -55,7 +55,12 @@ const Tasks = () => {
       <ResponsiveAppBar name={name} url={user?.photoURL || undefined} />
       <Calendar setDayToShowTasks={setDayToShowTasks} />
       <NewTask setAllTasks={setAllTasks} userFromDB={userFromDB} />
-      <TaskView tasks={tasksFromDay} />
+      <TaskView
+        tasksFromDay={tasksFromDay}
+        userFromDB={userFromDB}
+        setAllTasks={setAllTasks}
+        allTasks={allTasks}
+      />
     </>
   );
 };
