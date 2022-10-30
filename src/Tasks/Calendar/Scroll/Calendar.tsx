@@ -19,7 +19,7 @@ const Calendar = () => {
   const { dragStart, dragStop, dragMove, dragging } = useDrag();
   const tasksContext = useContext(TasksContext);
 
-  const todayRef = useRef<null | HTMLDivElement>(null);
+  const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef({} as scrollVisibilityApiType);
 
   const [calendar, setCalendar] = useState<string[]>([]);
@@ -27,7 +27,7 @@ const Calendar = () => {
     tempCalendar.indexOf(new Date().toDateString())
   );
 
-  const addMonthToCalendar = () => {
+  const appendMonthToCalendar = () => {
     while (isBefore(day, endDay)) {
       tempCalendar.push(addDays(day, 1).toDateString());
       day = addDays(day, 1);
@@ -50,7 +50,7 @@ const Calendar = () => {
             )
           ) {
             setEndDay((prevEndDay) => addMonths(prevEndDay, 1));
-            addMonthToCalendar();
+            appendMonthToCalendar();
           }
           scrollContainer.current.scrollLeft += posDiff;
         }
@@ -66,13 +66,16 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    addMonthToCalendar();
+    appendMonthToCalendar();
     setCalendar(tempCalendar);
   }, []);
 
   useEffect(() => {
-    todayRef?.current?.scrollIntoView({ behavior: "smooth", inline: "center" });
-  }, []);
+    // todayRef?.current?.scrollIntoView({ behavior: "smooth", inline: "center" });
+    // scrollMenuRef?.current?.scrollToItem(
+    //   scrollMenuRef?.current?.items.get(new Date().getDate().toString())
+    // ); //TODO: Get this working
+  }, [scrollMenuRef.current.items?.first]);
 
   return (
     <ScrollMenu
@@ -87,7 +90,8 @@ const Calendar = () => {
           key={key}
           onClick={handleItemClick(key)}
           selected={key === selected}
-          todayRef={key === selected ? todayRef : null}
+          dayRef={dayRef}
+          date={new Date(calendar?.at(key) ?? "")}
         />
       ))}
     </ScrollMenu>
