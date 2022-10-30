@@ -1,4 +1,4 @@
-import { addDays, isBefore, startOfMonth, subDays } from "date-fns";
+import { addDays, addMonths, isBefore, startOfMonth, subDays } from "date-fns";
 import { endOfMonth } from "date-fns/esm";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
@@ -10,45 +10,48 @@ import { TasksContext } from "../../Tasks";
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 const Calendar = () => {
-  const startDay = startOfMonth(new Date());
-  let endDay = endOfMonth(new Date());
+  const [startDay, setStartDay] = useState(startOfMonth(new Date()));
+  const [endDay, setEndDay] = useState(endOfMonth(new Date()));
   let day = subDays(startDay, 1);
-  const tempCalendar: string[] = [];
+
+  let tempCalendar: string[] = [];
+
   const { dragStart, dragStop, dragMove, dragging } = useDrag();
   const tasksContext = useContext(TasksContext);
+
   const todayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef({} as scrollVisibilityApiType);
+
   const [calendar, setCalendar] = useState<string[]>([]);
   const [selected, setSelected] = useState<number>(
     tempCalendar.indexOf(new Date().toDateString())
   );
 
-  const updateCalendar = () => {
-    if (
-      scrollMenuRef.current.visibleElements.includes(
-        scrollMenuRef.current.items.toItems().at(-5) || ""
-      )
-    ) {
-      tempCalendar.length = 0;
-      endDay = addDays(endDay, 30);
-      add30DaysToCalendar();
-      setCalendar((prevCalendar) => prevCalendar.concat(tempCalendar));
-    }
-  };
-
-  const add30DaysToCalendar = () => {
+  const addMonthToCalendar = () => {
     while (isBefore(day, endDay)) {
       tempCalendar.push(addDays(day, 1).toDateString());
       day = addDays(day, 1);
     }
+    setCalendar(tempCalendar);
   };
+
+  useEffect(() => {
+    setEndDay((prevEndDay) => addMonths(prevEndDay, 1));
+  }, []);
 
   const handleDrag =
     ({ scrollContainer }: scrollVisibilityApiType) =>
     (ev: React.MouseEvent) =>
       dragMove(ev, (posDiff) => {
         if (scrollContainer.current) {
-          updateCalendar();
+          if (
+            scrollMenuRef.current.visibleElements.includes(
+              scrollMenuRef.current.items.toItems().at(-5) || ""
+            )
+          ) {
+            setEndDay((prevEndDay) => addMonths(prevEndDay, 1));
+            addMonthToCalendar();
+          }
           scrollContainer.current.scrollLeft += posDiff;
         }
       });
@@ -63,7 +66,7 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    add30DaysToCalendar();
+    addMonthToCalendar();
     setCalendar(tempCalendar);
   }, []);
 
