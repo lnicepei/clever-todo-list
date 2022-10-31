@@ -12,7 +12,7 @@ import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
-import Calendar from "./Calendar/Scroll/Calendar";
+import Scroll from "./Calendar/Scroll/Scroll";
 import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
@@ -76,7 +76,7 @@ const Tasks = () => {
       }}
     >
       <ResponsiveAppBar />
-      <Calendar />
+      <Scroll />
       <NewTask />
       <TaskView />
     </TasksContext.Provider>
