@@ -12,7 +12,7 @@ import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
-import Scroll from "./Calendar/Scroll/Scroll";
+import Scroll from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
@@ -23,6 +23,7 @@ interface TasksContextInterface {
   tasksFromDay: Task[];
   allTasks: Task[];
   setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  dayToShowTasks: string;
   setDayToShowTasks: React.Dispatch<React.SetStateAction<string>>;
   userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
 }
@@ -71,6 +72,7 @@ const Tasks = () => {
         tasksFromDay,
         allTasks,
         setAllTasks,
+        dayToShowTasks,
         setDayToShowTasks,
         userFromDB,
       }}
