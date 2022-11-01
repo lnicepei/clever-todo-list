@@ -22,7 +22,6 @@ const useDrag = () => {
 
   const dragMove = (event: React.MouseEvent, cb: (posDif: number) => void) => {
     const newDiff = position.current - event.clientX;
-
     const movedEnough = Math.abs(newDiff) > 5;
 
     if (clicked && movedEnough) {
