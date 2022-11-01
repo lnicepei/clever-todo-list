@@ -1,6 +1,22 @@
 .markers {
   position: absolute;
-  bottom: -15px;
-  left: -5px;
+  bottom: -17px;
+  left: -8px;
   display: flex;
+}
+
+.markers.both li:nth-child(odd) {
+  color: #ff6739;
+}
+
+.markers.both li:nth-child(even) {
+  color: #ffcf57;
+}
+
+.markers.undone li {
+  color: #ff6739;
+}
+
+.markers.done li {
+  color: #ffcf57;
 }
