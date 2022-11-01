@@ -1,9 +1,9 @@
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { withStyles } from "@mui/styles";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/firebase";
-import { Button, Grid, Typography, Stack } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import logo from "./todo-logo.jpg";
 
 const CustomColor = withStyles({
@@ -24,15 +24,20 @@ const HomePage = () => {
   }, [user]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid
-        item
+    <Container
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "90vh",
+      }}
+    >
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
         }}
-        xs={5}
       >
         <CustomColor variant="h2" gutterBottom sx={{ fontWeight: 800 }}>
           Organize your work and life, finally.
@@ -55,11 +60,11 @@ const HomePage = () => {
             </Link>
           </Button>
         </Stack>
-      </Grid>
-      <Grid item xs={7}>
+      </Box>
+      <Box sx={{ display: { md: "block", xs: "none" } }}>
         <img src={logo} alt="" style={{ height: "90vh" }} />
-      </Grid>
-    </Grid>
+      </Box>
+    </Container>
   );
 };
 
