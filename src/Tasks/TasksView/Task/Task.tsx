@@ -4,6 +4,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
 import { db } from "../../../firebase/firebase";
 import { TasksContext } from "../../Tasks";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 declare global {
   interface Task {
@@ -40,6 +41,24 @@ const Task = ({ task }: TaskProps) => {
     });
   };
 
+  const deleteTask = async () => {
+    tasksContext!.setAllTasks((prevTasks) =>
+      prevTasks.filter((taskFromDB: Task) => {
+        if (taskFromDB.id !== task.id) {
+          return { ...taskFromDB };
+        }
+      })
+    );
+    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
+      ...tasksContext!.userFromDB!.data(),
+      tasks: tasksContext!.allTasks.filter((taskFromDB: Task) => {
+        if (taskFromDB.id !== task.id) {
+          return { ...taskFromDB };
+        }
+      }),
+    });
+  };
+
   return (
     <Card
       sx={{
@@ -52,6 +71,7 @@ const Task = ({ task }: TaskProps) => {
     >
       <CardContent>
         <Checkbox checked={task.complete} onChange={toggleComplete}></Checkbox>
+        <DeleteForeverIcon onClick={deleteTask} />
         <Typography gutterBottom>{task.name}</Typography>
         <Typography gutterBottom>{`${format(
           new Date(task.date),
