@@ -6,13 +6,13 @@ import {
   getDocs,
   query,
   QueryDocumentSnapshot,
-  where
+  where,
 } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
-import Scroll from "./Calendar/ScrollableCalendar/ScrollableCalendar";
+import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
@@ -78,7 +78,7 @@ const Tasks = () => {
       }}
     >
       <ResponsiveAppBar />
-      <Scroll />
+      <ScrollableCalendar />
       <NewTask />
       <TaskView />
     </TasksContext.Provider>
