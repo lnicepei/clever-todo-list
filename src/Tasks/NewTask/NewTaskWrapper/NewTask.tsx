@@ -25,14 +25,8 @@ export interface UserFromDB {
 
 const NewTask = () => {
   const tasksContext = useContext(TasksContext);
-  const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
-  const [taskContent, setTaskContent] = useState<Task>({
-    name: "",
-    date: "",
-    complete: false,
-    id: nanoid(),
-  });
+  const [wasEmpty, setWasEmpty] = useState(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -43,31 +37,58 @@ const NewTask = () => {
   };
 
   const handleReset = () => {
-    setTaskContent({
+    tasksContext!.setTaskContent({
       name: "",
       date: "",
       complete: false,
-      id: taskContent.id,
+      id: nanoid(),
     });
     setActiveStep(0);
+    setWasEmpty(false);
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setWasEmpty(true);
+    tasksContext!.setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setWasEmpty(false);
+    tasksContext!.setOpen(false);
   };
 
   const createNewTask = async () => {
     await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
       ...tasksContext!.userFromDB!.data(),
-      tasks: tasksContext!.userFromDB!.data().tasks.concat(taskContent),
+      tasks: tasksContext!.allTasks.concat(tasksContext!.taskContent),
     });
 
     tasksContext!.setAllTasks((prevTasks: Task[]) =>
-      prevTasks.concat(taskContent)
+      prevTasks.concat(tasksContext!.taskContent)
+    );
+
+    handleClose();
+    handleReset();
+  };
+
+  const updateExistingTask = async () => {
+    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
+      ...tasksContext!.userFromDB!.data(),
+      tasks: tasksContext!.allTasks.map((task) => {
+        if (task.id === tasksContext!.taskContent.id) {
+          return tasksContext!.taskContent;
+        }
+        return task;
+      }),
+    });
+
+    tasksContext!.setAllTasks((prevTasks: Task[]) =>
+      prevTasks.map((task) => {
+        if (task.id === tasksContext!.taskContent.id) {
+          return tasksContext!.taskContent;
+        }
+        return task;
+      })
     );
 
     handleClose();
@@ -79,7 +100,7 @@ const NewTask = () => {
       <Button variant="outlined" onClick={handleClickOpen}>
         Create new task
       </Button>
-      <Dialog open={open} onClose={handleClose} fullWidth={true}>
+      <Dialog open={tasksContext!.open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>Create new task</DialogTitle>
         <DialogContent>
           <Stepper activeStep={activeStep} orientation="vertical">
@@ -87,14 +108,14 @@ const NewTask = () => {
               <StepLabel>Enter task name</StepLabel>
               <StepContent>
                 <SelectTaskName
-                  taskContent={taskContent}
-                  setTaskContent={setTaskContent}
+                  taskContent={tasksContext!.taskContent}
+                  setTaskContent={tasksContext!.setTaskContent}
                 />
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button
                       variant="contained"
-                      disabled={taskContent.name === ""}
+                      disabled={tasksContext!.taskContent.name === ""}
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
                     >
@@ -108,15 +129,15 @@ const NewTask = () => {
               <StepLabel>Input task date</StepLabel>
               <StepContent>
                 <SelectTaskDateAndTime
-                  taskContent={taskContent}
-                  setTaskContent={setTaskContent}
+                  taskContent={tasksContext!.taskContent}
+                  setTaskContent={tasksContext!.setTaskContent}
                 />
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button
                       variant="contained"
-                      disabled={!taskContent.date}
-                      onClick={createNewTask}
+                      disabled={!tasksContext!.taskContent.date}
+                      onClick={wasEmpty ? createNewTask : updateExistingTask}
                       sx={{ mt: 1, mr: 1 }}
                     >
                       Finish
