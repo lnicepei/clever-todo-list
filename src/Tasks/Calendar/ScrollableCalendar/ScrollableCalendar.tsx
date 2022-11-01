@@ -5,27 +5,25 @@ import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
 import useDrag from "../UseDrag";
-import "./Calendar.css";
+import "./ScrollableCalendar.css";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-const Calendar = () => {
+const ScrollableCalendar = () => {
+  const { dragStart, dragStop, dragMove, dragging } = useDrag();
+  const tasksContext = useContext(TasksContext);
+
   const [startDay, setStartDay] = useState(new Date());
   const [endDay, setEndDay] = useState(endOfMonth(new Date()));
   let day = subDays(startDay, 1);
 
   let tempCalendar: string[] = [];
 
-  const { dragStart, dragStop, dragMove, dragging } = useDrag();
-  const tasksContext = useContext(TasksContext);
-
   const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef({} as scrollVisibilityApiType);
 
   const [calendar, setCalendar] = useState<string[]>([]);
-  const [selected, setSelected] = useState<number>(
-    tempCalendar.indexOf(new Date().toDateString())
-  );
+  const [selected, setSelected] = useState<number>(0);
 
   const appendMonthToCalendar = () => {
     setEndDay((prevEndDay) => addMonths(prevEndDay, 1));
@@ -70,25 +68,31 @@ const Calendar = () => {
   }, []);
 
   return (
-    <ScrollMenu
-      onMouseDown={() => dragStart}
-      onMouseUp={() => dragStop}
-      onMouseMove={handleDrag}
-      apiRef={scrollMenuRef}
-      onInit={() => appendMonthToCalendar()}
-    >
-      {calendar.map((dayOfMonth, key) => (
-        <Day
-          day={dayOfMonth}
-          key={key}
-          onClick={handleItemClick(key)}
-          selected={key === selected}
-          dayRef={dayRef}
-          date={new Date(calendar?.at(key) ?? "")}
-        />
-      ))}
-    </ScrollMenu>
+    <div onMouseLeave={dragStop}>
+      <ScrollMenu
+        onMouseDown={() => dragStart}
+        onMouseUp={() => dragStop}
+        onMouseMove={handleDrag}
+        apiRef={scrollMenuRef}
+        onInit={() => appendMonthToCalendar()}
+      >
+        {calendar.map((dayOfMonth, key) => (
+          <Day
+            day={dayOfMonth}
+            key={key}
+            onClick={handleItemClick(key)}
+            selected={key === selected}
+            dayRef={dayRef}
+            date={new Date(calendar?.at(key) ?? "")}
+            // onPointerDown={() => dragStart}
+            // onPointerDownCapture={() => dragStart}
+            // onPointerMove={() => handleDrag}
+            // onPointerUp={() => dragStop}
+          />
+        ))}
+      </ScrollMenu>
+    </div>
   );
 };
 
-export default Calendar;
+export default ScrollableCalendar;
