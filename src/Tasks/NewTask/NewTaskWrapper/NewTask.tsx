@@ -53,6 +53,12 @@ const NewTask = () => {
   };
 
   const handleClose = () => {
+    tasksContext!.setTaskContent({
+      name: "",
+      date: "",
+      complete: false,
+      id: nanoid(),
+    });
     setWasEmpty(false);
     tasksContext!.setOpen(false);
   };
