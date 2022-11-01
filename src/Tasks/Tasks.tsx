@@ -8,6 +8,7 @@ import {
   QueryDocumentSnapshot,
   where,
 } from "firebase/firestore";
+import { nanoid } from "nanoid";
 import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -20,12 +21,16 @@ import TaskView from "./TasksView/TaskWrapper/TaskView";
 interface TasksContextInterface {
   name: string;
   user: User | null | undefined;
+  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
   tasksFromDay: Task[];
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  taskContent: Task;
+  setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
   allTasks: Task[];
   setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   dayToShowTasks: string;
   setDayToShowTasks: React.Dispatch<React.SetStateAction<string>>;
-  userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
 }
 
 export const TasksContext = createContext<TasksContextInterface | null>(null);
@@ -40,6 +45,13 @@ const Tasks = () => {
   const [dayToShowTasks, setDayToShowTasks] = useState(
     new Date().toDateString()
   );
+  const [open, setOpen] = useState(false);
+  const [taskContent, setTaskContent] = useState<Task>({
+    name: "",
+    date: "",
+    complete: false,
+    id: nanoid(),
+  });
   const navigate = useNavigate();
 
   const fetchUserData = async () => {
@@ -69,12 +81,16 @@ const Tasks = () => {
       value={{
         name,
         user,
+        userFromDB,
         tasksFromDay,
+        open,
+        setOpen,
+        taskContent,
+        setTaskContent,
         allTasks,
         setAllTasks,
         dayToShowTasks,
         setDayToShowTasks,
-        userFromDB,
       }}
     >
       <ResponsiveAppBar />
