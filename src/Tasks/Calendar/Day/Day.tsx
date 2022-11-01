@@ -1,6 +1,8 @@
 import { Card } from "@mui/material";
 import { format, isPast, isToday } from "date-fns";
-import { MutableRefObject } from "react";
+import { MutableRefObject, useContext } from "react";
+import { TasksContext } from "../../Tasks";
+import "./Day.css";
 
 interface DayProps {
   day: string;
@@ -11,11 +13,13 @@ interface DayProps {
 }
 
 const Day = ({ day, onClick, selected, dayRef, date }: DayProps) => {
+  const tasksContext = useContext(TasksContext);
   return (
     <Card
       variant="outlined"
       onClick={() => onClick()}
       sx={{
+        position: "relative",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -35,6 +39,29 @@ const Day = ({ day, onClick, selected, dayRef, date }: DayProps) => {
     >
       <div>{format(new Date(day), "E")}</div>
       <div>{format(new Date(day), "d")}</div>
+      {tasksContext?.allTasks.some(
+        (task) => task.date.substring(0, day.length) === day
+      ) &&
+        (tasksContext?.allTasks
+          .filter((task) => task.date.substring(0, day.length) === day)
+          .some((task) => !task.complete) ? (
+          tasksContext?.allTasks
+            .filter((task) => task.date.substring(0, day.length) === day)
+            .some((task) => task.complete) ? (
+            <ul className="markers both">
+              <li>&nbsp; &nbsp;</li>
+              <li></li>
+            </ul>
+          ) : (
+            <ul className="markers undone">
+              <li>&nbsp; &nbsp;</li>
+            </ul>
+          )
+        ) : (
+          <ul className="markers done">
+            <li>&nbsp; &nbsp;</li>
+          </ul>
+        ))}
     </Card>
   );
 };
