@@ -14,9 +14,7 @@ interface AuthContextValue {
   handleErrorMessage: (message: string) => void;
 }
 
-export interface ChildrenProps {
-  children: React.ReactNode;
-}
+export type ChildrenProps = { children: React.ReactNode };
 
 export const AuthContext = createContext<AuthContextValue>({
   password: "",
@@ -30,7 +28,7 @@ export const AuthContext = createContext<AuthContextValue>({
   handleErrorMessage: () => {},
 });
 
-export const AuthContextProvider = ({ children }: ChildrenProps) => {
+export const AuthContextProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
