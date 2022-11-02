@@ -49,7 +49,7 @@ const ResponsiveAppBar = () => {
 
           <Typography
             sx={{
-              display: { xs: "auto", md: "flex" },
+              display: { md: "flex", xs: "none" },
               mr: 2,
               fontFamily: "monospace",
               fontWeight: 700,
@@ -58,6 +58,20 @@ const ResponsiveAppBar = () => {
             }}
           >
             {tasksContext!.name}
+          </Typography>
+          <Typography
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 2,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            {tasksContext!.name.includes(".")
+              ? tasksContext!.name.split(".")[0]
+              : tasksContext!.name.split(" ")[0]}
           </Typography>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
