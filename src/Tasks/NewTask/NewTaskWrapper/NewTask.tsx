@@ -11,10 +11,10 @@ import { TasksContext } from "../../Tasks";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
 import SelectTaskName from "../NameSelector/SelectTaskName";
 
-export interface TaskContentInterface {
+export type TaskContent = {
   taskContent: Task;
   setTaskContent: React.Dispatch<SetStateAction<Task>>;
-}
+};
 
 export interface UserFromDB {
   name?: string;
