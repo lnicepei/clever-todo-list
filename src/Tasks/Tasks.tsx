@@ -18,7 +18,7 @@ import NewTask from "./NewTask/NewTaskWrapper/NewTask";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
 
-interface TasksContextInterface {
+interface TasksContext {
   name: string;
   user: User | null | undefined;
   userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
@@ -33,7 +33,7 @@ interface TasksContextInterface {
   setDayToShowTasks: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const TasksContext = createContext<TasksContextInterface | null>(null);
+export const TasksContext = createContext<TasksContext | null>(null);
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);
