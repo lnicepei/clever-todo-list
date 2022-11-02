@@ -1,16 +1,15 @@
 import { addDays, addMonths, isBefore, subDays } from "date-fns";
 import { endOfMonth } from "date-fns/esm";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
 import "./ScrollableCalendar.css";
 import useDrag from "./UseDrag";
 
-type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 const ScrollableCalendar = () => {
-  const { dragStart, dragStop, dragMove, dragging } = useDrag();
+  const { dragStart, touchStart, dragStop, dragMove, dragMoveTouch, dragging } =
+    useDrag();
   const tasksContext = useContext(TasksContext);
 
   const [startDay, setStartDay] = useState(new Date());
@@ -20,7 +19,7 @@ const ScrollableCalendar = () => {
   let tempCalendar: string[] = [];
 
   const dayRef = useRef<null | HTMLDivElement>(null);
-  const scrollMenuRef = useRef({} as scrollVisibilityApiType);
+  const scrollMenuRef = useRef<null | HTMLDivElement>(null);
 
   const [calendar, setCalendar] = useState<string[]>([]);
   const [selected, setSelected] = useState<number>(0);
@@ -37,21 +36,18 @@ const ScrollableCalendar = () => {
   };
 
   const handleDrag =
-    ({ scrollContainer }: scrollVisibilityApiType) =>
-    (ev: React.MouseEvent) =>
-      dragMove(ev, (posDiff) => {
-        if (
-          scrollContainer.current &&
-          scrollMenuRef.current.items.toArr().at(-1)
-        ) {
-          if (scrollMenuRef.current.items.toArr().at(-1)[1].visible === true) {
-            appendMonthToCalendar();
-            scrollMenuRef.current.items.toArr().at(-1)[1].visible = false;
-          }
-
-          scrollContainer.current.scrollLeft += posDiff;
-        }
-      });
+    (ev: React.MouseEvent | React.TouchEvent) =>
+      !ev?.changedTouches?.length
+        ? dragMove(ev, (posDiff) => {
+            if (scrollMenuRef.current) {
+              scrollMenuRef.current.scrollLeft += posDiff;
+            }
+          })
+        : dragMoveTouch(ev, (posDiff) => {
+            if (scrollMenuRef.current) {
+              scrollMenuRef.current.scrollLeft += posDiff;
+            }
+          });
 
   const handleItemClick = (key: number) => () => {
     if (dragging) {
@@ -68,13 +64,16 @@ const ScrollableCalendar = () => {
   }, []);
 
   return (
-    <div onMouseLeave={dragStop}>
-      <ScrollMenu
-        onMouseDown={() => dragStart}
-        onMouseUp={() => dragStop}
-        onMouseMove={handleDrag}
-        apiRef={scrollMenuRef}
-        onInit={() => appendMonthToCalendar()}
+    <div>
+      <div
+        onMouseDown={dragStart}
+        onMouseUp={dragStop}
+        onTouchStart={(e) => touchStart(e)}
+        onTouchEnd={dragStop}
+        onTouchMove={(e) => handleDrag(e)}
+        onMouseMove={(e) => handleDrag(e)}
+        ref={scrollMenuRef}
+        style={{ display: "flex", position: "relative", overflow: "hidden" }}
       >
         {calendar.map((dayOfMonth, key) => (
           <Day
@@ -84,13 +83,9 @@ const ScrollableCalendar = () => {
             selected={key === selected}
             dayRef={dayRef}
             date={new Date(calendar?.at(key) ?? "")}
-            // onPointerDown={() => dragStart}
-            // onPointerDownCapture={() => dragStart}
-            // onPointerMove={() => handleDrag}
-            // onPointerUp={() => dragStop}
           />
         ))}
-      </ScrollMenu>
+      </div>
     </div>
   );
 };
