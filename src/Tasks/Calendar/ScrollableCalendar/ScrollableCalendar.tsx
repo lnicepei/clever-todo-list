@@ -3,9 +3,7 @@ import { endOfMonth } from "date-fns/esm";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
-import "./ScrollableCalendar.css";
 import useDrag from "./UseDrag";
-
 
 const ScrollableCalendar = () => {
   const { dragStart, touchStart, dragStop, dragMove, dragMoveTouch, dragging } =
@@ -13,7 +11,7 @@ const ScrollableCalendar = () => {
   const tasksContext = useContext(TasksContext);
 
   const [startDay, setStartDay] = useState(new Date());
-  const [endDay, setEndDay] = useState(endOfMonth(new Date()));
+  const [endDay, setEndDay] = useState(addMonths(endOfMonth(new Date()), 1));
   let day = subDays(startDay, 1);
 
   let tempCalendar: string[] = [];
@@ -35,19 +33,18 @@ const ScrollableCalendar = () => {
     setCalendar(tempCalendar);
   };
 
-  const handleDrag =
-    (ev: React.MouseEvent | React.TouchEvent) =>
-      !ev?.changedTouches?.length
-        ? dragMove(ev, (posDiff) => {
-            if (scrollMenuRef.current) {
-              scrollMenuRef.current.scrollLeft += posDiff;
-            }
-          })
-        : dragMoveTouch(ev, (posDiff) => {
-            if (scrollMenuRef.current) {
-              scrollMenuRef.current.scrollLeft += posDiff;
-            }
-          });
+  const dragAction = (positionDifference: number) => {
+    if (scrollMenuRef.current) {
+      scrollMenuRef.current.scrollLeft += positionDifference;
+
+      if (
+        scrollMenuRef.current.scrollLeft + scrollMenuRef.current.clientWidth >=
+        scrollMenuRef.current?.scrollWidth
+      ) {
+        appendMonthToCalendar();
+      }
+    }
+  };
 
   const handleItemClick = (key: number) => () => {
     if (dragging) {
@@ -64,28 +61,26 @@ const ScrollableCalendar = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        onMouseDown={dragStart}
-        onMouseUp={dragStop}
-        onTouchStart={(e) => touchStart(e)}
-        onTouchEnd={dragStop}
-        onTouchMove={(e) => handleDrag(e)}
-        onMouseMove={(e) => handleDrag(e)}
-        ref={scrollMenuRef}
-        style={{ display: "flex", position: "relative", overflow: "hidden" }}
-      >
-        {calendar.map((dayOfMonth, key) => (
-          <Day
-            day={dayOfMonth}
-            key={key}
-            onClick={handleItemClick(key)}
-            selected={key === selected}
-            dayRef={dayRef}
-            date={new Date(calendar?.at(key) ?? "")}
-          />
-        ))}
-      </div>
+    <div
+      onMouseDown={dragStart}
+      onMouseUp={dragStop}
+      onTouchStart={touchStart}
+      onTouchEnd={dragStop}
+      onTouchMove={(e) => dragMoveTouch(e, dragAction)}
+      onMouseMove={(e) => dragMove(e, dragAction)}
+      ref={scrollMenuRef}
+      style={{ display: "flex", position: "relative", overflow: "hidden" }}
+    >
+      {calendar.map((dayOfMonth, key) => (
+        <Day
+          day={dayOfMonth}
+          key={key}
+          onClick={handleItemClick(key)}
+          selected={key === selected}
+          dayRef={dayRef}
+          date={new Date(calendar?.at(key) ?? "")}
+        />
+      ))}
     </div>
   );
 };
