@@ -11,11 +11,8 @@ import {
   addDoc,
   collection,
   doc,
-  getDocs,
   getFirestore,
-  query,
   setDoc,
-  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
