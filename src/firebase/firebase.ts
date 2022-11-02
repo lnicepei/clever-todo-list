@@ -71,11 +71,11 @@ export const registerWithEmailAndPassword = async (
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       tasks: [],
-      name,
       email,
+      name,
     });
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
