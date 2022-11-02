@@ -4,8 +4,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
-import useDrag from "./UseDrag";
 import "./ScrollableCalendar.css";
+import useDrag from "./UseDrag";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
