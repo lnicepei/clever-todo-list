@@ -4,16 +4,17 @@ import { MutableRefObject, useContext } from "react";
 import { TasksContext } from "../../Tasks";
 import "./Day.css";
 
-interface DayProps {
+type DayProps = {
   day: string;
   onClick: () => false | undefined;
   selected: boolean;
   dayRef: MutableRefObject<HTMLDivElement | null>;
   date: Date;
-}
+};
 
-const Day = ({ day, onClick, selected, dayRef, date }: DayProps) => {
+const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
   const tasksContext = useContext(TasksContext);
+
   return (
     <Card
       variant="outlined"

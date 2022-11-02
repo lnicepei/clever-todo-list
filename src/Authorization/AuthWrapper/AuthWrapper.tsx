@@ -6,7 +6,7 @@ import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { AuthContextProvider, ChildrenProps } from "../AuthContext/AuthContext";
 
-const Auth = ({ children }: ChildrenProps) => {
+const Auth: React.FC<ChildrenProps> = ({ children }) => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
 

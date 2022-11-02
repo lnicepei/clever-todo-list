@@ -9,7 +9,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface SnackbarProps {
+type SnackbarProps = {
   open: boolean;
   onClose:
     | ((
@@ -18,9 +18,9 @@ interface SnackbarProps {
       ) => void)
     | undefined;
   message: string;
-}
+};
 
-const BasicSnackbar = ({ open, onClose, message }: SnackbarProps) => {
+const BasicSnackbar: React.FC<SnackbarProps> = ({ open, onClose, message }) => {
   return (
     <>
       <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
