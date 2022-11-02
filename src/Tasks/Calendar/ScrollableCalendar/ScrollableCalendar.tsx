@@ -1,6 +1,6 @@
 import { addDays, addMonths, isBefore, subDays } from "date-fns";
-import { endOfMonth } from "date-fns/esm";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { endOfMonth, subMonths } from "date-fns/esm";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
 import useDrag from "./UseDrag";
@@ -10,7 +10,7 @@ const ScrollableCalendar = () => {
     useDrag();
   const tasksContext = useContext(TasksContext);
 
-  const [startDay, setStartDay] = useState(new Date());
+  const [startDay, setStartDay] = useState(subMonths(new Date(), 1));
   const [endDay, setEndDay] = useState(addMonths(endOfMonth(new Date()), 1));
   let day = subDays(startDay, 1);
 
@@ -18,6 +18,7 @@ const ScrollableCalendar = () => {
 
   const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef<null | HTMLDivElement>(null);
+  const initialDayRef = useRef<null | HTMLDivElement>(null);
 
   const [calendar, setCalendar] = useState<string[]>([]);
   const [selected, setSelected] = useState<number>(0);
@@ -60,6 +61,13 @@ const ScrollableCalendar = () => {
     setCalendar(tempCalendar);
   }, []);
 
+  useEffect(() => {
+    initialDayRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "start",
+    });
+  }, [initialDayRef.current]);
+
   return (
     <div
       onMouseDown={dragStart}
@@ -77,7 +85,9 @@ const ScrollableCalendar = () => {
           key={key}
           onClick={handleItemClick(key)}
           selected={key === selected}
-          dayRef={dayRef}
+          dayRef={
+            dayOfMonth === new Date().toDateString() ? initialDayRef : dayRef
+          }
           date={new Date(calendar?.at(key) ?? "")}
         />
       ))}
