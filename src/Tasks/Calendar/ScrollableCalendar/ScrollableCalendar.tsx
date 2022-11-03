@@ -1,4 +1,4 @@
-import { addDays, addMonths, isBefore, subDays } from "date-fns";
+import { addDays, addMonths, isAfter, isBefore, subDays } from "date-fns";
 import { endOfMonth, subMonths } from "date-fns/esm";
 import { useContext, useEffect, useRef, useState } from "react";
 import { TasksContext } from "../../Tasks";
@@ -12,7 +12,9 @@ const ScrollableCalendar = () => {
 
   const [startDay, setStartDay] = useState(subMonths(new Date(), 1));
   const [endDay, setEndDay] = useState(addMonths(endOfMonth(new Date()), 1));
-  let day = subDays(startDay, 1);
+
+  let dayToAppend = subDays(startDay, 1);
+  let dayToPrepend = addDays(startDay, 1);
 
   let tempCalendar: string[] = [];
 
@@ -26,9 +28,20 @@ const ScrollableCalendar = () => {
   const appendMonthToCalendar = () => {
     setEndDay((prevEndDay) => addMonths(prevEndDay, 1));
 
-    while (isBefore(day, endDay)) {
-      tempCalendar.push(addDays(day, 1).toDateString());
-      day = addDays(day, 1);
+    while (isBefore(dayToAppend, endDay)) {
+      tempCalendar.push(addDays(dayToAppend, 1).toDateString());
+      dayToAppend = addDays(dayToAppend, 1);
+    }
+
+    setCalendar(tempCalendar);
+  };
+
+  const prependMonthToCalendar = () => {
+    setStartDay((prevStartDay) => subMonths(prevStartDay, 1));
+
+    while (isAfter(dayToPrepend, startDay)) {
+      tempCalendar.unshift(subDays(dayToPrepend, 1).toDateString());
+      dayToPrepend = subDays(dayToPrepend, 1);
     }
 
     setCalendar(tempCalendar);
@@ -44,6 +57,17 @@ const ScrollableCalendar = () => {
       ) {
         appendMonthToCalendar();
       }
+
+      if (scrollMenuRef.current.scrollLeft === 0) {
+        scrollMenuRef.current.scrollLeft += scrollMenuRef.current.scrollWidth;
+        prependMonthToCalendar();
+      }
+
+      console.log(
+        scrollMenuRef.current.scrollLeft,
+        scrollMenuRef.current.clientWidth,
+        scrollMenuRef.current?.scrollWidth
+      );
     }
   };
 
@@ -58,6 +82,8 @@ const ScrollableCalendar = () => {
 
   useEffect(() => {
     appendMonthToCalendar();
+    setSelected(tempCalendar.indexOf(new Date().toDateString()));
+    // prependMonthToCalendar();
     setCalendar(tempCalendar);
   }, []);
 
