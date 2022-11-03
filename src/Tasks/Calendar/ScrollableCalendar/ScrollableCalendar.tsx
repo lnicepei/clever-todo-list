@@ -1,5 +1,13 @@
-import { addDays, addMonths, isAfter, isBefore, subDays } from "date-fns";
-import { endOfMonth, subMonths } from "date-fns/esm";
+import { Stack } from "@mui/system";
+import {
+  addDays,
+  addMonths,
+  isAfter,
+  isBefore,
+  subDays,
+  endOfMonth,
+  subMonths,
+} from "date-fns";
 import { useContext, useEffect, useRef, useState } from "react";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
@@ -10,7 +18,7 @@ const ScrollableCalendar = () => {
     useDrag();
   const tasksContext = useContext(TasksContext);
 
-  const [startDay, setStartDay] = useState(subMonths(new Date(), 1));
+  const [startDay, setStartDay] = useState(subMonths(new Date(), 0));
   const [endDay, setEndDay] = useState(addMonths(endOfMonth(new Date()), 1));
 
   let dayToAppend = subDays(startDay, 1);
@@ -58,10 +66,10 @@ const ScrollableCalendar = () => {
         appendMonthToCalendar();
       }
 
-      if (scrollMenuRef.current.scrollLeft === 0) {
-        scrollMenuRef.current.scrollLeft += scrollMenuRef.current.scrollWidth;
-        prependMonthToCalendar();
-      }
+      // if (scrollMenuRef.current.scrollLeft === 0) {
+      //   scrollMenuRef.current.scrollLeft += scrollMenuRef.current.scrollWidth;
+      //   prependMonthToCalendar();
+      // }
 
       console.log(
         scrollMenuRef.current.scrollLeft,
@@ -90,12 +98,12 @@ const ScrollableCalendar = () => {
   useEffect(() => {
     initialDayRef.current?.scrollIntoView({
       behavior: "smooth",
-      inline: "start",
+      inline: "center",
     });
   }, [initialDayRef.current]);
 
   return (
-    <div
+    <Stack
       onMouseDown={dragStart}
       onMouseUp={dragStop}
       onTouchStart={touchStart}
@@ -103,7 +111,8 @@ const ScrollableCalendar = () => {
       onTouchMove={(e) => dragMoveTouch(e, dragAction)}
       onMouseMove={(e) => dragMove(e, dragAction)}
       ref={scrollMenuRef}
-      style={{ display: "flex", position: "relative", overflow: "hidden" }}
+      style={{ overflow: "hidden", padding: "10px 0" }}
+      direction="row"
     >
       {calendar.map((dayOfMonth, key) => (
         <Day
@@ -117,7 +126,7 @@ const ScrollableCalendar = () => {
           date={new Date(calendar?.at(key) ?? "")}
         />
       ))}
-    </div>
+    </Stack>
   );
 };
 
