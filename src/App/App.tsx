@@ -3,18 +3,19 @@ import {
   BrowserRouter as Router,
   Navigate,
   Route,
-  Routes
+  Routes,
 } from "react-router-dom";
-import Auth from "./Authorization/AuthWrapper/AuthWrapper";
-import Login from "./Authorization/Login/Login";
-import Register from "./Authorization/Register/Register";
-import HomePage from "./HomePage/HomePage";
-import NotFound from "./NotFound/NotFound";
-import Tasks from "./Tasks/Tasks";
+import Auth from "../Authorization/AuthWrapper/AuthWrapper";
+import Login from "../Authorization/Login/Login";
+import Register from "../Authorization/Register/Register";
+import HomePage from "../HomePage/HomePage";
+import NotFound from "../NotFound/NotFound";
+import Tasks from "../Tasks/Tasks";
+import "./App.css";
 
 function App() {
   return (
-    <Container className="App">
+    <Container sx={{ padding: 0 }}>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
