@@ -11,8 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { logout } from "../firebase/firebase";
-import { TasksContext } from "./Tasks";
+import { logout } from "../../firebase/firebase";
+import { TasksContext } from "../Tasks";
 
 const ResponsiveAppBar = () => {
   const tasksContext = useContext(TasksContext);
@@ -29,7 +29,10 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{color: "white", backgroundColor: "black"}}>
+      <AppBar
+        position="static"
+        sx={{ color: "white", backgroundColor: "black" }}
+      >
         <Toolbar>
           <TaskIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
