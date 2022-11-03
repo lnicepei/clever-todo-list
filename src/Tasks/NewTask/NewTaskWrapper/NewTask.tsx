@@ -60,6 +60,7 @@ const NewTask = () => {
       id: nanoid(),
     });
     setWasEmpty(false);
+    setActiveStep(0);
     tasksContext!.setOpen(false);
   };
 
@@ -113,10 +114,7 @@ const NewTask = () => {
             <Step>
               <StepLabel>Enter task name</StepLabel>
               <StepContent>
-                <SelectTaskName
-                  taskContent={tasksContext!.taskContent}
-                  setTaskContent={tasksContext!.setTaskContent}
-                />
+                <SelectTaskName />
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button
@@ -134,10 +132,7 @@ const NewTask = () => {
             <Step>
               <StepLabel>Input task date</StepLabel>
               <StepContent>
-                <SelectTaskDateAndTime
-                  taskContent={tasksContext!.taskContent}
-                  setTaskContent={tasksContext!.setTaskContent}
-                />
+                <SelectTaskDateAndTime />
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button

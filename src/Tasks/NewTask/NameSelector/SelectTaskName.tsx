@@ -1,15 +1,16 @@
 import { TextField } from "@mui/material";
-import React from "react";
-import { TaskContent } from "../NewTaskWrapper/NewTask";
+import React, { useContext } from "react";
+import { TasksContext } from "../../Tasks";
 
-const SelectTaskName: React.FC<TaskContent> = ({
-  taskContent,
-  setTaskContent,
-}) => {
+const SelectTaskName = () => {
+  const tasksContext = useContext(TasksContext);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setTaskContent({ ...taskContent, name: e.target.value });
+    tasksContext!.setTaskContent((prevTaskContent) => {
+      return { ...prevTaskContent, name: e.target.value };
+    });
   };
 
   return (
@@ -22,7 +23,7 @@ const SelectTaskName: React.FC<TaskContent> = ({
       type="text"
       fullWidth
       variant="standard"
-      value={taskContent.name}
+      value={tasksContext!.taskContent.name}
       onChange={handleChange}
     />
   );

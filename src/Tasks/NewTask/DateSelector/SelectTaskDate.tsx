@@ -2,14 +2,16 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { TaskContent } from "../NewTaskWrapper/NewTask";
+import { useContext } from "react";
+import { TasksContext } from "../../Tasks";
 
-const SelectTaskDateAndTime: React.FC<TaskContent> = ({
-  taskContent,
-  setTaskContent,
-}) => {
+const SelectTaskDateAndTime = () => {
+  const tasksContext = useContext(TasksContext);
+
   const handleChange = (date: Date | null) => {
-    setTaskContent({ ...taskContent, date: date?.toString() ?? "" });
+    tasksContext?.setTaskContent((prevTaskContent) => {
+      return { ...prevTaskContent, date: date?.toString() ?? "" };
+    });
   };
 
   return (
@@ -17,8 +19,9 @@ const SelectTaskDateAndTime: React.FC<TaskContent> = ({
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
-        value={taskContent.date ?? ""}
+        value={tasksContext?.taskContent.date || tasksContext?.dayToShowTasks}
         onChange={handleChange}
+        disablePast={true}
       />
     </LocalizationProvider>
   );
