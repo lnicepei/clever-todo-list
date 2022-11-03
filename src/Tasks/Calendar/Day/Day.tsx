@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { format, isPast, isToday } from "date-fns";
 import { MutableRefObject, useContext } from "react";
 import { TasksContext } from "../../Tasks";
@@ -24,48 +24,58 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "column",
-        width: "7vh",
-        height: "8vh",
         margin: "5px",
-        padding: "5px",
-        boxSizing: "border-box",
-        borderRadius: "10px",
-        cursor: "pointer",
-        userSelect: "none",
+        borderRadius: "15px",
         overflow: "visible",
+        userSelect: "none",
         backgroundColor:
-          (isToday(date) && "#1976d2") || (isPast(date) && "#eaebed") || "",
-        outline: (selected && "2px solid red") || "",
-        color: (!isToday(date) && isPast(date) && "#524e4f") || "",
+          (isToday(date) && "black") || (isPast(date) && "#eaebed") || "",
+        outline: (selected && "2px solid #ffa781") || "",
+        color:
+          (isToday(date) && "white") ||
+          (!isToday(date) && isPast(date) && "#524e4f") ||
+          (selected && "#ffa781") ||
+          "",
       }}
       ref={dayRef}
     >
-      <div>{format(new Date(day), "E")}</div>
-      <div>{format(new Date(day), "d")}</div>
-      {tasksContext?.allTasks.some(
-        (task) => task.date.substring(0, day.length) === day
-      ) &&
-        (tasksContext?.allTasks
-          .filter((task) => task.date.substring(0, day.length) === day)
-          .some((task) => !task.complete) ? (
-          tasksContext?.allTasks
+      <CardContent
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          width: "20px",
+          height: "3vh",
+          cursor: "pointer",
+        }}
+      >
+        <Typography color={"#cbcbcb"}>{format(new Date(day), "E")}</Typography>
+        <Typography>{format(new Date(day), "d")}</Typography>
+        {tasksContext?.allTasks.some(
+          (task) => task.date.substring(0, day.length) === day
+        ) &&
+          (tasksContext?.allTasks
             .filter((task) => task.date.substring(0, day.length) === day)
-            .some((task) => task.complete) ? (
-            <ul className="markers both">
-              <li>&nbsp; &nbsp;</li>
-              <li></li>
-            </ul>
+            .some((task) => !task.complete) ? (
+            tasksContext?.allTasks
+              .filter((task) => task.date.substring(0, day.length) === day)
+              .some((task) => task.complete) ? (
+              <ul className="markers both">
+                <li>&nbsp; &nbsp;</li>
+                <li></li>
+              </ul>
+            ) : (
+              <ul className="markers undone">
+                <li>&nbsp; &nbsp;</li>
+              </ul>
+            )
           ) : (
-            <ul className="markers undone">
+            <ul className="markers done">
               <li>&nbsp; &nbsp;</li>
             </ul>
-          )
-        ) : (
-          <ul className="markers done">
-            <li>&nbsp; &nbsp;</li>
-          </ul>
-        ))}
+          ))}
+      </CardContent>
     </Card>
   );
 };
