@@ -29,7 +29,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{color: "white", backgroundColor: "black"}}>
         <Toolbar>
           <TaskIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
