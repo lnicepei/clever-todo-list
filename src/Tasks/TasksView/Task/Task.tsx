@@ -1,8 +1,12 @@
 import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
 import {
+  Button,
   Card,
   CardContent,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Fade,
   IconButton,
   Menu,
@@ -29,7 +33,12 @@ type TaskProps = {
 };
 
 const Task: React.FC<TaskProps> = ({ task }) => {
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [anchorElTask, setAnchorElTask] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorElTask);
+
   const tasksContext = useContext(TasksContext);
+
   const toggleComplete = async () => {
     tasksContext!.setAllTasks((prevTasks) =>
       prevTasks.map((taskFromDB: Task) => {
@@ -39,6 +48,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         return { ...taskFromDB };
       })
     );
+
     await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
       ...tasksContext!.userFromDB!.data(),
       tasks: tasksContext!.allTasks.map((taskFromDB: Task) => {
@@ -58,6 +68,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         }
       })
     );
+
     await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
       ...tasksContext!.userFromDB!.data(),
       tasks: tasksContext!.allTasks.filter((taskFromDB: Task) => {
@@ -67,25 +78,32 @@ const Task: React.FC<TaskProps> = ({ task }) => {
       }),
     });
 
-    handleClose();
+    handleAlertClose();
+    handleMenuClose();
   };
 
   const editTask = async () => {
     tasksContext!.setTaskContent(task);
     tasksContext!.setOpen((prevOpen) => !prevOpen);
 
-    handleClose();
+    handleMenuClose();
   };
-
-  const [anchorElTask, setAnchorElTask] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorElTask);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElTask(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorElTask(null);
+  };
+
+  const handleClickOpen = () => {
+    setIsAlertOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    handleMenuClose();
+    setIsAlertOpen(false);
   };
 
   return (
@@ -99,9 +117,9 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         )}`}</Typography>
         <IconButton
           id="fade-button"
-          aria-controls={open ? "fade-menu" : undefined}
+          aria-controls={isMenuOpen ? "fade-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-expanded={isMenuOpen ? "true" : undefined}
           onClick={handleClick}
         >
           <MoreHoriz />
@@ -112,11 +130,11 @@ const Task: React.FC<TaskProps> = ({ task }) => {
             "aria-labelledby": "fade-button",
           }}
           anchorEl={anchorElTask}
-          open={open}
-          onClose={handleClose}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={deleteTask}>
+          <MenuItem onClick={handleClickOpen}>
             <Typography
               sx={{
                 display: "flex",
@@ -136,6 +154,22 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           </MenuItem>
         </Menu>
       </CardContent>
+      <Dialog
+        open={isAlertOpen}
+        onClose={handleAlertClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {`Delete task ${task.name}?`}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleAlertClose}>Cancel</Button>
+          <Button onClick={deleteTask} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };
