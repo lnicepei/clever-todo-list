@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import NewTask from "./NewTask/NewTaskWrapper/NewTask";
-import ResponsiveAppBar from "./ResponsiveAppBar";
+import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
 
 interface TasksContext {
