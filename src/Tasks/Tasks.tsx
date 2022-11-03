@@ -1,4 +1,4 @@
-import { isSameDay } from "date-fns";
+import { isPast, isSameDay, isToday } from "date-fns";
 import { User } from "firebase/auth";
 import {
   collection,
@@ -48,7 +48,7 @@ const Tasks = () => {
   const [open, setOpen] = useState(false);
   const [taskContent, setTaskContent] = useState<Task>({
     name: "",
-    date: "",
+    date: dayToShowTasks,
     complete: false,
     id: nanoid(),
   });
@@ -95,7 +95,8 @@ const Tasks = () => {
     >
       <ResponsiveAppBar />
       <ScrollableCalendar />
-      <NewTask />
+      {(!isPast(new Date(dayToShowTasks)) ||
+        isToday(new Date(dayToShowTasks))) && <NewTask />}
       <TaskView />
     </TasksContext.Provider>
   );
