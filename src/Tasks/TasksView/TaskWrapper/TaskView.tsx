@@ -11,9 +11,7 @@ const TaskView = () => {
         ? tasksContext!.tasksFromDay?.map((task: Task, index: number) => (
             <Task task={task} key={index} />
           ))
-        : tasksContext!.tasksFromDay.length === 0 && tasksContext!.userFromDB
-        ? "No tasks for today"
-        : "Loading..."}
+        : `No tasks for ${tasksContext?.dayToShowTasks}`}
     </>
   );
 };
