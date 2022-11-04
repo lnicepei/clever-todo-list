@@ -1,16 +1,18 @@
+import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase/firebase";
-import GoogleIcon from "@mui/icons-material/Google";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../AuthContext/AuthContext";
 
 const Login = () => {
   const { password, setPassword, email, setEmail, handleErrorMessage } =
     useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const login = () => {
     logInWithEmailAndPassword(email, password, handleErrorMessage);
@@ -66,10 +68,8 @@ const Login = () => {
           </Button>
         </Grid>
         <Grid item xs={12} textAlign="center">
-          <Button variant="text">
-            <Link to="/register" style={{ textDecoration: "none" }}>
-              Sign up
-            </Link>
+          <Button variant="text" onClick={() => navigate("/register")}>
+            Sign up
           </Button>
         </Grid>
       </Grid>
