@@ -2,9 +2,9 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import logo from "../../public/todo-logo.jpg";
 import { auth } from "../firebase/firebase";
-import logo from "./todo-logo.jpg";
 
 const CustomColor = withStyles({
   root: {
@@ -42,22 +42,15 @@ const HomePage = () => {
         <CustomColor variant="h2" gutterBottom sx={{ fontWeight: 800 }}>
           Organize your work and life, finally.
         </CustomColor>
-        <Typography paragraph={true} gutterBottom color="#3E5060">
+        <Typography paragraph={true} gutterBottom>
           Become focused, organized, and calm with Clever Todo List.
         </Typography>
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#007fff" }}>
-            <Link
-              to="/register"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Start For Free
-            </Link>
+          <Button variant="contained" onClick={() => navigate("/register")}>
+            Start For Free
           </Button>
-          <Button variant="outlined">
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              Log In
-            </Link>
+          <Button variant="outlined" onClick={() => navigate("/login")}>
+            Log In
           </Button>
         </Stack>
       </Box>
