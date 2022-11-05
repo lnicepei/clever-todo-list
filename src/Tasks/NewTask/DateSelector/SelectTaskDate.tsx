@@ -5,7 +5,11 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useContext, useEffect } from "react";
 import { TasksContext } from "../../Tasks";
 
-const SelectTaskDateAndTime = () => {
+type SelectTaskDateAndTimeProps = { initialValue: string };
+
+const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
+  initialValue,
+}) => {
   const tasksContext = useContext(TasksContext);
 
   const handleChange = (date: Date | null) => {
@@ -15,14 +19,12 @@ const SelectTaskDateAndTime = () => {
   };
 
   useEffect(() => {
-    if (tasksContext?.dayToShowTasks) {
-      tasksContext?.setTaskContent((prevTaskContent) => {
-        return {
-          ...prevTaskContent,
-          date: new Date(tasksContext?.dayToShowTasks)?.toString() ?? "",
-        };
-      });
-    }
+    tasksContext?.setTaskContent((prevTaskContent) => {
+      return {
+        ...prevTaskContent,
+        date: new Date(initialValue).toString(),
+      };
+    });
   }, []);
 
   return (
@@ -30,7 +32,7 @@ const SelectTaskDateAndTime = () => {
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
-        value={tasksContext?.taskContent.date || tasksContext?.dayToShowTasks}
+        value={tasksContext?.taskContent.date}
         onChange={handleChange}
         disablePast={true}
       />
