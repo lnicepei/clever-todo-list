@@ -1,3 +1,4 @@
+import { isAfter } from "date-fns";
 import { useContext } from "react";
 import { TasksContext } from "../../Tasks";
 import Task from "../Task/Task";
@@ -8,9 +9,11 @@ const TaskView = () => {
   return (
     <>
       {tasksContext!.tasksFromDay?.length
-        ? tasksContext!.tasksFromDay?.map((task: Task, index: number) => (
-            <Task task={task} key={index} />
-          ))
+        ? tasksContext!.tasksFromDay
+            ?.sort((a, b) => +isAfter(new Date(a.date), new Date(b.date)))
+            .map((task: Task, index: number) => (
+              <Task task={task} key={index} />
+            ))
         : `No tasks for ${tasksContext?.dayToShowTasks}`}
     </>
   );
