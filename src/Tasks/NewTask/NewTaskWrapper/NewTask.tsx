@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { isPast, isToday, isValid } from "date-fns";
 import { doc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
 import React, { SetStateAction, useContext, useState } from "react";
@@ -132,12 +133,26 @@ const NewTask = () => {
             <Step>
               <StepLabel>Input task date</StepLabel>
               <StepContent>
-                <SelectTaskDateAndTime />
+                <SelectTaskDateAndTime
+                  initialValue={
+                    wasEmpty
+                      ? tasksContext!.dayToShowTasks
+                      : tasksContext!.taskContent.date
+                  }
+                />
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button
                       variant="contained"
-                      disabled={!tasksContext!.taskContent.date}
+                      disabled={
+                        tasksContext?.taskContent.date === "Invalid Date" ||
+                        (isPast(
+                          new Date(tasksContext?.taskContent.date ?? "")
+                        ) &&
+                          !isToday(
+                            new Date(tasksContext?.taskContent.date ?? "")
+                          ))
+                      }
                       onClick={wasEmpty ? createNewTask : updateExistingTask}
                       sx={{ mt: 1, mr: 1 }}
                     >
