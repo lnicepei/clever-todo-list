@@ -50,7 +50,7 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
           cursor: "pointer",
         }}
       >
-        <Typography color={"#cbcbcb"}>{format(new Date(day), "E")}</Typography>
+        <Typography>{format(new Date(day), "E")}</Typography>
         <Typography>{format(new Date(day), "d")}</Typography>
         {tasksContext?.allTasks.some(
           (task) => task.date.substring(0, day.length) === day
