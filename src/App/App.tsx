@@ -12,19 +12,13 @@ import Register from "../Authorization/Register/Register";
 import HomePage from "../HomePage/HomePage";
 import NotFound from "../NotFound/NotFound";
 import Tasks from "../Tasks/Tasks";
-import { darkTheme, lightTheme } from "../themes/Themes";
+import { lightTheme } from "../themes/Themes";
 import "./App.css";
 
 function App() {
   return (
     <Container sx={{ padding: 0 }}>
-      <ThemeProvider
-        theme={
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? darkTheme
-            : lightTheme
-        }
-      >
+      <ThemeProvider theme={lightTheme}>
         <CssBaseline />
         <Router>
           <Routes>
