@@ -25,7 +25,10 @@ const useDrag = () => {
     []
   );
 
-  const dragMove = (event: React.MouseEvent, cb: (positionDifference: number) => void) => {
+  const dragMove = (
+    event: React.MouseEvent,
+    cb: (positionDifference: number) => void
+  ) => {
     const newDiff = position.current - event.clientX;
     const movedEnough = Math.abs(newDiff) > 5;
     if (clicked && movedEnough) {
@@ -38,7 +41,20 @@ const useDrag = () => {
     }
   };
 
-  const dragMoveTouch = (
+  const wheelMove = (
+    event: React.WheelEvent<HTMLDivElement>,
+    cb: (positionDifference: number) => void
+  ) => {
+    const newDiff = event.deltaY;
+    const movedEnough = Math.abs(newDiff) > 5;
+
+    if (movedEnough) {
+      position.current += event.deltaY;
+      cb(newDiff);
+    }
+  };
+
+  const touchMove = (
     event: React.TouchEvent,
     cb: (positionDifference: number) => void
   ) => {
@@ -59,7 +75,8 @@ const useDrag = () => {
     touchStart,
     dragStop,
     dragMove,
-    dragMoveTouch,
+    touchMove,
+    wheelMove,
     dragging,
     position,
     setDragging,
