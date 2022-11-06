@@ -11,8 +11,9 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography,
+  Typography
 } from "@mui/material";
+import { Container } from "@mui/system";
 import { format } from "date-fns";
 import { doc, setDoc } from "firebase/firestore";
 import { useContext, useState } from "react";
@@ -107,20 +108,29 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   };
 
   return (
-    <Card>
-      <CardContent sx={{ display: "flex" }}>
-        <Checkbox checked={task.complete} onChange={toggleComplete}></Checkbox>
-        <Typography gutterBottom>{task.name}</Typography>
-        <Typography gutterBottom>{`${format(
-          new Date(task.date),
-          "MMM"
-        )}`}</Typography>
+    <Card sx={{ display: "flex", mt: "10px", mb: "10px" }}>
+      <CardContent sx={{ display: "flex", width: "100%" }}>
+        <Checkbox
+          sx={{ height: "42px" }}
+          checked={task.complete}
+          onChange={toggleComplete}
+        ></Checkbox>
+        <Container sx={{ mr: "auto" }}>
+          <Typography variant="h5" gutterBottom>
+            {task.name}
+          </Typography>
+          <Typography variant="subtitle2">{`${format(
+            new Date(task.date),
+            "H:mm"
+          )}`}</Typography>
+        </Container>
         <IconButton
           id="fade-button"
           aria-controls={isMenuOpen ? "fade-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={isMenuOpen ? "true" : undefined}
           onClick={handleClick}
+          sx={{ height: "42px" }}
         >
           <MoreHoriz />
         </IconButton>
