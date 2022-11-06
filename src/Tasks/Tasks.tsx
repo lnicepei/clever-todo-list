@@ -95,9 +95,9 @@ const Tasks = () => {
     >
       <ResponsiveAppBar />
       <ScrollableCalendar />
+      <TaskView />
       {(!isPast(new Date(dayToShowTasks)) ||
         isToday(new Date(dayToShowTasks))) && <NewTask />}
-      <TaskView />
     </TasksContext.Provider>
   );
 };
