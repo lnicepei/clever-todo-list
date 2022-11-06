@@ -1,11 +1,13 @@
 import { FirebaseError, initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
+  getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  AdditionalUserInfo,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
@@ -30,11 +32,14 @@ export const signInWithGoogle = async (
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      tasks: [],
-      email: user.email,
-    });
+    const additionalUserInfo: AdditionalUserInfo | null =
+      getAdditionalUserInfo(res);
+    if (additionalUserInfo?.isNewUser)
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        tasks: [],
+        email: user.email,
+      });
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       handleErrorMessage(error.message);
