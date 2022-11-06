@@ -19,25 +19,26 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
     <Card
       variant="outlined"
       onClick={() => onClick()}
+      ref={dayRef}
       sx={{
         position: "relative",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        margin: "5px",
-        borderRadius: "15px",
+        borderRadius: "18px",
+        margin: "0 5px",
         overflow: "visible",
         userSelect: "none",
+        boxSizing: "border-box",
         backgroundColor:
-          (isToday(date) && "black") || (isPast(date) && "#eaebed") || "",
+          (isToday(date) && "black") || (isPast(date) && "#797a7cb8") || "",
         outline: (selected && "2px solid #ffa781") || "",
         color:
+          (selected && "#ff8181") ||
           (isToday(date) && "white") ||
-          (!isToday(date) && isPast(date) && "#524e4f") ||
-          (selected && "#ffa781") ||
+          (!isToday(date) && isPast(date) && "#898687") ||
           "",
       }}
-      ref={dayRef}
     >
       <CardContent
         style={{
@@ -45,9 +46,9 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          width: "20px",
-          height: "3vh",
           cursor: "pointer",
+          height: "65px",
+          width: "55px",
         }}
       >
         <Typography>{format(new Date(day), "E")}</Typography>
