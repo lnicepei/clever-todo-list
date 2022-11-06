@@ -34,21 +34,8 @@ const ScrollableCalendar = () => {
   const [calendar, setCalendar] = useState<string[]>([]);
   const [selected, setSelected] = useState<number>(0);
 
-  const setInitialCalendar = () => {
-    const tempCalendar: string[] = [];
-    let startDay = startOfMonth(subMonths(new Date(), 0));
-
-    while (isBefore(startDay, endOfMonth(new Date()))) {
-      tempCalendar.push(startDay.toDateString());
-      startDay = addDays(startDay, 1);
-    }
-
-    setCalendar(tempCalendar);
-  };
-
   const appendMonthToCalendar = () => {
     const tempCalendar: string[] = [];
-    // let endDay = new Date(calendar.at(-1));
     let dayToAppend = new Date(calendar?.at(-1) ?? "");
     let endDay = addMonths(dayToAppend, 1);
 
@@ -86,7 +73,7 @@ const ScrollableCalendar = () => {
 
       if (scrollMenuRef.current.scrollLeft === 0) {
         prependMonthToCalendar();
-        scrollMenuRef.current.scrollLeft += 1308;
+        // scrollMenuRef.current.scrollLeft += 1308;
       }
     }
   };
@@ -105,19 +92,32 @@ const ScrollableCalendar = () => {
   };
 
   useEffect(() => {
-    // appendMonthToCalendar();
-    setInitialCalendar();
-    // prependMonthToCalendar();
-    // setSelected(tempCalendar.indexOf(new Date().toDateString()));
-    // setCalendar(tempCalendar);
+    setSelected(
+      calendar.indexOf(
+        new Date(tasksContext?.dayToShowTasks ?? "").toDateString()
+      )
+    );
+  }, [calendar]);
+
+  useEffect(() => {
+    const tempCalendar: string[] = [];
+    let startDay = startOfMonth(subMonths(new Date(), 1));
+
+    while (isBefore(startDay, endOfMonth(new Date()))) {
+      tempCalendar.push(startDay.toDateString());
+      startDay = addDays(startDay, 1);
+    }
+
+    setSelected(tempCalendar.indexOf(new Date().toDateString()));
+    setCalendar(tempCalendar);
   }, []);
 
-  // useEffect(() => {
-  //   initialDayRef.current?.scrollIntoView({
-  //     behavior: "smooth",
-  //     inline: "center",
-  //   });
-  // }, [initialDayRef.current]);
+  useEffect(() => {
+    initialDayRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+    });
+  }, [scrollMenuRef.current]);
 
   scrollMenuRef.current?.addEventListener("wheel", (e) => {
     e.preventDefault();
