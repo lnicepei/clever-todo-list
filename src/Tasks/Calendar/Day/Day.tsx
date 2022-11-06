@@ -31,7 +31,7 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
         userSelect: "none",
         boxSizing: "border-box",
         backgroundColor:
-          (isToday(date) && "black") || (isPast(date) && "#797a7cb8") || "",
+          (isToday(date) && "black") || (isPast(date) && "#797a7c33") || "",
         outline: (selected && "2px solid #ffa781") || "",
         color:
           (selected && "#ff8181") ||
