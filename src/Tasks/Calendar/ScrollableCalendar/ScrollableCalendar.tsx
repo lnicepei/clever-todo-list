@@ -26,16 +26,6 @@ const ScrollableCalendar = () => {
   } = useDrag();
   const tasksContext = useContext(TasksContext);
 
-  // const [startDay, setStartDay] = useState(startOfMonth(new Date()));
-  // let startDay = startOfMonth(new Date());
-  // const startDay = subMonths(new Date(), 0);
-  // const [endDay, setEndDay] = useState(addMonths(endOfMonth(new Date()), 1));
-  // let endDay = endOfMonth(new Date());
-
-  // let dayToPrepend = addDays(startDay, 1);
-
-  // let tempCalendar: string[] = [];
-
   const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef<null | HTMLDivElement>(null);
   const initialDayRef = useRef<null | HTMLDivElement>(null);
@@ -66,25 +56,10 @@ const ScrollableCalendar = () => {
       tempCalendar.push(addDays(dayToAppend, 1).toDateString());
       dayToAppend = addDays(dayToAppend, 1);
     }
-    //display fixed for parent element
-    console.log("TempCalendar", tempCalendar);
 
-    // console.log("TempCalendar: ", tempCalendar);
 
     setCalendar((prevCalendar) => prevCalendar.concat(tempCalendar));
   };
-
-  // const prependMonthToCalendar = () => {
-  // // setStartDay((prevStartDay) => subMonths(prevStartDay, 1));
-  // startDay = subMonths(startDay, 1);
-  // const tempCalendar: string[] = [];
-  // console.log(dayToPrepend, subMonths(startDay, 1));
-  // while (isAfter(dayToPrepend, startDay)) {
-  //   tempCalendar.unshift(subDays(dayToPrepend, 1).toDateString());
-  //   dayToPrepend = subDays(dayToPrepend, 1);
-  // }
-  // setCalendar((prevCalendar) => prevCalendar.concat(tempCalendar));
-  // };
 
   const prependMonthToCalendar = () => {
     const tempCalendar: string[] = [];
@@ -99,7 +74,7 @@ const ScrollableCalendar = () => {
     setCalendar((prevCalendar) => tempCalendar.concat(prevCalendar));
   };
 
-  const dragAction = (positionDifference: number) => {
+  const moveAction = (positionDifference: number) => {
     if (scrollMenuRef.current) {
       scrollMenuRef.current.scrollLeft += positionDifference;
 
@@ -151,9 +126,9 @@ const ScrollableCalendar = () => {
       onMouseUp={dragStop}
       onTouchStart={touchStart}
       onTouchEnd={dragStop}
-      onTouchMove={(e) => touchMove(e, dragAction)}
-      onMouseMove={(e) => dragMove(e, dragAction)}
-      onWheel={(e) => wheelMove(e, dragAction)}
+      onTouchMove={(e) => touchMove(e, moveAction)}
+      onMouseMove={(e) => dragMove(e, moveAction)}
+      onWheel={(e) => wheelMove(e, moveAction)}
       ref={scrollMenuRef}
       style={{ overflow: "hidden", padding: "10px 0" }}
       direction="row"
