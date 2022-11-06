@@ -72,6 +72,7 @@ const Tasks = () => {
   }, [dayToShowTasks, allTasks]);
 
   useEffect(() => {
+    if (loading) return;
     if (!user) return navigate("/");
     fetchUserData();
   }, [user, loading]);

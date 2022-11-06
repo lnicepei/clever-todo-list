@@ -7,10 +7,11 @@ import { auth } from "../../firebase/firebase";
 import { AuthContextProvider, ChildrenProps } from "../AuthContext/AuthContext";
 
 const Auth: React.FC<ChildrenProps> = ({ children }) => {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (loading) return;
     if (user) navigate("/tasks");
   }, [user]);
 
