@@ -1,9 +1,18 @@
-import { Box, Step, StepContent, StepLabel, Stepper } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Box,
+  Container,
+  SpeedDial,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { isPast, isToday, isValid } from "date-fns";
+import { isPast, isToday } from "date-fns";
 import { doc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
 import React, { SetStateAction, useContext, useState } from "react";
@@ -104,10 +113,13 @@ const NewTask = () => {
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create new task
-      </Button>
+    <Container>
+      <SpeedDial
+        ariaLabel="New Task"
+        sx={{ position: "absolute", bottom: "", marginRight: "auto" }}
+        icon={<EditIcon />}
+        onClick={handleClickOpen}
+      ></SpeedDial>
       <Dialog open={tasksContext!.open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>Create new task</DialogTitle>
         <DialogContent>
@@ -117,16 +129,14 @@ const NewTask = () => {
               <StepContent>
                 <SelectTaskName />
                 <Box sx={{ mb: 2 }}>
-                  <div>
-                    <Button
-                      variant="contained"
-                      disabled={tasksContext!.taskContent.name === ""}
-                      onClick={handleNext}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Continue
-                    </Button>
-                  </div>
+                  <Button
+                    variant="contained"
+                    disabled={tasksContext!.taskContent.name === ""}
+                    onClick={handleNext}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Continue
+                  </Button>
                 </Box>
               </StepContent>
             </Step>
@@ -141,34 +151,30 @@ const NewTask = () => {
                   }
                 />
                 <Box sx={{ mb: 2 }}>
-                  <div>
-                    <Button
-                      variant="contained"
-                      disabled={
-                        tasksContext?.taskContent.date === "Invalid Date" ||
-                        (isPast(
+                  <Button
+                    variant="contained"
+                    disabled={
+                      tasksContext?.taskContent.date === "Invalid Date" ||
+                      (isPast(new Date(tasksContext?.taskContent.date ?? "")) &&
+                        !isToday(
                           new Date(tasksContext?.taskContent.date ?? "")
-                        ) &&
-                          !isToday(
-                            new Date(tasksContext?.taskContent.date ?? "")
-                          ))
-                      }
-                      onClick={wasEmpty ? createNewTask : updateExistingTask}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Finish
-                    </Button>
-                    <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </div>
+                        ))
+                    }
+                    onClick={wasEmpty ? createNewTask : updateExistingTask}
+                    sx={{ mt: 1, mr: 1 }}
+                  >
+                    Finish
+                  </Button>
+                  <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                    Back
+                  </Button>
                 </Box>
               </StepContent>
             </Step>
           </Stepper>
         </DialogContent>
       </Dialog>
-    </div>
+    </Container>
   );
 };
 
