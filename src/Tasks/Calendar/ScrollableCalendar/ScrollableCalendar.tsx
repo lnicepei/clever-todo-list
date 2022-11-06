@@ -57,7 +57,6 @@ const ScrollableCalendar = () => {
       dayToAppend = addDays(dayToAppend, 1);
     }
 
-
     setCalendar((prevCalendar) => prevCalendar.concat(tempCalendar));
   };
 
@@ -119,6 +118,10 @@ const ScrollableCalendar = () => {
   //     inline: "center",
   //   });
   // }, [initialDayRef.current]);
+
+  scrollMenuRef.current?.addEventListener("wheel", (e) => {
+    e.preventDefault();
+  });
 
   return (
     <Stack
