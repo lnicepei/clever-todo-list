@@ -11,7 +11,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography
+  Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
@@ -62,13 +62,8 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   };
 
   const deleteTask = async () => {
-    tasksContext!.setAllTasks((prevTasks) =>
-      prevTasks.filter((taskFromDB: Task) => {
-        if (taskFromDB.id !== task.id) {
-          return { ...taskFromDB };
-        }
-      })
-    );
+    handleAlertClose();
+    handleMenuClose();
 
     await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
       ...tasksContext!.userFromDB!.data(),
@@ -79,8 +74,13 @@ const Task: React.FC<TaskProps> = ({ task }) => {
       }),
     });
 
-    handleAlertClose();
-    handleMenuClose();
+    tasksContext!.setAllTasks((prevTasks) =>
+      prevTasks.filter((taskFromDB: Task) => {
+        if (taskFromDB.id !== task.id) {
+          return { ...taskFromDB };
+        }
+      })
+    );
   };
 
   const editTask = async () => {
