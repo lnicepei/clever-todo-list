@@ -12,13 +12,13 @@ import Register from "../Authorization/Register/Register";
 import HomePage from "../HomePage/HomePage";
 import NotFound from "../NotFound/NotFound";
 import Tasks from "../Tasks/Tasks";
-import { lightTheme } from "../themes/Themes";
+import { darkTheme, lightTheme } from "../themes/Themes";
 import "./App.css";
 
 function App() {
   return (
     <Container sx={{ padding: 0 }}>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Router>
           <Routes>
