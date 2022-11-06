@@ -46,12 +46,9 @@ const useDrag = () => {
     cb: (positionDifference: number) => void
   ) => {
     const newDiff = event.deltaY;
-    const movedEnough = Math.abs(newDiff) > 5;
 
-    if (movedEnough) {
-      position.current += event.deltaY;
-      cb(newDiff);
-    }
+    position.current += event.deltaY;
+    cb(newDiff);
   };
 
   const touchMove = (
