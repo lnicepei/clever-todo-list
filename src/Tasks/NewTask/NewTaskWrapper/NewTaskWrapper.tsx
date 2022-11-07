@@ -1,12 +1,10 @@
-import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import {
-  Box,
-  Container,
-  IconButton,
+  Box, IconButton,
   Step,
   StepContent,
   StepLabel,
-  Stepper,
+  Stepper
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -122,10 +120,10 @@ const NewTask = () => {
   };
 
   return (
-    <Container>
+    <Box>
       {isNewTaskVisible && (
         <IconButton onClick={handleClickOpen}>
-          <EditIcon />
+          <AddIcon />
         </IconButton>
       )}
       <Dialog open={tasksContext!.open} onClose={handleClose} fullWidth={true}>
@@ -176,7 +174,7 @@ const NewTask = () => {
           </Stepper>
         </DialogContent>
       </Dialog>
-    </Container>
+    </Box>
   );
 };
 
