@@ -32,6 +32,7 @@ const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
+        inputFormat="dd/MM/yyyy hh:mm"
         value={tasksContext?.taskContent.date}
         onChange={handleChange}
         disablePast={true}
