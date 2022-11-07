@@ -45,6 +45,11 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     setIsDialogOpen(true);
   };
 
+  const handleDelete = () => {
+    deleteTask();
+    closeDialog();
+  };
+
   return (
     <>
       <IconButton
@@ -97,7 +102,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
         </DialogTitle>
         <DialogActions>
           <Button onClick={closeDialog}>Cancel</Button>
-          <Button onClick={deleteTask} autoFocus>
+          <Button onClick={handleDelete} autoFocus>
             Delete
           </Button>
         </DialogActions>
