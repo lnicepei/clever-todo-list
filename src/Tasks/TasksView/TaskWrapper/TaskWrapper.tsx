@@ -23,7 +23,7 @@ const TaskView = () => {
     ).length === 0;
 
   return (
-    <Container sx={{ p: { xs: 2, md: 0 } }}>
+    <Container sx={{ p: { xs: 2, md: 0, lg: 0, sm: 0 } }}>
       {isNoUser ? (
         <PuffLoader />
       ) : areNoTasks ? (
