@@ -14,7 +14,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
-import NewTask from "./NewTask/NewTaskWrapper/NewTask";
+import NewTask from "./NewTask/NewTaskWrapper/NewTaskWrapper";
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskView";
 
@@ -52,6 +52,7 @@ const Tasks = () => {
     complete: false,
     id: nanoid(),
   });
+
   const navigate = useNavigate();
 
   const fetchUserData = async () => {
@@ -96,9 +97,8 @@ const Tasks = () => {
     >
       <ResponsiveAppBar />
       <ScrollableCalendar />
+      <NewTask />
       <TaskView />
-      {(!isPast(new Date(dayToShowTasks)) ||
-        isToday(new Date(dayToShowTasks))) && <NewTask />}
     </TasksContext.Provider>
   );
 };
