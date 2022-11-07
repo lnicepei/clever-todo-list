@@ -6,7 +6,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, fetchUserData } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
-import NewTask from "./NewTask/NewTaskWrapper/NewTaskWrapper";
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
 import TaskView from "./TasksView/TaskWrapper/TaskWrapper";
 
@@ -69,7 +68,6 @@ const Tasks = () => {
     >
       <ResponsiveAppBar />
       <ScrollableCalendar />
-      <NewTask />
       <TaskView />
     </TasksContext.Provider>
   );
