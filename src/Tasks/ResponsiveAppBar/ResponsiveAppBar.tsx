@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo, useCallback } from "react";
 import { logout } from "../../firebase/firebase";
 import { TasksContext } from "../Tasks";
 
@@ -19,62 +19,34 @@ const ResponsiveAppBar = () => {
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const handleOpenUserMenu = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElUser(event.currentTarget);
+    },
+    []
+  );
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
-  };
+  }, []);
+
+  const username = useMemo(
+    () =>
+      tasksContext!.name.includes(".")
+        ? tasksContext!.name.split(".")[0]
+        : tasksContext!.name.split(" ")[0],
+    [tasksContext?.name]
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="relative" color="primary">
         <Toolbar>
           <TaskIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { md: "flex" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
+          <Typography variant="h5" noWrap sx={{ flexGrow: 1 }}>
             TodoList
           </Typography>
-
-          <Typography
-            sx={{
-              display: { md: "flex", xs: "none" },
-              mr: 2,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              color: "white",
-              textDecoration: "none",
-            }}
-          >
-            {tasksContext!.name}
-          </Typography>
-          <Typography
-            sx={{
-              display: { xs: "flex", md: "none" },
-              mr: 2,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              color: "white",
-              textDecoration: "none",
-            }}
-          >
-            {tasksContext!.name.includes(".")
-              ? tasksContext!.name.split(".")[0]
-              : tasksContext!.name.split(" ")[0]}
-          </Typography>
+          <Typography sx={{ mr: 2 }}>{username}</Typography>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar
@@ -98,11 +70,7 @@ const ResponsiveAppBar = () => {
             open={!!anchorElUser}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem onClick={handleCloseUserMenu}>
-              <Typography textAlign="center" onClick={logout}>
-                Log out
-              </Typography>
-            </MenuItem>
+            <MenuItem onClick={logout}>Log out</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
