@@ -82,7 +82,7 @@ const ScrollableCalendar = () => {
   //   scrollMenuRef.current.scrollLeft += 1308;
   // }, [calendar.length]);
 
-  const handleItemClick = (key: number) => () => {
+  const handleDayCardClick = (key: number) => () => {
     if (dragging) {
       return false;
     }
@@ -140,7 +140,7 @@ const ScrollableCalendar = () => {
         <Day
           day={dayOfMonth}
           key={key}
-          onClick={handleItemClick(key)}
+          onClick={handleDayCardClick(key)}
           selected={key === selected}
           dayRef={
             dayOfMonth === new Date().toDateString() ? initialDayRef : dayRef
