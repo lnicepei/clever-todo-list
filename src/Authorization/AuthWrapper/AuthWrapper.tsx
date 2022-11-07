@@ -5,26 +5,19 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { AuthContextProvider, ChildrenProps } from "../AuthContext/AuthContext";
+import "./AuthWrapper.css";
 
 const Auth: React.FC<ChildrenProps> = ({ children }) => {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) return;
     if (user) navigate("/tasks");
   }, [user]);
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <Box className="auth">
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
