@@ -22,13 +22,11 @@ type SnackbarProps = {
 
 const BasicSnackbar: React.FC<SnackbarProps> = ({ open, onClose, message }) => {
   return (
-    <>
-      <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
-        <Alert onClose={onClose} severity="error">
-          {message}
-        </Alert>
-      </Snackbar>
-    </>
+    <Snackbar open={open} autoHideDuration={3500} onClose={onClose}>
+      <Alert onClose={onClose} severity="error">
+        {message}
+      </Alert>
+    </Snackbar>
   );
 };
 
