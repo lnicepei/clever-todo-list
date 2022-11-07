@@ -1,19 +1,10 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import logo from "../../public/todo-logo.jpg";
+import logo from "../../public/todo-logo.png";
 import { auth } from "../firebase/firebase";
-
-const CustomColor = withStyles({
-  root: {
-    background: "linear-gradient(45deg, #178afe 20%, #0059b2 90%)",
-    fontFamily: "PlusJakartaSans",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-  },
-})(Typography);
+import "./HomePage.css";
 
 const HomePage = () => {
   const [user] = useAuthState(auth);
@@ -24,24 +15,11 @@ const HomePage = () => {
   }, [user]);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "90vh",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <CustomColor variant="h2" gutterBottom sx={{ fontWeight: 800 }}>
+    <Container sx={{ display: "flex", height: "100vh" }}>
+      <Box className="home">
+        <Typography variant="h2" gutterBottom sx={{ fontWeight: 800 }}>
           Organize your work and life, finally.
-        </CustomColor>
+        </Typography>
         <Typography paragraph={true} gutterBottom>
           Become focused, organized, and calm with Clever Todo List.
         </Typography>
@@ -55,7 +33,11 @@ const HomePage = () => {
         </Stack>
       </Box>
       <Box sx={{ display: { md: "block", xs: "none" } }}>
-        <img src={logo} alt="" style={{ height: "90vh" }} />
+        <img
+          src={logo}
+          alt="A man and a woman adjusting tasks shaped as rectangles on a huge task board"
+          style={{ height: "90vh" }}
+        />
       </Box>
     </Container>
   );
