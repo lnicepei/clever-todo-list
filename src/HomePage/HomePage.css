@@ -1,0 +1,12 @@
+.MuiBox-root.css-0.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MuiTypography-root.MuiTypography-h2.MuiTypography-gutterBottom.css-1ffx7y-MuiTypography-root {
+  background: linear-gradient(45deg, #178afe 40%, #0059b2 90%);
+  color: red;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
