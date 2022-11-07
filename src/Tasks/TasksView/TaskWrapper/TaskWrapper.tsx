@@ -36,8 +36,11 @@ const TaskView = () => {
         <PuffLoader />
       ) : (
         <>
-          <Box sx={{ display: "flex", height: "40px" }}>
-            <Typography sx={{ display: "flex", alignItems: "center", mr: 1 }}>
+          <Box sx={{ display: "flex", height: "40px", mb: 1 }}>
+            <Typography
+              variant="h5"
+              sx={{ display: "flex", alignItems: "center", mr: 1 }}
+            >
               {sortedTasks.length || "No"} task
               {(sortedTasks.length > 1 || sortedTasks.length === 0) &&
                 "s"} for {chosenDay}
