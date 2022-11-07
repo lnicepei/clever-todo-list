@@ -9,11 +9,10 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    background: {
-      default: "#222222",
-    },
-    text: {
-      primary: "#ffffff",
+    secondary: {
+      main: "#FFF",
+      light: "#797a7c33",
+      dark: "#121212",
     },
   },
 });
