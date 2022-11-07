@@ -2,7 +2,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import {
   Box,
   Container,
-  SpeedDial,
+  IconButton,
   Step,
   StepContent,
   StepLabel,
@@ -37,6 +37,15 @@ const NewTask = () => {
   const tasksContext = useContext(TasksContext);
   const [activeStep, setActiveStep] = useState(0);
   const [wasEmpty, setWasEmpty] = useState(false);
+
+  const isNewTaskVisible =
+    !isPast(new Date(tasksContext?.dayToShowTasks ?? "")) ||
+    isToday(new Date(tasksContext?.dayToShowTasks ?? ""));
+
+  const isFinishButtonDisabled =
+    tasksContext?.taskContent.date === "Invalid Date" ||
+    (isPast(new Date(tasksContext?.taskContent.date ?? "")) &&
+      !isToday(new Date(tasksContext?.taskContent.date ?? "")));
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -114,12 +123,11 @@ const NewTask = () => {
 
   return (
     <Container>
-      <SpeedDial
-        ariaLabel="New Task"
-        sx={{ position: "absolute", bottom: "", marginRight: "auto" }}
-        icon={<EditIcon />}
-        onClick={handleClickOpen}
-      ></SpeedDial>
+      {isNewTaskVisible && (
+        <IconButton onClick={handleClickOpen}>
+          <EditIcon />
+        </IconButton>
+      )}
       <Dialog open={tasksContext!.open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>Create new task</DialogTitle>
         <DialogContent>
@@ -153,13 +161,7 @@ const NewTask = () => {
                 <Box sx={{ mb: 2 }}>
                   <Button
                     variant="contained"
-                    disabled={
-                      tasksContext?.taskContent.date === "Invalid Date" ||
-                      (isPast(new Date(tasksContext?.taskContent.date ?? "")) &&
-                        !isToday(
-                          new Date(tasksContext?.taskContent.date ?? "")
-                        ))
-                    }
+                    disabled={isFinishButtonDisabled}
                     onClick={wasEmpty ? createNewTask : updateExistingTask}
                     sx={{ mt: 1, mr: 1 }}
                   >
