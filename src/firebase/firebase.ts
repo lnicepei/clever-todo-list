@@ -8,8 +8,19 @@ import {
   signInWithPopup,
   signOut,
   AdditionalUserInfo,
+  User,
 } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  DocumentData,
+  getDocs,
+  getFirestore,
+  query,
+  QueryDocumentSnapshot,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
@@ -81,6 +92,22 @@ export const registerWithEmailAndPassword = async (
       handleErrorMessage(error.message);
     }
   }
+};
+
+export const fetchUserData = async (
+  user: User,
+  setUserFromDB: React.Dispatch<
+    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | undefined>
+  >,
+  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  setName: React.Dispatch<React.SetStateAction<string>>
+) => {
+  const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+  const doc = await getDocs(q);
+  const data = doc.docs[0].data();
+  setUserFromDB(doc.docs[0]);
+  setAllTasks(data.tasks);
+  setName(data.name || (user?.displayName ?? user?.email));
 };
 
 export const logout = () => {
