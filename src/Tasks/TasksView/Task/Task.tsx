@@ -1,24 +1,11 @@
-import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
-import {
-  Button,
-  Card,
-  CardContent,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Fade,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
 import { doc, setDoc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { db } from "../../../firebase/firebase";
 import { TasksContext } from "../../Tasks";
+import TaskDialog from "../TaskDialog/TaskDialog";
 
 declare global {
   interface Task {
@@ -34,10 +21,6 @@ type TaskProps = {
 };
 
 const Task: React.FC<TaskProps> = ({ task }) => {
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
-  const [anchorElTask, setAnchorElTask] = useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(anchorElTask);
-
   const tasksContext = useContext(TasksContext);
 
   const toggleComplete = async () => {
@@ -62,9 +45,6 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   };
 
   const deleteTask = async () => {
-    handleAlertClose();
-    handleMenuClose();
-
     await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
       ...tasksContext!.userFromDB!.data(),
       tasks: tasksContext!.allTasks.filter((taskFromDB: Task) => {
@@ -86,29 +66,10 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   const editTask = async () => {
     tasksContext!.setTaskContent(task);
     tasksContext!.setOpen((prevOpen) => !prevOpen);
-
-    handleMenuClose();
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElTask(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorElTask(null);
-  };
-
-  const handleClickOpen = () => {
-    setIsAlertOpen(true);
-  };
-
-  const handleAlertClose = () => {
-    handleMenuClose();
-    setIsAlertOpen(false);
   };
 
   return (
-    <Card sx={{ display: "flex", mt: "10px", mb: "10px" }}>
+    <Card sx={{ display: "flex", mb: "10px" }}>
       <CardContent sx={{ display: "flex", width: "100%" }}>
         <Checkbox
           sx={{ height: "42px" }}
@@ -116,70 +77,18 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           onChange={toggleComplete}
         ></Checkbox>
         <Container sx={{ mr: "auto" }}>
-          <Typography variant="h5" gutterBottom>
-            {task.name}
-          </Typography>
+          <Typography variant="h5">{task.name}</Typography>
           <Typography variant="subtitle2">{`${format(
             new Date(task.date),
             "H:mm"
           )}`}</Typography>
         </Container>
-        <IconButton
-          id="fade-button"
-          aria-controls={isMenuOpen ? "fade-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={isMenuOpen ? "true" : undefined}
-          onClick={handleClick}
-          sx={{ height: "42px" }}
-        >
-          <MoreHoriz />
-        </IconButton>
-        <Menu
-          id="fade-menu"
-          MenuListProps={{
-            "aria-labelledby": "fade-button",
-          }}
-          anchorEl={anchorElTask}
-          open={isMenuOpen}
-          onClose={handleMenuClose}
-          TransitionComponent={Fade}
-        >
-          <MenuItem onClick={handleClickOpen}>
-            <Typography
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-              }}
-            >
-              <DeleteForever />
-              Delete
-            </Typography>
-          </MenuItem>
-          <MenuItem onClick={editTask}>
-            <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <Edit />
-              Edit
-            </Typography>
-          </MenuItem>
-        </Menu>
+        <TaskDialog
+          editTask={editTask}
+          deleteTask={deleteTask}
+          taskName={task.name}
+        />
       </CardContent>
-      <Dialog
-        open={isAlertOpen}
-        onClose={handleAlertClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {`Delete task ${task.name}?`}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleAlertClose}>Cancel</Button>
-          <Button onClick={deleteTask} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Card>
   );
 };
