@@ -2,7 +2,7 @@ import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
 import { doc, setDoc } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { db } from "../../../firebase/firebase";
 import { TasksContext } from "../../Tasks";
 import TaskDialog from "../TaskDialog/TaskDialog";

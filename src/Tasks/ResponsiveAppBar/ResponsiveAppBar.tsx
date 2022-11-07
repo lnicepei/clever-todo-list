@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState, useMemo, useCallback } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { logout } from "../../firebase/firebase";
 import { TasksContext } from "../Tasks";
 
