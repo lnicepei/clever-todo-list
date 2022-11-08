@@ -73,22 +73,12 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
         TransitionComponent={Fade}
       >
         <MenuItem onClick={openDeleteSubmission}>
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-            }}
-          >
-            <DeleteForever />
-            Delete
-          </Typography>
+          <DeleteForever />
+          &nbsp; Delete
         </MenuItem>
         <MenuItem onClick={openEditMenu}>
-          <Typography sx={{ display: "flex", alignItems: "center" }}>
-            <Edit />
-            Edit
-          </Typography>
+          <Edit />
+          &nbsp; Edit
         </MenuItem>
       </Menu>
       <Dialog
