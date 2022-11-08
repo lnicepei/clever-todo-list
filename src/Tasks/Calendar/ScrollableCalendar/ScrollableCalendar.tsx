@@ -10,6 +10,7 @@ import {
   subMonths,
 } from "date-fns";
 import { useContext, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { TasksContext } from "../../Tasks";
 import Day from "../Day/Day";
 import useDrag from "./UseDrag";
@@ -29,7 +30,6 @@ const ScrollableCalendar = () => {
   const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef<null | HTMLDivElement>(null);
   const initialDayRef = useRef<null | HTMLDivElement>(null);
-  // const widthRef = useRef<number>(0);
 
   const [calendar, setCalendar] = useState<string[]>([]);
   const [selected, setSelected] = useState<number>(0);
@@ -57,7 +57,13 @@ const ScrollableCalendar = () => {
       dayToPrepend = subDays(dayToPrepend, 1);
     }
 
-    setCalendar((prevCalendar) => tempCalendar.concat(prevCalendar));
+    flushSync(() => {
+      const indexOfCurrentChosenDay = calendar.indexOf(
+        new Date(tasksContext!.dayToShowTasks).toDateString()
+      );
+      setCalendar((prevCalendar) => tempCalendar.concat(prevCalendar));
+      setSelected(tempCalendar.length + indexOfCurrentChosenDay);
+    });
   };
 
   const moveAction = (positionDifference: number) => {
@@ -72,15 +78,13 @@ const ScrollableCalendar = () => {
       }
 
       if (scrollMenuRef.current.scrollLeft === 0) {
+        const prevWidth = scrollMenuRef.current.scrollWidth;
         prependMonthToCalendar();
-        // scrollMenuRef.current.scrollLeft += 1308;
+        scrollMenuRef.current.scrollLeft =
+          scrollMenuRef.current.scrollWidth - prevWidth;
       }
     }
   };
-
-  // useEffect(() => {
-  //   scrollMenuRef.current.scrollLeft += 1308;
-  // }, [calendar.length]);
 
   const handleDayCardClick = (key: number) => () => {
     if (dragging) {
@@ -97,7 +101,7 @@ const ScrollableCalendar = () => {
         new Date(tasksContext?.dayToShowTasks ?? "").toDateString()
       )
     );
-  }, [calendar]);
+  }, []);
 
   useEffect(() => {
     const tempCalendar: string[] = [];
@@ -133,7 +137,7 @@ const ScrollableCalendar = () => {
       onMouseMove={(e) => dragMove(e, moveAction)}
       onWheel={(e) => wheelMove(e, moveAction)}
       ref={scrollMenuRef}
-      style={{ overflow: "hidden", padding: "10px 0" }}
+      sx={{ overflow: "hidden", py: "10px" }}
       direction="row"
     >
       {calendar.map((dayOfMonth, key) => (
