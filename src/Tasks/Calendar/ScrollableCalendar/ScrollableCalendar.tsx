@@ -58,11 +58,9 @@ const ScrollableCalendar = () => {
     }
 
     flushSync(() => {
-      const indexOfCurrentChosenDay = calendar.indexOf(
-        new Date(tasksContext!.dayToShowTasks).toDateString()
-      );
+      const indexOfChosenDay = calendar.indexOf(tasksContext!.dayToShowTasks);
       setCalendar((prevCalendar) => tempCalendar.concat(prevCalendar));
-      setSelected(tempCalendar.length + indexOfCurrentChosenDay);
+      setSelected(tempCalendar.length + indexOfChosenDay);
     });
   };
 
@@ -96,11 +94,7 @@ const ScrollableCalendar = () => {
   };
 
   useEffect(() => {
-    setSelected(
-      calendar.indexOf(
-        new Date(tasksContext?.dayToShowTasks ?? "").toDateString()
-      )
-    );
+    setSelected(calendar.indexOf(tasksContext!.dayToShowTasks));
   }, []);
 
   useEffect(() => {
