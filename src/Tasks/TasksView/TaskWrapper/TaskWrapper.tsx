@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format, isAfter, isSameDay } from "date-fns";
 import { useContext } from "react";
-import { PuffLoader } from "react-spinners";
 import NewTask from "../../NewTask/NewTaskWrapper/NewTaskWrapper";
 import { TasksContext } from "../../Tasks";
+import StyledPuffLoader from "../StyledPuffLoader/StyledPuffLoader";
 import Task from "../Task/Task";
 
 const TaskView = () => {
@@ -33,7 +33,7 @@ const TaskView = () => {
       }}
     >
       {isNoUser ? (
-        <PuffLoader />
+        <StyledPuffLoader />
       ) : (
         <>
           <Box sx={{ display: "flex", height: "40px", mb: 1 }}>

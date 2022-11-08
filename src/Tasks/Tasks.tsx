@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, fetchUserData } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
+import StyledPuffLoader from "./TasksView/StyledPuffLoader/StyledPuffLoader";
 import TaskView from "./TasksView/TaskWrapper/TaskWrapper";
 
 interface TasksContext {
@@ -51,25 +52,31 @@ const Tasks = () => {
   }, [user, loading]);
 
   return (
-    <TasksContext.Provider
-      value={{
-        name,
-        user,
-        userFromDB,
-        open,
-        setOpen,
-        taskContent,
-        setTaskContent,
-        allTasks,
-        setAllTasks,
-        dayToShowTasks,
-        setDayToShowTasks,
-      }}
-    >
-      <ResponsiveAppBar />
-      <ScrollableCalendar />
-      <TaskView />
-    </TasksContext.Provider>
+    <>
+      {loading ? (
+        <StyledPuffLoader />
+      ) : (
+        <TasksContext.Provider
+          value={{
+            name,
+            user,
+            userFromDB,
+            open,
+            setOpen,
+            taskContent,
+            setTaskContent,
+            allTasks,
+            setAllTasks,
+            dayToShowTasks,
+            setDayToShowTasks,
+          }}
+        >
+          <ResponsiveAppBar />
+          <ScrollableCalendar />
+          <TaskView />
+        </TasksContext.Provider>
+      )}
+    </>
   );
 };
 
