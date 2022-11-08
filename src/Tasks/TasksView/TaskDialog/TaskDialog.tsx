@@ -7,20 +7,19 @@ import {
   Fade,
   IconButton,
   Menu,
-  MenuItem,
-  Typography,
+  MenuItem
 } from "@mui/material";
 import React, { useState } from "react";
 
 type TaskDialogProps = {
-  editTask: () => Promise<void>;
-  deleteTask: () => Promise<void>;
+  handleEdit: () => void;
+  handleDelete: () => void;
   taskName: string;
 };
 
 const TaskDialog: React.FC<TaskDialogProps> = ({
-  editTask,
-  deleteTask,
+  handleEdit,
+  handleDelete,
   taskName,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -36,7 +35,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
   };
 
   const openEditMenu = () => {
-    editTask();
+    handleEdit();
     setAnchorElTask(null);
   };
 
@@ -45,8 +44,8 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     setIsDialogOpen(true);
   };
 
-  const handleDelete = () => {
-    deleteTask();
+  const deleteTask = () => {
+    handleDelete();
     closeDialog();
   };
 
@@ -92,7 +91,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
         </DialogTitle>
         <DialogActions>
           <Button onClick={closeDialog}>Cancel</Button>
-          <Button onClick={handleDelete} autoFocus>
+          <Button onClick={deleteTask} autoFocus>
             Delete
           </Button>
         </DialogActions>
