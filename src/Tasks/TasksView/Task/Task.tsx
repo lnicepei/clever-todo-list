@@ -1,9 +1,8 @@
 import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
-import { doc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
-import { db } from "../../../firebase/firebase";
+import { deleteTask, toggleComplete } from "../../../firebase/firebase";
 import { TasksContext } from "../../Tasks";
 import TaskDialog from "../TaskDialog/TaskDialog";
 
@@ -23,7 +22,9 @@ type TaskProps = {
 const Task: React.FC<TaskProps> = ({ task }) => {
   const tasksContext = useContext(TasksContext);
 
-  const toggleComplete = async () => {
+  const handleToggle = () => {
+    toggleComplete(tasksContext!.userFromDB, tasksContext!.allTasks, task);
+
     tasksContext!.setAllTasks((prevTasks) =>
       prevTasks.map((taskFromDB: Task) => {
         if (taskFromDB.id === task.id) {
@@ -32,27 +33,10 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         return { ...taskFromDB };
       })
     );
-
-    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
-      ...tasksContext!.userFromDB!.data(),
-      tasks: tasksContext!.allTasks.map((taskFromDB: Task) => {
-        if (taskFromDB.id === task.id) {
-          return { ...taskFromDB, complete: !task.complete };
-        }
-        return { ...taskFromDB };
-      }),
-    });
   };
 
-  const deleteTask = async () => {
-    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
-      ...tasksContext!.userFromDB!.data(),
-      tasks: tasksContext!.allTasks.filter((taskFromDB: Task) => {
-        if (taskFromDB.id !== task.id) {
-          return { ...taskFromDB };
-        }
-      }),
-    });
+  const handleDelete = () => {
+    deleteTask(tasksContext!.userFromDB, tasksContext!.allTasks, task);
 
     tasksContext!.setAllTasks((prevTasks) =>
       prevTasks.filter((taskFromDB: Task) => {
@@ -63,7 +47,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     );
   };
 
-  const editTask = async () => {
+  const handleEdit = () => {
     tasksContext!.setTaskContent(task);
     tasksContext!.setOpen((prevOpen) => !prevOpen);
   };
@@ -74,7 +58,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
         <Checkbox
           sx={{ height: "42px" }}
           checked={task.complete}
-          onChange={toggleComplete}
+          onChange={handleToggle}
         ></Checkbox>
         <Container sx={{ mr: "auto" }}>
           <Typography variant="h5">{task.name}</Typography>
@@ -84,8 +68,8 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           )}`}</Typography>
         </Container>
         <TaskDialog
-          editTask={editTask}
-          deleteTask={deleteTask}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
           taskName={task.name}
         />
       </CardContent>
