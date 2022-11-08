@@ -1,5 +1,6 @@
 import { FirebaseError, initializeApp } from "firebase/app";
 import {
+  AdditionalUserInfo,
   createUserWithEmailAndPassword,
   getAdditionalUserInfo,
   getAuth,
@@ -7,7 +8,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  AdditionalUserInfo,
   User,
 } from "firebase/auth";
 import {
@@ -108,6 +108,37 @@ export const fetchUserData = async (
   setUserFromDB(doc.docs[0]);
   setAllTasks(data.tasks);
   setName(data.name || (user?.displayName ?? user?.email));
+};
+
+export const toggleComplete = async (
+  user: QueryDocumentSnapshot<DocumentData> | undefined,
+  tasks: Task[],
+  task: Task
+) => {
+  await setDoc(doc(db, "users", user!.id), {
+    ...user!.data(),
+    tasks: tasks.map((taskFromDB: Task) => {
+      if (taskFromDB.id === task.id) {
+        return { ...taskFromDB, complete: !task.complete };
+      }
+      return { ...taskFromDB };
+    }),
+  });
+};
+
+export const deleteTask = async (
+  user: QueryDocumentSnapshot<DocumentData> | undefined,
+  tasks: Task[],
+  task: Task
+) => {
+  await setDoc(doc(db, "users", user!.id), {
+    ...user!.data(),
+    tasks: tasks.filter((taskFromDB: Task) => {
+      if (taskFromDB.id !== task.id) {
+        return { ...taskFromDB };
+      }
+    }),
+  });
 };
 
 export const logout = () => {
