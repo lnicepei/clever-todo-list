@@ -6,7 +6,7 @@ import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
 import { TasksProvider } from "./TasksContext";
 import StyledPuffLoader from "./TasksView/StyledPuffLoader/StyledPuffLoader";
-import TaskView from "./TasksView/TaskWrapper/TaskWrapper";
+import TaskWrapper from "./TasksView/TaskWrapper/TaskWrapper";
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);
@@ -29,7 +29,7 @@ const Tasks = () => {
           />
           <TasksProvider>
             <ScrollableCalendar />
-            <TaskView user={user} />
+            <TaskWrapper user={user} />
           </TasksProvider>
         </>
       )}

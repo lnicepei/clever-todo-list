@@ -10,11 +10,11 @@ import { useTasks, useTasksDispatch } from "../../TasksContext";
 import StyledPuffLoader from "../StyledPuffLoader/StyledPuffLoader";
 import Task from "../Task/Task";
 
-type TaskViewProps = {
+type TaskWrapperProps = {
   user: User | null | undefined;
 };
 
-const TaskView: React.FC<TaskViewProps> = ({ user }) => {
+const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
   const tasksContext = useTasks();
 
   const [taskContent, setTaskContent] = useState<Task>({
@@ -88,4 +88,4 @@ const TaskView: React.FC<TaskViewProps> = ({ user }) => {
   );
 };
 
-export default TaskView;
+export default TaskWrapper;
