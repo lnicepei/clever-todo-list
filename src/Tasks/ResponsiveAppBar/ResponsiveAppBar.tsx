@@ -10,13 +10,18 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { logout } from "../../firebase/firebase";
-import { useTasks } from "../TasksContext";
 
-const ResponsiveAppBar = () => {
-  const tasksContext = useTasks();
+type ResponsiveAppBarProps = {
+  username: string;
+  photoUrl: string | undefined;
+};
 
+const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
+  username,
+  photoUrl,
+}) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = useCallback(
@@ -26,17 +31,13 @@ const ResponsiveAppBar = () => {
     []
   );
 
+  const croppedUsername = username.includes(".")
+    ? username.split(".")[0]
+    : username.split(" ")[0];
+
   const handleCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
   }, []);
-
-  const username = useMemo(
-    () =>
-      tasksContext!.name.includes(".")
-        ? tasksContext!.name.split(".")[0]
-        : tasksContext!.name.split(" ")[0],
-    [tasksContext?.name]
-  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -46,13 +47,10 @@ const ResponsiveAppBar = () => {
           <Typography variant="h5" noWrap sx={{ flexGrow: 1 }}>
             TodoList
           </Typography>
-          <Typography sx={{ mr: 2 }}>{username}</Typography>
+          <Typography sx={{ mr: 2 }}>{croppedUsername}</Typography>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt={tasksContext!.name}
-                src={tasksContext!.user?.photoURL ?? undefined}
-              ></Avatar>
+              <Avatar alt={username} src={photoUrl}></Avatar>
             </IconButton>
           </Tooltip>
           <Menu
