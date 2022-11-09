@@ -2,28 +2,32 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { useContext, useEffect } from "react";
-import { TasksContext } from "../../Tasks";
+import { useEffect } from "react";
+import { useTasks, useTasksDispatch } from "../../TasksContext";
 
 type SelectTaskDateAndTimeProps = { initialValue: string };
 
 const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
   initialValue,
 }) => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
+  const dispatch = useTasksDispatch();
 
   const handleChange = (date: Date | null) => {
-    tasksContext?.setTaskContent((prevTaskContent) => {
-      return { ...prevTaskContent, date: date?.toString() ?? "" };
+    dispatch?.({
+      type: "SET_TASK_CONTENT_DATE",
+      payload: {
+        date: date?.toString() ?? "",
+      },
     });
   };
 
   useEffect(() => {
-    tasksContext?.setTaskContent((prevTaskContent) => {
-      return {
-        ...prevTaskContent,
+    dispatch?.({
+      type: "SET_TASK_CONTENT_DATE",
+      payload: {
         date: new Date(initialValue).toString(),
-      };
+      },
     });
   }, []);
 

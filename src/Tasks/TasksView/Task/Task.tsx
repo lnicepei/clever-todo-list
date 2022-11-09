@@ -1,9 +1,7 @@
 import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
-import { useContext } from "react";
-import { deleteTask, toggleComplete } from "../../../firebase/firebase";
-import { TasksContext } from "../../Tasks";
+import { useTasksDispatch } from "../../TasksContext";
 import TaskDialog from "../TaskDialog/TaskDialog";
 
 declare global {
@@ -20,36 +18,33 @@ type TaskProps = {
 };
 
 const Task: React.FC<TaskProps> = ({ task }) => {
-  const tasksContext = useContext(TasksContext);
+  const dispatch = useTasksDispatch();
 
   const handleToggle = () => {
-    toggleComplete(tasksContext!.userFromDB, tasksContext!.allTasks, task);
-
-    tasksContext!.setAllTasks((prevTasks) =>
-      prevTasks.map((taskFromDB: Task) => {
-        if (taskFromDB.id === task.id) {
-          return { ...taskFromDB, complete: !task.complete };
-        }
-        return { ...taskFromDB };
-      })
-    );
+    dispatch?.({
+      type: "TOGGLE_COMPLETE",
+      payload: {
+        task: task,
+      },
+    });
   };
 
   const handleDelete = () => {
-    deleteTask(tasksContext!.userFromDB, tasksContext!.allTasks, task);
-
-    tasksContext!.setAllTasks((prevTasks) =>
-      prevTasks.filter((taskFromDB: Task) => {
-        if (taskFromDB.id !== task.id) {
-          return { ...taskFromDB };
-        }
-      })
-    );
+    dispatch?.({
+      type: "DELETE",
+      payload: {
+        task: task,
+      },
+    });
   };
 
-  const handleEdit = () => {
-    tasksContext!.setTaskContent(task);
-    tasksContext!.setOpen((prevOpen) => !prevOpen);
+  const openEditMenu = () => {
+    dispatch?.({
+      type: "TOGGLE_OPEN",
+      payload: {
+        task: task,
+      },
+    });
   };
 
   return (
@@ -68,7 +63,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           )}`}</Typography>
         </Container>
         <TaskDialog
-          handleEdit={handleEdit}
+          handleEdit={openEditMenu}
           handleDelete={handleDelete}
           taskName={task.name}
         />

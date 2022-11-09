@@ -1,15 +1,19 @@
 import { TextField } from "@mui/material";
-import React, { useContext } from "react";
-import { TasksContext } from "../../Tasks";
+import React from "react";
+import { useTasks, useTasksDispatch } from "../../TasksContext";
 
 const SelectTaskName = () => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
+  const dispatch = useTasksDispatch();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    tasksContext!.setTaskContent((prevTaskContent) => {
-      return { ...prevTaskContent, name: e.target.value };
+    dispatch?.({
+      type: "SET_TASK_CONTENT_NAME",
+      payload: {
+        name: e.target.value,
+      },
     });
   };
 

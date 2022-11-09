@@ -1,21 +1,20 @@
 import AddIcon from "@mui/icons-material/Add";
 import {
-  Box, IconButton,
+  Box,
+  IconButton,
   Step,
   StepContent,
   StepLabel,
-  Stepper
+  Stepper,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { isPast, isToday } from "date-fns";
-import { doc, setDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
-import React, { SetStateAction, useContext, useState } from "react";
-import { db } from "../../../firebase/firebase";
-import { TasksContext } from "../../Tasks";
+import React, { SetStateAction, useState } from "react";
+import { useTasks, useTasksDispatch } from "../../TasksContext";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
 import SelectTaskName from "../NameSelector/SelectTaskName";
 
@@ -32,13 +31,15 @@ export interface UserFromDB {
 }
 
 const NewTask = () => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
+  const dispatch = useTasksDispatch();
+
   const [activeStep, setActiveStep] = useState(0);
   const [wasEmpty, setWasEmpty] = useState(false);
 
   const isNewTaskVisible =
-    !isPast(new Date(tasksContext?.dayToShowTasks ?? "")) ||
-    isToday(new Date(tasksContext?.dayToShowTasks ?? ""));
+    !isPast(new Date(tasksContext!.dayToShowTasks)) ||
+    isToday(new Date(tasksContext!.dayToShowTasks));
 
   const isFinishButtonDisabled =
     tasksContext?.taskContent.date === "Invalid Date" ||
@@ -53,70 +54,52 @@ const NewTask = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    tasksContext!.setTaskContent({
-      name: "",
-      date: "",
-      complete: false,
-      id: nanoid(),
-    });
-    setActiveStep(0);
-    setWasEmpty(false);
-  };
-
   const handleClickOpen = () => {
     setWasEmpty(true);
-    tasksContext!.setOpen(true);
+    dispatch?.({
+      type: "TOGGLE_OPEN",
+      payload: {
+        task: tasksContext!.taskContent,
+      },
+    });
   };
 
   const handleClose = () => {
-    tasksContext!.setTaskContent({
-      name: "",
-      date: "",
-      complete: false,
-      id: nanoid(),
+    dispatch?.({
+      type: "TOGGLE_OPEN",
+      payload: {
+        task: {
+          name: "",
+          date: "",
+          complete: false,
+          id: nanoid(),
+        },
+      },
     });
     setWasEmpty(false);
     setActiveStep(0);
-    tasksContext!.setOpen(false);
   };
 
   const createNewTask = async () => {
-    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
-      ...tasksContext!.userFromDB!.data(),
-      tasks: tasksContext!.allTasks.concat(tasksContext!.taskContent),
+    dispatch?.({
+      type: "CREATE",
+      payload: {
+        taskContent: tasksContext!.taskContent,
+      },
     });
 
-    tasksContext!.setAllTasks((prevTasks: Task[]) =>
-      prevTasks.concat(tasksContext!.taskContent)
-    );
-
     handleClose();
-    handleReset();
   };
 
   const updateExistingTask = async () => {
-    await setDoc(doc(db, "users", tasksContext!.userFromDB!.id), {
-      ...tasksContext!.userFromDB!.data(),
-      tasks: tasksContext!.allTasks.map((task) => {
-        if (task.id === tasksContext!.taskContent.id) {
-          return tasksContext!.taskContent;
-        }
-        return task;
-      }),
+    dispatch?.({
+      type: "UPDATE",
+      payload: {
+        taskContent: tasksContext!.taskContent,
+      },
     });
 
-    tasksContext!.setAllTasks((prevTasks: Task[]) =>
-      prevTasks.map((task) => {
-        if (task.id === tasksContext!.taskContent.id) {
-          return tasksContext!.taskContent;
-        }
-        return task;
-      })
-    );
-
     handleClose();
-    handleReset();
   };
 
   return (
