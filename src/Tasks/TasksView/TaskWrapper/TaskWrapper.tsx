@@ -1,14 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format, isAfter, isSameDay } from "date-fns";
-import { useContext } from "react";
 import NewTask from "../../NewTask/NewTaskWrapper/NewTaskWrapper";
-import { TasksContext } from "../../Tasks";
+import { useTasks } from "../../TasksContext";
 import StyledPuffLoader from "../StyledPuffLoader/StyledPuffLoader";
 import Task from "../Task/Task";
 
 const TaskView = () => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
 
   const isNoUser = tasksContext?.userFromDB?.data().tasks === undefined;
 

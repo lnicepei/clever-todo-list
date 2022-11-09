@@ -10,12 +10,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { logout } from "../../firebase/firebase";
-import { TasksContext } from "../Tasks";
+import { useTasks } from "../TasksContext";
 
 const ResponsiveAppBar = () => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
