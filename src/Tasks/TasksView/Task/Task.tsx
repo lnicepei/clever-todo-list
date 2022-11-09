@@ -36,6 +36,7 @@ const Task: React.FC<TaskProps> = ({
   };
 
   const handleDelete = () => {
+    setIsNewTaskMenuOpen(false);
     dispatch?.({
       type: "DELETE",
       payload: {
