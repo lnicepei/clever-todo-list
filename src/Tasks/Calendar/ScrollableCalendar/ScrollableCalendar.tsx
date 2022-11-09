@@ -9,9 +9,9 @@ import {
   subDays,
   subMonths,
 } from "date-fns";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { TasksContext } from "../../Tasks";
+import { useTasks, useTasksDispatch } from "../../TasksContext";
 import Day from "../Day/Day";
 import useDrag from "./UseDrag";
 
@@ -25,7 +25,8 @@ const ScrollableCalendar = () => {
     dragging,
     wheelMove,
   } = useDrag();
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
+  const dispatch = useTasksDispatch();
 
   const dayRef = useRef<null | HTMLDivElement>(null);
   const scrollMenuRef = useRef<null | HTMLDivElement>(null);
@@ -89,7 +90,12 @@ const ScrollableCalendar = () => {
       return false;
     }
 
-    tasksContext!.setDayToShowTasks(calendar[key]);
+    dispatch?.({
+      type: "SET_DAY_TO_SHOW_TASKS",
+      payload: {
+        dayToShowTasks: calendar[key],
+      },
+    });
     setSelected(selected !== key ? key : selected);
   };
 
