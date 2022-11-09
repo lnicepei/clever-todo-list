@@ -1,6 +1,4 @@
-import { User } from "firebase/auth";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import { nanoid } from "nanoid";
 import React, { createContext, useContext, useReducer } from "react";
 import { ChildrenProps } from "../Authorization/AuthContext/AuthContext";
 import {
@@ -11,11 +9,7 @@ import {
 } from "../firebase/firebase";
 
 type TasksContextState = {
-  name: string;
-  user: User | null | undefined;
   userFromDB: QueryDocumentSnapshot<DocumentData> | undefined;
-  open: boolean;
-  taskContent: Task;
   allTasks: Task[];
   dayToShowTasks: string;
 };
@@ -48,31 +42,6 @@ type ToggleCompleteAction = {
   };
 };
 
-type ResetTaskContent = {
-  type: "RESET_TASK_CONTENT";
-};
-
-type SetTaskContentDate = {
-  type: "SET_TASK_CONTENT_DATE";
-  payload: {
-    date: string;
-  };
-};
-
-type SetTaskContentName = {
-  type: "SET_TASK_CONTENT_NAME";
-  payload: {
-    name: string;
-  };
-};
-
-type ToggleOpen = {
-  type: "TOGGLE_OPEN";
-  payload: {
-    task: Task;
-  };
-};
-
 type FetchUserDataAction = {
   type: "FETCH_USER_DATA";
   payload: {
@@ -95,23 +64,10 @@ export type TaskContextAction =
   | ToggleCompleteAction
   | FetchUserDataAction
   | SetDayToShowTasks
-  | SetTaskContentDate
-  | SetTaskContentName
-  | ResetTaskContent
-  | CreateAction
-  | ToggleOpen;
+  | CreateAction;
 
 const initialState: TasksContextState = {
-  name: "",
-  user: null,
   userFromDB: undefined,
-  open: false,
-  taskContent: {
-    name: "",
-    complete: false,
-    id: nanoid(),
-    date: "",
-  },
   allTasks: [],
   dayToShowTasks: new Date().toString(),
 };
@@ -180,48 +136,12 @@ const tasksReducer = (state: TasksContextState, action: TaskContextAction) => {
       };
     }
 
-    case "SET_TASK_CONTENT_NAME": {
-      return {
-        ...state,
-        taskContent: {
-          ...state.taskContent,
-          name: action.payload.name,
-        },
-      };
-    }
-
-    case "SET_TASK_CONTENT_DATE": {
-      return {
-        ...state,
-        taskContent: {
-          ...state.taskContent,
-          date: action.payload.date,
-        },
-      };
-    }
-
     case "FETCH_USER_DATA": {
       return {
         ...state,
         allTasks: action.payload.allTasks,
         name: action.payload.name,
         userFromDB: action.payload.userFromDB,
-      };
-    }
-
-    case "FETCH_USER_DATA": {
-      return {
-        ...state,
-        allTasks: action.payload.allTasks,
-        name: action.payload.name,
-      };
-    }
-
-    case "TOGGLE_OPEN": {
-      return {
-        ...state,
-        open: !state.open,
-        taskContent: action.payload.task,
       };
     }
 
