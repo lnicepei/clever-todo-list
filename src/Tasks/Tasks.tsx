@@ -1,23 +1,20 @@
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, fetchUserData } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
-import { useTasksDispatch } from "./TasksContext";
+import { TasksProvider } from "./TasksContext";
 import StyledPuffLoader from "./TasksView/StyledPuffLoader/StyledPuffLoader";
 import TaskView from "./TasksView/TaskWrapper/TaskWrapper";
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);
-  const dispatch = useTasksDispatch();
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/");
-    fetchUserData(user, dispatch);
   }, [user, loading]);
 
   return (
@@ -26,9 +23,14 @@ const Tasks = () => {
         <StyledPuffLoader />
       ) : (
         <>
-          <ResponsiveAppBar />
-          <ScrollableCalendar />
-          <TaskView />
+          <ResponsiveAppBar
+            username={user?.displayName || user?.email || ""}
+            photoUrl={user?.photoURL || undefined}
+          />
+          <TasksProvider>
+            <ScrollableCalendar />
+            <TaskView user={user} />
+          </TasksProvider>
         </>
       )}
     </>
