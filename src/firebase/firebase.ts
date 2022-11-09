@@ -21,6 +21,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
+import { TaskContextAction } from "../Tasks/TasksContext";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
@@ -96,18 +97,19 @@ export const registerWithEmailAndPassword = async (
 
 export const fetchUserData = async (
   user: User,
-  setUserFromDB: React.Dispatch<
-    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | undefined>
-  >,
-  setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>,
-  setName: React.Dispatch<React.SetStateAction<string>>
+  dispatch: React.Dispatch<TaskContextAction> | null
 ) => {
   const q = query(collection(db, "users"), where("uid", "==", user?.uid));
   const doc = await getDocs(q);
   const data = doc.docs[0].data();
-  setUserFromDB(doc.docs[0]);
-  setAllTasks(data.tasks);
-  setName(data.name || (user?.displayName ?? user?.email));
+  dispatch?.({
+    type: "FETCH_USER_DATA",
+    payload: {
+      allTasks: data.tasks,
+      name: data.name || (user?.displayName ?? user?.email),
+      userFromDB: doc.docs[0],
+    },
+  });
 };
 
 export const toggleComplete = async (
@@ -126,6 +128,17 @@ export const toggleComplete = async (
   });
 };
 
+export const createTask = async (
+  user: QueryDocumentSnapshot<DocumentData> | undefined,
+  tasks: Task[],
+  task: Task
+) => {
+  await setDoc(doc(db, "users", user!.id), {
+    ...user!.data(),
+    tasks: tasks.concat(task),
+  });
+};
+
 export const deleteTask = async (
   user: QueryDocumentSnapshot<DocumentData> | undefined,
   tasks: Task[],
@@ -137,6 +150,22 @@ export const deleteTask = async (
       if (taskFromDB.id !== task.id) {
         return { ...taskFromDB };
       }
+    }),
+  });
+};
+
+export const updateTask = async (
+  user: QueryDocumentSnapshot<DocumentData> | undefined,
+  tasks: Task[],
+  task: Task
+) => {
+  await setDoc(doc(db, "users", user!.id), {
+    ...user!.data(),
+    tasks: tasks.map((taskFromDB) => {
+      if (task.id === taskFromDB.id) {
+        return task;
+      }
+      return taskFromDB;
     }),
   });
 };
