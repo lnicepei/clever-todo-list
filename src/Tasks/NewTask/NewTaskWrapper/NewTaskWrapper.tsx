@@ -13,24 +13,24 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { isPast, isToday } from "date-fns";
 import { nanoid } from "nanoid";
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useTasks, useTasksDispatch } from "../../TasksContext";
 import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
 import SelectTaskName from "../NameSelector/SelectTaskName";
 
-export type TaskContent = {
+type NewTaskWrapperProps = {
   taskContent: Task;
-  setTaskContent: React.Dispatch<SetStateAction<Task>>;
+  setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
+  isNewTaskMenuOpen: boolean;
+  setIsNewTaskMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export interface UserFromDB {
-  name?: string;
-  email: string;
-  id: string;
-  tasks: Task[];
-}
-
-const NewTask = () => {
+const NewTaskWrapper: React.FC<NewTaskWrapperProps> = ({
+  taskContent,
+  setTaskContent,
+  isNewTaskMenuOpen,
+  setIsNewTaskMenuOpen,
+}) => {
   const tasksContext = useTasks();
   const dispatch = useTasksDispatch();
 
@@ -42,9 +42,9 @@ const NewTask = () => {
     isToday(new Date(tasksContext!.dayToShowTasks));
 
   const isFinishButtonDisabled =
-    tasksContext?.taskContent.date === "Invalid Date" ||
-    (isPast(new Date(tasksContext?.taskContent.date ?? "")) &&
-      !isToday(new Date(tasksContext?.taskContent.date ?? "")));
+    taskContent?.date === "Invalid Date" ||
+    (isPast(new Date(taskContent.date)) &&
+      !isToday(new Date(taskContent.date)));
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -56,26 +56,17 @@ const NewTask = () => {
 
   const handleClickOpen = () => {
     setWasEmpty(true);
-    dispatch?.({
-      type: "TOGGLE_OPEN",
-      payload: {
-        task: tasksContext!.taskContent,
-      },
-    });
+    setIsNewTaskMenuOpen(true);
   };
 
   const handleClose = () => {
-    dispatch?.({
-      type: "TOGGLE_OPEN",
-      payload: {
-        task: {
-          name: "",
-          date: "",
-          complete: false,
-          id: nanoid(),
-        },
-      },
+    setTaskContent({
+      name: "",
+      date: "",
+      complete: false,
+      id: nanoid(),
     });
+    setIsNewTaskMenuOpen(false);
     setWasEmpty(false);
     setActiveStep(0);
   };
@@ -84,7 +75,7 @@ const NewTask = () => {
     dispatch?.({
       type: "CREATE",
       payload: {
-        taskContent: tasksContext!.taskContent,
+        taskContent: taskContent,
       },
     });
 
@@ -95,7 +86,7 @@ const NewTask = () => {
     dispatch?.({
       type: "UPDATE",
       payload: {
-        taskContent: tasksContext!.taskContent,
+        taskContent: taskContent,
       },
     });
 
@@ -109,18 +100,21 @@ const NewTask = () => {
           <AddIcon />
         </IconButton>
       )}
-      <Dialog open={tasksContext!.open} onClose={handleClose} fullWidth={true}>
+      <Dialog open={isNewTaskMenuOpen} onClose={handleClose} fullWidth={true}>
         <DialogTitle>Create new task</DialogTitle>
         <DialogContent>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel>Enter task name</StepLabel>
               <StepContent>
-                <SelectTaskName />
+                <SelectTaskName
+                  taskContent={taskContent}
+                  setTaskContent={setTaskContent}
+                />
                 <Box sx={{ mb: 2 }}>
                   <Button
                     variant="contained"
-                    disabled={tasksContext!.taskContent.name === ""}
+                    disabled={taskContent.name === ""}
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1 }}
                   >
@@ -134,10 +128,10 @@ const NewTask = () => {
               <StepContent>
                 <SelectTaskDateAndTime
                   initialValue={
-                    wasEmpty
-                      ? tasksContext!.dayToShowTasks
-                      : tasksContext!.taskContent.date
+                    wasEmpty ? tasksContext!.dayToShowTasks : taskContent.date
                   }
+                  taskContent={taskContent}
+                  setTaskContent={setTaskContent}
                 />
                 <Box sx={{ mb: 2 }}>
                   <Button
@@ -161,4 +155,4 @@ const NewTask = () => {
   );
 };
 
-export default NewTask;
+export default NewTaskWrapper;

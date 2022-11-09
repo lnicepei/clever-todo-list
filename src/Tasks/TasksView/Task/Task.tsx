@@ -15,9 +15,15 @@ declare global {
 
 type TaskProps = {
   task: Task;
+  setIsNewTaskMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskContent: () => void;
 };
 
-const Task: React.FC<TaskProps> = ({ task }) => {
+const Task: React.FC<TaskProps> = ({
+  task,
+  setIsNewTaskMenuOpen,
+  setTaskContent,
+}) => {
   const dispatch = useTasksDispatch();
 
   const handleToggle = () => {
@@ -39,12 +45,8 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   };
 
   const openEditMenu = () => {
-    dispatch?.({
-      type: "TOGGLE_OPEN",
-      payload: {
-        task: task,
-      },
-    });
+    setTaskContent();
+    setIsNewTaskMenuOpen(true);
   };
 
   return (
