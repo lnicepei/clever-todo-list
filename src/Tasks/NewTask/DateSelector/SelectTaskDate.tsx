@@ -2,6 +2,7 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { startOfDay } from "date-fns";
 import { useEffect } from "react";
 
 type SelectTaskDateAndTimeProps = {
@@ -38,10 +39,12 @@ const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
       <DateTimePicker
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
+        ampm={false}
         inputFormat="dd/MM/yyyy hh:mm"
         value={taskContent.date}
         onChange={handleChange}
         disablePast={true}
+        minDateTime={startOfDay(new Date())}
       />
     </LocalizationProvider>
   );
