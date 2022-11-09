@@ -1,7 +1,7 @@
 import { Card, CardContent, Container, Typography } from "@mui/material";
 import { format, isPast, isToday } from "date-fns";
-import { MutableRefObject, useContext } from "react";
-import { TasksContext } from "../../Tasks";
+import { MutableRefObject } from "react";
+import { useTasks } from "../../TasksContext";
 import "./Day.css";
 
 type DayProps = {
@@ -13,7 +13,7 @@ type DayProps = {
 };
 
 const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
-  const tasksContext = useContext(TasksContext);
+  const tasksContext = useTasks();
 
   const formattedMonth = format(new Date(day), "E");
   const formattedDay = format(new Date(day), "d");
