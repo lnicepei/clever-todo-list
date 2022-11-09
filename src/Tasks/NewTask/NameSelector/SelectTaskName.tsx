@@ -1,19 +1,23 @@
 import { TextField } from "@mui/material";
 import React from "react";
-import { useTasks, useTasksDispatch } from "../../TasksContext";
 
-const SelectTaskName = () => {
-  const tasksContext = useTasks();
-  const dispatch = useTasksDispatch();
+type SelectTaskNameProps = {
+  taskContent: Task;
+  setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
+};
 
+const SelectTaskName: React.FC<SelectTaskNameProps> = ({
+  taskContent,
+  setTaskContent,
+}) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    dispatch?.({
-      type: "SET_TASK_CONTENT_NAME",
-      payload: {
+    setTaskContent((prevTaskContent: Task) => {
+      return {
+        ...prevTaskContent,
         name: e.target.value,
-      },
+      };
     });
   };
 
@@ -27,7 +31,7 @@ const SelectTaskName = () => {
       type="text"
       fullWidth
       variant="standard"
-      value={tasksContext!.taskContent.name}
+      value={taskContent.name}
       onChange={handleChange}
     />
   );

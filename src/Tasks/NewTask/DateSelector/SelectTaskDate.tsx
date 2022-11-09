@@ -3,31 +3,33 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useEffect } from "react";
-import { useTasks, useTasksDispatch } from "../../TasksContext";
 
-type SelectTaskDateAndTimeProps = { initialValue: string };
+type SelectTaskDateAndTimeProps = {
+  initialValue: string;
+  taskContent: Task;
+  setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
+};
 
 const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
   initialValue,
+  taskContent,
+  setTaskContent,
 }) => {
-  const tasksContext = useTasks();
-  const dispatch = useTasksDispatch();
-
   const handleChange = (date: Date | null) => {
-    dispatch?.({
-      type: "SET_TASK_CONTENT_DATE",
-      payload: {
-        date: date?.toString() ?? "",
-      },
+    setTaskContent((prevTaskContent: Task) => {
+      return {
+        ...prevTaskContent,
+        date: date!.toString(),
+      };
     });
   };
 
   useEffect(() => {
-    dispatch?.({
-      type: "SET_TASK_CONTENT_DATE",
-      payload: {
+    setTaskContent((prevTaskContent: Task) => {
+      return {
+        ...prevTaskContent,
         date: new Date(initialValue).toString(),
-      },
+      };
     });
   }, []);
 
@@ -37,7 +39,7 @@ const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
         inputFormat="dd/MM/yyyy hh:mm"
-        value={tasksContext?.taskContent.date}
+        value={taskContent.date}
         onChange={handleChange}
         disablePast={true}
       />
