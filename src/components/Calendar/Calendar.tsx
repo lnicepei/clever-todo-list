@@ -11,12 +11,9 @@ import {
 } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import {
-  useTasks,
-  useTasksDispatch,
-} from "../../TasksView/TasksContext/TasksContext";
-import Day from "../Day/Day";
-import useDrag from "./UseDrag";
+import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
+import Day from "../CalendarDay/CalendarDay";
+import useDrag from "./hooks/useDrag";
 
 const ScrollableCalendar = () => {
   const {

@@ -4,13 +4,13 @@ import {
   Box,
   Container,
   SnackbarCloseReason,
-  Typography
+  Typography,
 } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase/firebase";
-import BasicSnackbar from "../../Snackbar/BasicSnackbar";
+import { auth } from "../../api/firebase";
+import BasicSnackbar from "../../helpers/BasicSnackbar";
 import "./AuthWrapper.css";
 
 interface AuthContextValue {

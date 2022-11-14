@@ -1,8 +1,8 @@
 import { Card, CardContent, Container, Typography } from "@mui/material";
 import { format, isPast, isToday } from "date-fns";
 import { MutableRefObject } from "react";
-import { useTasks } from "../../TasksView/TasksContext/TasksContext";
-import "./Day.css";
+import { useTasks } from "../TasksContext/TasksContext";
+import "./CalendarDay.css";
 
 type DayProps = {
   day: string;

@@ -14,12 +14,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { isPast, isToday } from "date-fns";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import {
-  useTasks,
-  useTasksDispatch,
-} from "../../TasksView/TasksContext/TasksContext";
-import SelectTaskDateAndTime from "../DateSelector/SelectTaskDate";
-import SelectTaskName from "../NameSelector/SelectTaskName";
+import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
+import SelectTaskDateAndTime from "../TaskDateSelector/SelectTaskDate";
+import SelectTaskName from "../TaskNameSelector/SelectTaskName";
 
 type NewTaskWrapperProps = {
   taskContent: Task;

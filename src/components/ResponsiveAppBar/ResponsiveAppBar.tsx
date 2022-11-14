@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
-import { logout } from "../../firebase/firebase";
+import { logout } from "../../api/firebase";
 
 type ResponsiveAppBarProps = {
   username: string;

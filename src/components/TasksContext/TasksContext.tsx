@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { ChildrenProps } from "../../Authorization/AuthWrapper/AuthWrapper";
+import { ChildrenProps } from "../AuthWrapper/AuthWrapper";
 import {
   createTask,
   deleteTask,
   toggleComplete,
   updateTask,
-} from "../../firebase/firebase";
+} from "../../api/firebase";
 import { TaskContextAction, TasksContextState } from "./TasksContext.types";
 
 const initialState: TasksContextState = {
