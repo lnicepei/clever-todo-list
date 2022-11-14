@@ -6,7 +6,7 @@ import {
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase/firebase";
-import { AuthContext } from "../AuthContext/AuthContext";
+import { AuthContext } from "../AuthWrapper/AuthWrapper";
 
 const Login = () => {
   const { password, setPassword, email, setEmail, handleErrorMessage } =

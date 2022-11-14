@@ -6,7 +6,7 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase/firebase";
-import { AuthContext } from "../AuthContext/AuthContext";
+import { AuthContext } from "../AuthWrapper/AuthWrapper";
 
 const Register = () => {
   const {
