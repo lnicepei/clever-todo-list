@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase/firebase";
 import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
 import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
-import { TasksProvider } from "./TasksContext";
+import { TasksProvider } from "./TasksContext/TasksContext";
 import StyledPuffLoader from "./TasksView/StyledPuffLoader/StyledPuffLoader";
 import TaskWrapper from "./TasksView/TaskWrapper/TaskWrapper";
 

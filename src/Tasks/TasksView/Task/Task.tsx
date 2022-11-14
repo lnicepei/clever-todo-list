@@ -1,7 +1,7 @@
 import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
-import { useTasksDispatch } from "../../TasksContext";
+import { useTasksDispatch } from "../../TasksContext/TasksContext";
 import TaskDialog from "../TaskDialog/TaskDialog";
 
 declare global {
