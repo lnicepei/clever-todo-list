@@ -97,7 +97,7 @@ export const registerWithEmailAndPassword = async (
 
 export const fetchUserData = async (
   dispatch: React.Dispatch<TaskContextAction> | null,
-  user: User | null | undefined
+  user: User | null | undefined,
 ) => {
   const q = query(collection(db, "users"), where("uid", "==", user?.uid));
   const doc = await getDocs(q);
