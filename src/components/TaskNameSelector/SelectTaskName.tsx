@@ -30,7 +30,9 @@ const SelectTaskName: React.FC<SelectTaskNameProps> = ({
       label="Task Name"
       type="text"
       fullWidth
-      variant="standard"
+      variant="outlined"
+      autoComplete="off"
+      sx={{mb: 2}}
       value={taskContent.name}
       onChange={handleChange}
     />
