@@ -33,3 +33,6 @@
   * Log in
   * Register
   * Use Google to see their tasks
+
+## Folder structure
+ * Project boilerplate was created using [vite](https://vitejs.dev/) 
