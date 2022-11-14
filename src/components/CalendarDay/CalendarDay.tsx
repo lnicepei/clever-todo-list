@@ -49,17 +49,38 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
       </ul>
     ));
 
+  const selectBgColor = () => {
+    if (isToday(date)) {
+      return "text.primary";
+    }
+
+    if (isPast(date)) {
+      return "secondary.light";
+    }
+
+    return "secondary.dark";
+  };
+
+  const selectColor = () => {
+    if (selected) {
+      return "warning.dark";
+    }
+
+    if (isToday(date)) {
+      return "background.default";
+    }
+
+    if (!isToday(date) && isPast(date)) {
+      return "text.disabled";
+    }
+
+    return "text.primary";
+  };
+
   const cardStyles = {
-    bgcolor:
-      (isToday(date) && "text.primary") ||
-      (isPast(date) && "secondary.light") ||
-      "secondary.dark",
+    bgcolor: selectBgColor(),
     outline: (selected && "2px solid") || "none",
-    color:
-      (selected && "warning.dark") ||
-      (isToday(date) && "background.default") ||
-      (!isToday(date) && isPast(date) && "text.disabled") ||
-      "text.primary",
+    color: selectColor(),
   };
 
   return (
