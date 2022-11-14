@@ -18,16 +18,22 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
   const formattedMonth = format(new Date(day), "E");
   const formattedDay = format(new Date(day), "d");
 
+  const areAnyTasks = tasksContext?.allTasks.some(
+    (task) => task.date.substring(0, day.length) === day
+  );
+
+  const areAnyNotCompletedTasks = tasksContext?.allTasks
+    .filter((task) => task.date.substring(0, day.length) === day)
+    .some((task) => !task.complete);
+
+  const areAnyCompletedTask = tasksContext?.allTasks
+    .filter((task) => task.date.substring(0, day.length) === day)
+    .some((task) => task.complete);
+
   const taskList =
-    tasksContext?.allTasks.some(
-      (task) => task.date.substring(0, day.length) === day
-    ) &&
-    (tasksContext?.allTasks
-      .filter((task) => task.date.substring(0, day.length) === day)
-      .some((task) => !task.complete) ? (
-      tasksContext?.allTasks
-        .filter((task) => task.date.substring(0, day.length) === day)
-        .some((task) => task.complete) ? (
+    areAnyTasks &&
+    (areAnyNotCompletedTasks ? (
+      areAnyCompletedTask ? (
         <ul className="markers both">
           <li>&nbsp; &nbsp;</li>
           <li></li>
