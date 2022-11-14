@@ -13,7 +13,7 @@ type SnackbarProps = {
   open: boolean;
   onClose:
     | ((
-        event: Event | React.SyntheticEvent<Event>,
+        event: Event | React.SyntheticEvent<Element, Event>,
         reason?: SnackbarCloseReason
       ) => void)
     | undefined;

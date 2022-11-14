@@ -40,7 +40,7 @@ export const AuthContextProvider: React.FC<ChildrenProps> = ({ children }) => {
   };
 
   const handleClose = (
-    _event: Event | React.SyntheticEvent<Event>,
+    _event: Event | React.SyntheticEvent<Element, Event>,
     reason?: SnackbarCloseReason
   ) => {
     if (reason === "clickaway") {
