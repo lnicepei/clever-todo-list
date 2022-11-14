@@ -6,12 +6,12 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Auth from "../Authorization/AuthWrapper/AuthWrapper";
-import Login from "../Authorization/Login/Login";
-import Register from "../Authorization/Register/Register";
-import HomePage from "../HomePage/HomePage";
-import NotFound from "../NotFound/NotFound";
-import Tasks from "../Tasks/Tasks";
+import Auth from "../components/AuthWrapper/AuthWrapper";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+import HomePage from "../pages/HomePage/HomePage";
+import NotFound from "../pages/NotFound/NotFound";
+import Tasks from "../pages/Tasks/Tasks";
 import { darkTheme } from "../themes/Themes";
 import "./App.css";
 
