@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-.MuiTypography-root.MuiTypography-h2.MuiTypography-gutterBottom.css-1ffx7y-MuiTypography-root {
+.MuiTypography-h2.motto {
   background: linear-gradient(45deg, #178afe 40%, #0059b2 90%);
   color: red;
   background-clip: text;
