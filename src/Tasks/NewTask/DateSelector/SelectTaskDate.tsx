@@ -40,7 +40,7 @@ const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
         renderInput={(props) => <TextField {...props} />}
         label="Select task date"
         ampm={false}
-        inputFormat="dd/MM/yyyy hh:mm"
+        inputFormat="dd/MM/yyyy HH:mm"
         value={taskContent.date}
         onChange={handleChange}
         disablePast={true}
