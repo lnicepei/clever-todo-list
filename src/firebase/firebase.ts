@@ -21,7 +21,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { TaskContextAction } from "../Tasks/TasksContext";
+import { TaskContextAction } from "../Tasks/TasksContext/TasksContext.types";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
@@ -97,7 +97,7 @@ export const registerWithEmailAndPassword = async (
 
 export const fetchUserData = async (
   dispatch: React.Dispatch<TaskContextAction> | null,
-  user: User | null | undefined,
+  user: User | null | undefined
 ) => {
   const q = query(collection(db, "users"), where("uid", "==", user?.uid));
   const doc = await getDocs(q);
