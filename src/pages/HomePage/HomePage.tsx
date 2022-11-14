@@ -2,8 +2,8 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import logo from "../../public/todo-logo.png";
-import { auth } from "../firebase/firebase";
+import logo from "../../../public/todo-logo.png";
+import { auth } from "../../api/firebase";
 import "./HomePage.css";
 
 const HomePage = () => {

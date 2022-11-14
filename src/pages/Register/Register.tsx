@@ -3,19 +3,26 @@ import { Box, Button, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
   signInWithGoogle,
-} from "../../firebase/firebase";
-import { AuthContext } from "../AuthWrapper/AuthWrapper";
+} from "../../api/firebase";
+import { AuthContext } from "../../components/AuthWrapper/AuthWrapper";
 
-const Login = () => {
-  const { password, setPassword, email, setEmail, handleErrorMessage } =
-    useContext(AuthContext);
+const Register = () => {
+  const {
+    name,
+    setName,
+    password,
+    setPassword,
+    email,
+    setEmail,
+    handleErrorMessage,
+  } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const login = () => {
-    logInWithEmailAndPassword(email, password, handleErrorMessage);
+  const register = () => {
+    registerWithEmailAndPassword(name, email, password, handleErrorMessage);
   };
 
   return (
@@ -24,7 +31,7 @@ const Login = () => {
       noValidate
       onSubmit={(e) => {
         e.preventDefault();
-        login();
+        register();
       }}
       sx={{ mt: 3 }}
     >
@@ -32,8 +39,18 @@ const Login = () => {
         <Grid item xs={12}>
           <TextField
             variant="outlined"
+            fullWidth
+            label="Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
             label="Email"
-            name="email"
+            autoComplete="off"
             fullWidth
             required
             value={email}
@@ -54,7 +71,7 @@ const Login = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button type="submit" fullWidth variant="contained">
-            Log In
+            Sign Up
           </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -68,13 +85,12 @@ const Login = () => {
           </Button>
         </Grid>
         <Grid item xs={12} textAlign="center">
-          <Button variant="text" onClick={() => navigate("/register")}>
-            Sign up
+          <Button variant="text" onClick={() => navigate("/login")}>
+            Log in
           </Button>
         </Grid>
       </Grid>
     </Box>
   );
 };
-
-export default Login;
+export default Register;

@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebase";
-import ScrollableCalendar from "./Calendar/ScrollableCalendar/ScrollableCalendar";
-import ResponsiveAppBar from "./ResponsiveAppBar/ResponsiveAppBar";
-import { TasksProvider } from "./TasksView/TasksContext/TasksContext";
-import StyledPuffLoader from "./TasksView/StyledPuffLoader/StyledPuffLoader";
-import TaskWrapper from "./TasksView/TaskWrapper/TaskWrapper";
+import { auth } from "../../api/firebase";
+import ScrollableCalendar from "../../components/Calendar/Calendar";
+import ResponsiveAppBar from "../../components/ResponsiveAppBar/ResponsiveAppBar";
+import { TasksProvider } from "../../components/TasksContext/TasksContext";
+import StyledPuffLoader from "../../helpers/StyledPuffLoader";
+import TaskWrapper from "../../components/TaskList/TaskList";
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);
