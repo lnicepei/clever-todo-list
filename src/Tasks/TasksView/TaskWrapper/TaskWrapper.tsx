@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../../../firebase/firebase";
 import NewTaskWrapper from "../../NewTask/NewTaskWrapper/NewTaskWrapper";
-import { useTasks, useTasksDispatch } from "../../TasksContext";
+import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 import StyledPuffLoader from "../StyledPuffLoader/StyledPuffLoader";
 import Task from "../Task/Task";
 
