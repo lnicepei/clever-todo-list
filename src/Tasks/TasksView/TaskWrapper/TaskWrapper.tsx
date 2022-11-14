@@ -33,10 +33,10 @@ const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
       isSameDay(new Date(task.date), new Date(tasksContext!.dayToShowTasks))
     )
     ?.sort((a: Task, b: Task) => +isAfter(new Date(a.date), new Date(b.date)))
-    .map((task: Task, index: number) => (
+    .map((task: Task) => (
       <Task
         task={task}
-        key={index}
+        key={task.id}
         setIsNewTaskMenuOpen={setIsNewTaskMenuOpen}
         setTaskContent={() => setTaskContent(task)}
       />
