@@ -41,7 +41,7 @@ const ScrollableCalendar = () => {
   const appendMonthToCalendar = () => {
     const tempCalendar: string[] = [];
     let dayToAppend = new Date(calendar?.at(-1) ?? "");
-    let endDay = addMonths(dayToAppend, 1);
+    const endDay = addMonths(dayToAppend, 1);
 
     while (isBefore(dayToAppend, endDay)) {
       tempCalendar.push(addDays(dayToAppend, 1).toDateString());
@@ -54,7 +54,7 @@ const ScrollableCalendar = () => {
   const prependMonthToCalendar = () => {
     const tempCalendar: string[] = [];
     let dayToPrepend = new Date(calendar?.at(0) ?? "");
-    let startDay = subMonths(dayToPrepend, 1);
+    const startDay = subMonths(dayToPrepend, 1);
 
     while (isAfter(dayToPrepend, startDay)) {
       tempCalendar.unshift(subDays(dayToPrepend, 1).toDateString());
