@@ -45,15 +45,15 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
 
   const cardStyles = {
     bgcolor:
-      (isToday(date) && "secondary.main") ||
+      (isToday(date) && "text.primary") ||
       (isPast(date) && "secondary.light") ||
       "secondary.dark",
     outline: (selected && "2px solid") || "none",
     color:
       (selected && "warning.dark") ||
-      (isToday(date) && "primary.light") ||
+      (isToday(date) && "background.default") ||
       (!isToday(date) && isPast(date) && "text.disabled") ||
-      "common.white",
+      "text.primary",
   };
 
   return (
