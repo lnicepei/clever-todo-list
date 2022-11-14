@@ -11,9 +11,10 @@
 
 ### Other scripts
 
-* `npm run lint` wil run [eslint](https://eslint.org/) in the source folder
-* `npm run prettier:check` will use [prettier](https://prettier.io/) to check for the code that does not match rules set in `.prettierrc` file
-* `npm run prettier:fix` will fix all the issues found during the previous step
+* `npm run lint` wil run [eslint](https://eslint.org/) in the source folder, checking for all files that match the following pattern `src/**/*.ts{,x}`
 
-### Project info and structure of folders
+### How to add git hooks
+
+* Run `npm run prepare`
+* Add a hook. `npx husky add .husky/pre-commit "npm test"`, for instance
 
