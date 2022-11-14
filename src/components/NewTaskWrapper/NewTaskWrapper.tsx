@@ -1,22 +1,20 @@
 import AddIcon from "@mui/icons-material/Add";
 import {
-  Box,
-  IconButton,
+  Box, Button,
+  Dialog,
+  DialogContent,
+  DialogTitle, IconButton,
   Step,
   StepContent,
   StepLabel,
-  Stepper,
+  Stepper
 } from "@mui/material";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import { isPast, isToday } from "date-fns";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 import SelectTaskDateAndTime from "../TaskDateSelector/SelectTaskDate";
 import SelectTaskName from "../TaskNameSelector/SelectTaskName";
+import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 
 type NewTaskWrapperProps = {
   taskContent: Task;
