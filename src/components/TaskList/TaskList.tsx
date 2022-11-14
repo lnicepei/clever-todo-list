@@ -1,11 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { format, isAfter, isSameDay } from "date-fns";
+import AddIcon from "@mui/icons-material/Add";
+import { format, isAfter, isPast, isSameDay, isToday } from "date-fns";
 import { User } from "firebase/auth";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../../api/firebase";
-import NewTaskWrapper from "../NewTaskWrapper/NewTaskWrapper";
+import NewTaskDialog from "../NewTaskDialog/NewTaskDialog";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 import StyledPuffLoader from "../../helpers/StyledPuffLoader";
 import Task from "../Task/Task";
@@ -16,6 +17,7 @@ type TaskWrapperProps = {
 
 const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
   const tasksContext = useTasks();
+  const [wasNewTaskDialogEmpty, setWasNewTaskDialogEmpty] = useState(false);
 
   const [taskContent, setTaskContent] = useState<Task>({
     name: "",
@@ -49,6 +51,26 @@ const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
 
   const dispatch = useTasksDispatch();
 
+  const handleTaskDialogClose = () => {
+    setTaskContent({
+      name: "",
+      date: "",
+      complete: false,
+      id: nanoid(),
+    });
+    setIsNewTaskMenuOpen(false);
+    setWasNewTaskDialogEmpty(false);
+  };
+
+  const handleTaskDialogOpen = () => {
+    setWasNewTaskDialogEmpty(true);
+    setIsNewTaskMenuOpen(true);
+  };
+
+  const isNewTaskVisible =
+    !isPast(new Date(tasksContext!.dayToShowTasks)) ||
+    isToday(new Date(tasksContext!.dayToShowTasks));
+
   useEffect(() => {
     fetchUserData(dispatch, user);
   }, []);
@@ -74,11 +96,18 @@ const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
               {(sortedTasks.length > 1 || sortedTasks.length === 0) &&
                 "s"} for {chosenDay}
             </Typography>
-            <NewTaskWrapper
+            {isNewTaskVisible && (
+              <IconButton onClick={handleTaskDialogOpen}>
+                <AddIcon />
+              </IconButton>
+            )}
+            <NewTaskDialog
               taskContent={taskContent}
               setTaskContent={setTaskContent}
               isNewTaskMenuOpen={isNewTaskMenuOpen}
               setIsNewTaskMenuOpen={setIsNewTaskMenuOpen}
+              wasNewTaskDialogEmpty={wasNewTaskDialogEmpty}
+              handleTaskDialogClose={handleTaskDialogClose}
             />
           </Box>
           {sortedTasks}
