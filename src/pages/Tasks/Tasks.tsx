@@ -5,8 +5,8 @@ import { auth } from "../../api/firebase";
 import ScrollableCalendar from "../../components/Calendar/Calendar";
 import ResponsiveAppBar from "../../components/ResponsiveAppBar/ResponsiveAppBar";
 import { TasksProvider } from "../../components/TasksContext/TasksContext";
-import StyledPuffLoader from "../../helpers/StyledPuffLoader";
 import TaskWrapper from "../../components/TaskList/TaskList";
+import StyledPuffLoader from "../../helpers/StyledPuffLoader/StyledPuffLoader";
 
 const Tasks = () => {
   const [user, loading] = useAuthState(auth);

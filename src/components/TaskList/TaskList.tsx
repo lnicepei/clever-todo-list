@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import { fetchUserData } from "../../api/firebase";
 import NewTaskDialog from "../NewTaskDialog/NewTaskDialog";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
-import StyledPuffLoader from "../../helpers/StyledPuffLoader";
 import Task from "../Task/Task";
+import StyledPuffLoader from "../../helpers/StyledPuffLoader/StyledPuffLoader";
 
 type TaskWrapperProps = {
   user: User | null | undefined;
