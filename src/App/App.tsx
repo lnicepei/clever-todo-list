@@ -15,7 +15,7 @@ import Tasks from "../pages/Tasks/Tasks";
 import { darkTheme } from "../themes/Themes";
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
     <Container sx={{ padding: 0 }}>
       <ThemeProvider theme={darkTheme}>
