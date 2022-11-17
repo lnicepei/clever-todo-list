@@ -1,7 +1,13 @@
+.MuiContainer-root.home-container {
+  display: flex;
+  height: 100vh;
+}
+
 .MuiBox-root.css-0.home {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100vh;
 }
 
 .MuiTypography-h2.motto {

@@ -15,9 +15,14 @@ const HomePage = () => {
   }, [user]);
 
   return (
-    <Container sx={{ display: "flex", height: "100vh" }}>
+    <Container className="home-container">
       <Box className="home">
-        <Typography variant="h2" className="motto" gutterBottom sx={{ fontWeight: 800 }}>
+        <Typography
+          variant="h2"
+          className="motto"
+          gutterBottom
+          sx={{ fontWeight: 800 }}
+        >
           Organize your work and life, finally.
         </Typography>
         <Typography paragraph={true} gutterBottom>
