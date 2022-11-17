@@ -10,7 +10,7 @@ const NotFound = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className="not-found">
       <Box>
         <Typography variant="h1" gutterBottom sx={{ fontWeight: 700 }}>
           404
