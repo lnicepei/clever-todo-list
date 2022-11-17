@@ -9,22 +9,12 @@ import {
   subDays,
   subMonths,
 } from "date-fns";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 import Day from "../CalendarDay/CalendarDay";
-import useDrag from "./hooks/useDrag";
+import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 
 const ScrollableCalendar = () => {
-  const {
-    dragStart,
-    touchStart,
-    dragStop,
-    dragMove,
-    touchMove,
-    dragging,
-    wheelMove,
-  } = useDrag();
   const tasksContext = useTasks();
   const dispatch = useTasksDispatch();
 
@@ -65,45 +55,7 @@ const ScrollableCalendar = () => {
     });
   };
 
-  const observer = useRef();
-  const lastDayElementRef = useCallback((node) => {
-    console.log(node)
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        // setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        appendMonthToCalendar();
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [scrollMenuRef.current?.scrollLeft]);
-  console.log(scrollMenuRef.current?.scrollLeft);
-  // const moveAction = (positionDifference: number) => {
-  //   if (scrollMenuRef.current) {
-  //     scrollMenuRef.current.scrollLeft += positionDifference;
-  useEffect(() => {
-    console.log(scrollMenuRef.current?.scrollLeft);
-    if (
-      scrollMenuRef.current.scrollLeft + scrollMenuRef.current.clientWidth >=
-      scrollMenuRef.current?.scrollWidth
-    ) {
-      appendMonthToCalendar();
-    }
-
-    // if (scrollMenuRef.current.scrollLeft === 0) {
-    //   const prevWidth = scrollMenuRef.current.scrollWidth;
-    //   prependMonthToCalendar();
-    //   scrollMenuRef.current.scrollLeft =
-    //     scrollMenuRef.current.scrollWidth - prevWidth;
-    // }
-  }, [scrollMenuRef.current?.scrollLeft]);
-  // };
-
   const handleDayCardClick = (key: number) => () => {
-    if (dragging) {
-      return false;
-    }
-
     dispatch?.({
       type: "SET_DAY_TO_SHOW_TASKS",
       payload: {
@@ -112,10 +64,6 @@ const ScrollableCalendar = () => {
     });
     setSelected(selected !== key ? key : selected);
   };
-
-  useEffect(() => {
-    setSelected(calendar.indexOf(tasksContext!.dayToShowTasks));
-  }, []);
 
   useEffect(() => {
     const tempCalendar: string[] = [];
@@ -128,35 +76,51 @@ const ScrollableCalendar = () => {
 
     setSelected(tempCalendar.indexOf(new Date().toDateString()));
     setCalendar(tempCalendar);
+
+    setSelected(calendar.indexOf(tasksContext!.dayToShowTasks));
   }, []);
 
   useEffect(() => {
+    scrollMenuRef.current?.addEventListener("scroll", () => {
+      if (scrollMenuRef.current) {
+        if (
+          scrollMenuRef.current.scrollLeft +
+            scrollMenuRef.current.clientWidth >=
+          scrollMenuRef.current?.scrollWidth - 200
+        ) {
+          appendMonthToCalendar();
+        }
+
+        if (scrollMenuRef.current.scrollLeft <= 150) {
+          const prevWidth = scrollMenuRef.current.scrollWidth;
+          prependMonthToCalendar();
+          scrollMenuRef.current.scrollLeft =
+            scrollMenuRef.current.scrollWidth - prevWidth;
+        }
+      }
+    });
+
+    scrollMenuRef.current?.addEventListener("wheel", (e) => {
+      e.preventDefault();
+    });
+
     initialDayRef.current?.scrollIntoView({
-      behavior: "smooth",
+      behavior: "auto",
       inline: "center",
     });
   }, [scrollMenuRef.current]);
 
-  scrollMenuRef.current?.addEventListener("wheel", (e) => {
-    e.preventDefault();
-  });
-
-  const selectDayRef = (day: string, key: number) => {
-    if (key === calendar.length) {
-      return lastDayElementRef;
-    }
+  const selectDayRef = (day: string) => {
     return day === new Date().toDateString() ? initialDayRef : dayRef;
+  };
+
+  const wheelMove = (difference: number) => {
+    if (scrollMenuRef.current) scrollMenuRef.current.scrollLeft += difference;
   };
 
   return (
     <Stack
-      // onMouseDown={dragStart}
-      // onMouseUp={dragStop}
-      // onTouchStart={touchStart}
-      // onTouchEnd={dragStop}
-      // onTouchMove={(e) => touchMove(e, moveAction)}
-      // onMouseMove={(e) => dragMove(e, moveAction)}
-      // onWheel={(e) => wheelMove(e, moveAction)}
+      onWheel={(e) => wheelMove(e.deltaY)}
       ref={scrollMenuRef}
       sx={{ overflow: "auto", py: "10px", scrollbarWidth: "none" }}
       direction="row"
@@ -167,7 +131,7 @@ const ScrollableCalendar = () => {
           key={key}
           onClick={handleDayCardClick(key)}
           selected={key === selected}
-          dayRef={selectDayRef(dayOfMonth, key)}
+          dayRef={selectDayRef(dayOfMonth)}
           date={new Date(calendar?.at(key) ?? "")}
         />
       ))}
