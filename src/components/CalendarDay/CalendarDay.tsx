@@ -6,7 +6,7 @@ import "./CalendarDay.css";
 
 type DayProps = {
   day: string;
-  onClick: () => false | undefined;
+  onClick: () => void;
   selected: boolean;
   dayRef: MutableRefObject<HTMLDivElement | null>;
   date: Date;
