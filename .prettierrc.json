@@ -1,0 +1,13 @@
+{
+  "semi": true,
+  "importOrder": [
+    "^react(.*)",
+    "^date-fns/(.*)$",
+    "^@mui/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
