@@ -1,8 +1,10 @@
+import { addHours, addMinutes } from "date-fns";
+
 import { useEffect } from "react";
 
 import { TextField } from "@mui/material";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 
 type TaskDateSelector = {
   initialValue: string;
@@ -25,12 +27,13 @@ const TaskDateSelector: React.FC<TaskDateSelector> = ({
   };
 
   useEffect(() => {
-    setTaskContent((prevTaskContent: Task) => {
-      return {
-        ...prevTaskContent,
-        date: new Date(initialValue).toString(),
-      };
-    });
+    setTaskContent((prevTaskContent: Task) => ({
+      ...prevTaskContent,
+      date: prevTaskContent.date || addMinutes(
+        addHours(new Date(initialValue), new Date().getHours()),
+        new Date().getMinutes()
+      ).toString(),
+    }));
   }, []);
 
   return (
