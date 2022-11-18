@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
-import "./NotFound.css";
+import {
+  Description,
+  GoHomeButton,
+  MainText,
+  NotFoundContainer,
+} from "./style";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -12,21 +17,21 @@ const NotFound = () => {
   };
 
   return (
-    <Container maxWidth="md" className="not-found">
+    <NotFoundContainer>
       <Box>
-        <Typography variant="h1" gutterBottom sx={{ fontWeight: 700 }}>
+        <MainText variant="h1" gutterBottom>
           404
-        </Typography>
+        </MainText>
       </Box>
       <Box>
-        <Typography variant="h3" sx={{ fontWeight: 500 }}>
+        <Description variant="h3">
           The page you're looking for can't be found.
-        </Typography>
-        <Button variant="contained" sx={{ marginTop: "30px" }} onClick={goHome}>
+        </Description>
+        <GoHomeButton variant="contained" onClick={goHome}>
           Back Home
-        </Button>
+        </GoHomeButton>
       </Box>
-    </Container>
+    </NotFoundContainer>
   );
 };
 

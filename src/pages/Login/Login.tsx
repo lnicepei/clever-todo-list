@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import GoogleIcon from "@mui/icons-material/Google";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 
 import {
-  signInWithGoogle,
   logInWithEmailAndPassword,
+  signInWithGoogle,
 } from "../../api/firebase";
 import { AuthContext } from "../../components/AuthWrapper/AuthWrapper";
+import { StyledLogin } from "./style";
 
 const Login = () => {
   const { password, setPassword, email, setEmail, handleErrorMessage } =
@@ -16,20 +17,17 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const handleSubmit = (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    login();
+  };
+
   const login = () => {
     logInWithEmailAndPassword(email, password, handleErrorMessage);
   };
 
   return (
-    <Box
-      component="form"
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault();
-        login();
-      }}
-      sx={{ mt: 3 }}
-    >
+    <StyledLogin component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -75,7 +73,7 @@ const Login = () => {
           </Button>
         </Grid>
       </Grid>
-    </Box>
+    </StyledLogin>
   );
 };
 

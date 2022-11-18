@@ -3,17 +3,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import {
-  Avatar,
-  Box,
-  Container,
-  SnackbarCloseReason,
-  Typography,
-} from "@mui/material";
+import { Container, SnackbarCloseReason, Typography } from "@mui/material";
 
 import { auth } from "../../api/firebase";
 import BasicSnackbar from "../../helpers/BasicSnackbar/BasicSnackbar";
-import "./AuthWrapper.css";
+import { AuthBox, StyledAvatar } from "./style";
 
 interface AuthContextValue {
   password: string;
@@ -76,14 +70,14 @@ const AuthWrapper: React.FC<ChildrenProps> = ({ children }) => {
       }}
     >
       <Container component="main" maxWidth="xs">
-        <Box className="auth">
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <AuthBox>
+          <StyledAvatar>
             <LockOutlinedIcon />
-          </Avatar>
+          </StyledAvatar>
           <Typography component="h1" variant="h4">
             {matchPath(useLocation().pathname, "/login") ? "Log In" : "Sign Up"}
           </Typography>
-        </Box>
+        </AuthBox>
         {children}
       </Container>
       <BasicSnackbar open={open} onClose={handleClose} message={errorMessage} />

@@ -12,10 +12,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
-import { Stack } from "@mui/system";
-
 import CalendarDay from "../CalendarDay/CalendarDay";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
+import { CustomStack } from "./style";
 
 const Calendar = () => {
   const tasksContext = useTasks();
@@ -125,12 +124,7 @@ const Calendar = () => {
   };
 
   return (
-    <Stack
-      onWheel={(e) => wheelMove(e.deltaY)}
-      ref={scrollMenuRef}
-      sx={{ overflow: "auto", py: "10px", scrollbarWidth: "none" }}
-      direction="row"
-    >
+    <CustomStack onWheel={(e) => wheelMove(e.deltaY)} ref={scrollMenuRef}>
       {calendar.map((dayOfMonth, key) => (
         <CalendarDay
           day={dayOfMonth}
@@ -141,7 +135,7 @@ const Calendar = () => {
           date={new Date(calendar?.at(key) ?? "")}
         />
       ))}
-    </Stack>
+    </CustomStack>
   );
 };
 

@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import GoogleIcon from "@mui/icons-material/Google";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 
 import {
-  signInWithGoogle,
   registerWithEmailAndPassword,
+  signInWithGoogle,
 } from "../../api/firebase";
 import { AuthContext } from "../../components/AuthWrapper/AuthWrapper";
+import { StyledRegister } from "./style";
 
 const Register = () => {
   const {
@@ -23,21 +24,18 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const handleSubmit = (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    register();
+  };
+
   const register = () => {
     registerWithEmailAndPassword(name, email, password, handleErrorMessage);
   };
 
   return (
-    <Box
-      component="form"
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault();
-        register();
-      }}
-      sx={{ mt: 3 }}
-    >
-      <Grid container spacing={2}>
+    <StyledRegister component="form" onSubmit={handleSubmit}>
+      <Grid component="form" container spacing={2}>
         <Grid item xs={12}>
           <TextField
             variant="outlined"
@@ -92,7 +90,7 @@ const Register = () => {
           </Button>
         </Grid>
       </Grid>
-    </Box>
+    </StyledRegister>
   );
 };
 export default Register;

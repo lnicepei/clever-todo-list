@@ -5,14 +5,18 @@ import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import { Box, IconButton, Typography } from "@mui/material";
-import { Container } from "@mui/system";
+import { IconButton } from "@mui/material";
 
 import { fetchUserData } from "../../api/firebase";
-import StyledPuffLoader from "../../helpers/StyledPuffLoader/StyledPuffLoader";
+import CustomPuffLoader from "../../helpers/PuffLoader/PuffLoader";
 import NewTaskDialog from "../NewTaskDialog/NewTaskDialog";
 import Task from "../Task/Task";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
+import {
+  StyledDayDescription,
+  StyledTaskListContainer,
+  StyledTasksInfoBox,
+} from "./style";
 
 type TaskWrapperProps = {
   user: User | null | undefined;
@@ -74,31 +78,23 @@ const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
     !isPast(new Date(tasksContext!.dayToShowTasks)) ||
     isToday(new Date(tasksContext!.dayToShowTasks));
 
+  const isSOnTheEnd = sortedTasks.length > 1 || sortedTasks.length === 0;
+
   useEffect(() => {
     fetchUserData(dispatch, user);
   }, []);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        px: { xs: 2, md: 0, lg: 0, sm: 0 },
-      }}
-    >
+    <StyledTaskListContainer>
       {isNoUser ? (
-        <StyledPuffLoader />
+        <CustomPuffLoader />
       ) : (
         <>
-          <Box sx={{ display: "flex", height: "40px", mb: 1 }}>
-            <Typography
-              variant="h5"
-              sx={{ display: "flex", alignItems: "center", mr: 1 }}
-            >
+          <StyledTasksInfoBox>
+            <StyledDayDescription variant="h5">
               {sortedTasks.length || "No"} task
-              {(sortedTasks.length > 1 || sortedTasks.length === 0) &&
-                "s"} for {chosenDay}
-            </Typography>
+              {isSOnTheEnd && "s"} for {chosenDay}
+            </StyledDayDescription>
             {isNewTaskVisible && (
               <IconButton onClick={handleTaskDialogOpen}>
                 <AddIcon />
@@ -112,11 +108,11 @@ const TaskWrapper: React.FC<TaskWrapperProps> = ({ user }) => {
               wasNewTaskDialogEmpty={wasNewTaskDialogEmpty}
               handleTaskDialogClose={handleTaskDialogClose}
             />
-          </Box>
+          </StyledTasksInfoBox>
           {sortedTasks}
         </>
       )}
-    </Container>
+    </StyledTaskListContainer>
   );
 };
 

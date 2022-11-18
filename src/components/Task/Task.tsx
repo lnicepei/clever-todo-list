@@ -1,10 +1,11 @@
 import { format } from "date-fns";
 
-import { Card, CardContent, Checkbox, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
 import TaskOptions from "../TaskOptions/TaskOptions";
 import { useTasksDispatch } from "../TasksContext/TasksContext";
+import { StyledCheckbox, StyledTaskCard, StyledTaskCardContent } from "./style";
 
 declare global {
   interface Task {
@@ -53,14 +54,10 @@ const Task: React.FC<TaskProps> = ({
   };
 
   return (
-    <Card sx={{ display: "flex", mb: "10px" }}>
-      <CardContent sx={{ display: "flex", width: "100%" }}>
-        <Checkbox
-          sx={{ height: "42px" }}
-          checked={task.complete}
-          onChange={handleToggle}
-        ></Checkbox>
-        <Container sx={{ mr: "auto" }}>
+    <StyledTaskCard>
+      <StyledTaskCardContent>
+        <StyledCheckbox checked={task.complete} onChange={handleToggle} />
+        <Container>
           <Typography variant="h5">{task.name}</Typography>
           <Typography variant="subtitle2">{`${format(
             new Date(task.date),
@@ -72,8 +69,8 @@ const Task: React.FC<TaskProps> = ({
           handleDelete={handleDelete}
           taskName={task.name}
         />
-      </CardContent>
-    </Card>
+      </StyledTaskCardContent>
+    </StyledTaskCard>
   );
 };
 

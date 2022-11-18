@@ -2,11 +2,12 @@ import { isPast, isToday } from "date-fns";
 
 import React from "react";
 
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogTitle } from "@mui/material";
 
 import SelectTaskDateAndTime from "../TaskDateSelector/TaskDateSelector";
 import TaskNameSelector from "../TaskNameSelector/TaskNameSelector";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
+import { StyledDialogContent, StyledFinishButton } from "./style";
 
 type NewTaskDialogProps = {
   taskContent: Task;
@@ -62,7 +63,7 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
       fullWidth={true}
     >
       <DialogTitle>Create new task</DialogTitle>
-      <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
+      <StyledDialogContent>
         <TaskNameSelector
           taskContent={taskContent}
           setTaskContent={setTaskContent}
@@ -76,15 +77,14 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
           taskContent={taskContent}
           setTaskContent={setTaskContent}
         />
-        <Button
+        <StyledFinishButton
           variant="contained"
           disabled={isFinishButtonDisabled}
           onClick={wasNewTaskDialogEmpty ? createNewTask : updateExistingTask}
-          sx={{ mt: 2 }}
         >
           Finish
-        </Button>
-      </DialogContent>
+        </StyledFinishButton>
+      </StyledDialogContent>
     </Dialog>
   );
 };

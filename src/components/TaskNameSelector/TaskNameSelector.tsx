@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TextField } from "@mui/material";
+import { StyledTextField } from "./style";
 
 type TaskNameSelector = {
   taskContent: Task;
@@ -23,7 +23,7 @@ const TaskNameSelector: React.FC<TaskNameSelector> = ({
   };
 
   return (
-    <TextField
+    <StyledTextField
       autoFocus
       required
       margin="dense"
@@ -33,7 +33,6 @@ const TaskNameSelector: React.FC<TaskNameSelector> = ({
       fullWidth
       variant="outlined"
       autoComplete="off"
-      sx={{ mb: 2 }}
       value={taskContent.name}
       onChange={handleChange}
     />

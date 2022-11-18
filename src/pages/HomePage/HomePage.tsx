@@ -2,11 +2,17 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
 import logo from "../../../public/todo-logo.png";
 import { auth } from "../../api/firebase";
-import "./HomePage.css";
+import {
+  Home,
+  HomeContainer,
+  ImageContainer,
+  Motto,
+  StyledImage,
+} from "./style";
 
 const HomePage = () => {
   const [user] = useAuthState(auth);
@@ -17,16 +23,11 @@ const HomePage = () => {
   }, [user]);
 
   return (
-    <Container className="home-container">
-      <Box className="home">
-        <Typography
-          variant="h2"
-          className="motto"
-          gutterBottom
-          sx={{ fontWeight: 800 }}
-        >
+    <HomeContainer>
+      <Home>
+        <Motto variant="h2" gutterBottom>
           Organize your work and life, finally.
-        </Typography>
+        </Motto>
         <Typography paragraph={true} gutterBottom>
           Become focused, organized, and calm with Clever Todo List.
         </Typography>
@@ -38,15 +39,14 @@ const HomePage = () => {
             Log In
           </Button>
         </Stack>
-      </Box>
-      <Box sx={{ display: { md: "block", xs: "none" } }}>
-        <img
+      </Home>
+      <ImageContainer>
+        <StyledImage
           src={logo}
           alt="A man and a woman adjusting tasks shaped as rectangles on a huge task board"
-          style={{ height: "90vh" }}
         />
-      </Box>
-    </Container>
+      </ImageContainer>
+    </HomeContainer>
   );
 };
 

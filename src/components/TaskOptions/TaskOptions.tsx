@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 
+import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
 import {
-  Menu,
-  Fade,
   Button,
   Dialog,
-  MenuItem,
-  IconButton,
-  DialogTitle,
   DialogActions,
+  DialogTitle,
+  Fade,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
+
+import { StyledIconButton } from "./style";
 
 type TaskOptions = {
   handleEdit: () => void;
@@ -52,16 +53,15 @@ const TaskOptions: React.FC<TaskOptions> = ({
 
   return (
     <>
-      <IconButton
+      <StyledIconButton
         id="fade-button"
         aria-controls={isMenuOpen ? "fade-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? "true" : undefined}
         onClick={openTaskMenu}
-        sx={{ height: "42px" }}
       >
         <MoreHoriz />
-      </IconButton>
+      </StyledIconButton>
       <Menu
         id="fade-menu"
         MenuListProps={{

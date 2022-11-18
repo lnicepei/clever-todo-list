@@ -1,11 +1,11 @@
-import { format, isPast, isToday } from "date-fns";
+import { format } from "date-fns";
 
 import { MutableRefObject } from "react";
 
-import { Card, CardContent, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 import { useTasks } from "../TasksContext/TasksContext";
-import "./CalendarDay.css";
+import { CalendarDayCard, CalendarDayCardContent } from "./style";
 
 type DayProps = {
   day: string;
@@ -58,48 +58,20 @@ const CalendarDay: React.FC<DayProps> = ({
       </ul>
     ));
 
-  const selectBgColor = () => {
-    if (isToday(date)) {
-      return "text.primary";
-    }
-
-    if (isPast(date)) {
-      return "secondary.light";
-    }
-
-    return "secondary.dark";
-  };
-
-  const selectColor = () => {
-    if (selected) {
-      return "warning.dark";
-    }
-
-    if (isToday(date)) {
-      return "background.default";
-    }
-
-    if (!isToday(date) && isPast(date)) {
-      return "text.disabled";
-    }
-
-    return "text.primary";
-  };
-
-  const cardStyles = {
-    bgcolor: selectBgColor(),
-    outline: (selected && "2px solid") || "none",
-    color: selectColor(),
-  };
-
   return (
-    <Card variant="outlined" onClick={onClick} ref={dayRef} sx={cardStyles}>
-      <CardContent>
+    <CalendarDayCard
+      variant="outlined"
+      onClick={onClick}
+      ref={dayRef}
+      selected={selected}
+      date={date}
+    >
+      <CalendarDayCardContent>
         <Typography>{formattedMonth}</Typography>
         <Typography>{formattedDay}</Typography>
         <Container>{taskList}</Container>
-      </CardContent>
-    </Card>
+      </CalendarDayCardContent>
+    </CalendarDayCard>
   );
 };
 

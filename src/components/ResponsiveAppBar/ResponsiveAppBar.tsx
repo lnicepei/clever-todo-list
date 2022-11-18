@@ -1,19 +1,21 @@
 import React, { useCallback, useState } from "react";
 
 import {
-  Box,
-  Menu,
-  Avatar,
   AppBar,
-  Tooltip,
-  Toolbar,
-  MenuItem,
-  Typography,
+  Avatar,
   IconButton,
+  MenuItem,
+  Toolbar,
+  Tooltip,
 } from "@mui/material";
-import TaskIcon from "@mui/icons-material/Task";
 
 import { logout } from "../../api/firebase";
+import {
+  StyledLogo,
+  StyledMenu,
+  StyledTaskIcon,
+  StyledUsername,
+} from "./style";
 
 type ResponsiveAppBarProps = {
   username: string;
@@ -33,8 +35,8 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
     []
   );
 
-  const croppedUsername = username.includes(".")
-    ? username.split(".")[0]
+  const croppedUsername = username.includes("@")
+    ? username
     : username.split(" ")[0];
 
   const handleCloseUserMenu = useCallback(() => {
@@ -42,39 +44,34 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="relative" color="primary">
-        <Toolbar>
-          <TaskIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography variant="h5" noWrap sx={{ flexGrow: 1 }}>
-            TodoList
-          </Typography>
-          <Typography sx={{ mr: 2 }}>{croppedUsername}</Typography>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={username} src={photoUrl}></Avatar>
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={!!anchorElUser}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem onClick={logout}>Log out</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar position="relative" color="primary">
+      <Toolbar>
+        <StyledTaskIcon />
+        <StyledLogo variant="h5">TodoList</StyledLogo>
+        <StyledUsername>{croppedUsername}</StyledUsername>
+        <Tooltip title="Open settings">
+          <IconButton onClick={handleOpenUserMenu}>
+            <Avatar alt={username} src={photoUrl} />
+          </IconButton>
+        </Tooltip>
+        <StyledMenu
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={!!anchorElUser}
+          onClose={handleCloseUserMenu}
+        >
+          <MenuItem onClick={logout}>Log out</MenuItem>
+        </StyledMenu>
+      </Toolbar>
+    </AppBar>
   );
 };
 export default ResponsiveAppBar;
