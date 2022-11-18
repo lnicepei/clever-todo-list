@@ -36,3 +36,7 @@
 
 ## Folder structure
  * Project boilerplate was created using [vite](https://vitejs.dev/) 
+ * React Router's routes can be found in `src/pages` folder
+ * The components that cannot be accessed by navigation, i.e. building blocks of pages are located inside `src/components` folder
+ * The components that serve a specific task, but are not a building block of a larger component(helper components, such as Toasters or Loaders) were placed to `src/helpers` directory
+ * Mui theme-related code was put to `src/themes` folder
