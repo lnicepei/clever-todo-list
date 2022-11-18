@@ -5,7 +5,7 @@ import {
   Routes,
 } from "react-router-dom";
 
-import { Container, CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
 import AuthWrapper from "../components/AuthWrapper/AuthWrapper";
@@ -16,10 +16,11 @@ import Register from "../pages/Register/Register";
 import Tasks from "../pages/Tasks/Tasks";
 import { darkTheme } from "../themes/Themes";
 import "./App.css";
+import { AppContainer } from "./style";
 
 const App = () => {
   return (
-    <Container sx={{ padding: 0 }}>
+    <AppContainer>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Router>
@@ -41,14 +42,13 @@ const App = () => {
                 </AuthWrapper>
               }
             />
-
             <Route path="tasks" element={<Tasks />} />
             <Route path="404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" />} />
           </Routes>
         </Router>
       </ThemeProvider>
-    </Container>
+    </AppContainer>
   );
 };
 
