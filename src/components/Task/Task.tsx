@@ -2,7 +2,7 @@ import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { format } from "date-fns";
 import { useTasksDispatch } from "../TasksContext/TasksContext";
-import TaskDialog from "../TaskOptions/TaskOptions";
+import TaskOptions from "../TaskOptions/TaskOptions";
 
 declare global {
   interface Task {
@@ -65,7 +65,7 @@ const Task: React.FC<TaskProps> = ({
             "H:mm"
           )}`}</Typography>
         </Container>
-        <TaskDialog
+        <TaskOptions
           handleEdit={openEditMenu}
           handleDelete={handleDelete}
           taskName={task.name}

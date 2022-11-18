@@ -11,10 +11,10 @@ import {
 } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import Day from "../CalendarDay/CalendarDay";
+import CalendarDay from "../CalendarDay/CalendarDay";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 
-const ScrollableCalendar = () => {
+const Calendar = () => {
   const tasksContext = useTasks();
   const dispatch = useTasksDispatch();
 
@@ -129,7 +129,7 @@ const ScrollableCalendar = () => {
       direction="row"
     >
       {calendar.map((dayOfMonth, key) => (
-        <Day
+        <CalendarDay
           day={dayOfMonth}
           key={key}
           onClick={handleDayCardClick(key)}
@@ -142,4 +142,4 @@ const ScrollableCalendar = () => {
   );
 };
 
-export default ScrollableCalendar;
+export default Calendar;

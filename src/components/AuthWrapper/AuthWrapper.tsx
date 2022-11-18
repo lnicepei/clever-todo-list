@@ -31,7 +31,7 @@ export const AuthContext = createContext<AuthContextValue>(
   {} as AuthContextValue
 );
 
-const Auth: React.FC<ChildrenProps> = ({ children }) => {
+const AuthWrapper: React.FC<ChildrenProps> = ({ children }) => {
   const [user] = useAuthState(auth);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -89,4 +89,4 @@ const Auth: React.FC<ChildrenProps> = ({ children }) => {
   );
 };
 
-export default Auth;
+export default AuthWrapper;

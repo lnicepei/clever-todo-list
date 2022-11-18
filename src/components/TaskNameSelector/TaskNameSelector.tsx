@@ -1,12 +1,12 @@
 import { TextField } from "@mui/material";
 import React from "react";
 
-type SelectTaskNameProps = {
+type TaskNameSelector = {
   taskContent: Task;
   setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
 };
 
-const SelectTaskName: React.FC<SelectTaskNameProps> = ({
+const TaskNameSelector: React.FC<TaskNameSelector> = ({
   taskContent,
   setTaskContent,
 }) => {
@@ -32,11 +32,11 @@ const SelectTaskName: React.FC<SelectTaskNameProps> = ({
       fullWidth
       variant="outlined"
       autoComplete="off"
-      sx={{mb: 2}}
+      sx={{ mb: 2 }}
       value={taskContent.name}
       onChange={handleChange}
     />
   );
 };
 
-export default SelectTaskName;
+export default TaskNameSelector;

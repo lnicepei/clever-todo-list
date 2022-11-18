@@ -12,7 +12,13 @@ type DayProps = {
   date: Date;
 };
 
-const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
+const CalendarDay: React.FC<DayProps> = ({
+  day,
+  onClick,
+  selected,
+  dayRef,
+  date,
+}) => {
   const tasksContext = useTasks();
 
   const formattedMonth = format(new Date(day), "E");
@@ -94,4 +100,4 @@ const Day: React.FC<DayProps> = ({ day, onClick, selected, dayRef, date }) => {
   );
 };
 
-export default Day;
+export default CalendarDay;

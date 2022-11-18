@@ -7,17 +7,17 @@ import {
   Fade,
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import React, { useState } from "react";
 
-type TaskDialogProps = {
+type TaskOptions = {
   handleEdit: () => void;
   handleDelete: () => void;
   taskName: string;
 };
 
-const TaskDialog: React.FC<TaskDialogProps> = ({
+const TaskOptions: React.FC<TaskOptions> = ({
   handleEdit,
   handleDelete,
   taskName,
@@ -100,4 +100,4 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
   );
 };
 
-export default TaskDialog;
+export default TaskOptions;

@@ -1,8 +1,8 @@
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { isPast, isToday } from "date-fns";
 import React from "react";
-import SelectTaskDateAndTime from "../TaskDateSelector/SelectTaskDate";
-import SelectTaskName from "../TaskNameSelector/SelectTaskName";
+import SelectTaskDateAndTime from "../TaskDateSelector/TaskDateSelector";
+import TaskNameSelector from "../TaskNameSelector/TaskNameSelector";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 
 type NewTaskDialogProps = {
@@ -60,7 +60,7 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
     >
       <DialogTitle>Create new task</DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
-        <SelectTaskName
+        <TaskNameSelector
           taskContent={taskContent}
           setTaskContent={setTaskContent}
         />

@@ -4,13 +4,13 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useEffect } from "react";
 
-type SelectTaskDateAndTimeProps = {
+type TaskDateSelector = {
   initialValue: string;
   taskContent: Task;
   setTaskContent: React.Dispatch<React.SetStateAction<Task>>;
 };
 
-const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
+const TaskDateSelector: React.FC<TaskDateSelector> = ({
   initialValue,
   taskContent,
   setTaskContent,
@@ -50,4 +50,4 @@ const SelectTaskDateAndTime: React.FC<SelectTaskDateAndTimeProps> = ({
   );
 };
 
-export default SelectTaskDateAndTime;
+export default TaskDateSelector;

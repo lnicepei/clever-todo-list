@@ -6,7 +6,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Auth from "../components/AuthWrapper/AuthWrapper";
+import AuthWrapper from "../components/AuthWrapper/AuthWrapper";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import HomePage from "../pages/HomePage/HomePage";
@@ -26,19 +26,19 @@ const App = () => {
             <Route
               path="login"
               element={
-                <Auth>
+                <AuthWrapper>
                   <Login />
-                </Auth>
+                </AuthWrapper>
               }
-            ></Route>
+            />
             <Route
               path="register"
               element={
-                <Auth>
+                <AuthWrapper>
                   <Register />
-                </Auth>
+                </AuthWrapper>
               }
-            ></Route>
+            />
 
             <Route path="tasks" element={<Tasks />} />
             <Route path="404" element={<NotFound />} />
@@ -48,6 +48,6 @@ const App = () => {
       </ThemeProvider>
     </Container>
   );
-}
+};
 
 export default App;
