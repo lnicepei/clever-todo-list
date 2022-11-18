@@ -35,7 +35,7 @@ export const CalendarDayCard = styled(Card)<IProps>(
       left: "-8px",
       display: "flex",
     },
-    "markers.both li:nth-of-type(odd)": {
+    ".markers.both li:nth-of-type(odd)": {
       color: "#ff6739",
     },
     ".markers.both li:nth-of-type(even)": {
