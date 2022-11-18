@@ -1,4 +1,5 @@
-import TaskIcon from "@mui/icons-material/Task";
+import React, { useCallback, useState } from "react";
+
 import {
   AppBar,
   Avatar,
@@ -10,7 +11,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import TaskIcon from "@mui/icons-material/Task";
+
 import { logout } from "../../api/firebase";
 
 type ResponsiveAppBarProps = {

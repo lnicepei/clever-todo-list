@@ -1,10 +1,12 @@
-import GoogleIcon from "@mui/icons-material/Google";
-import { Box, Button, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import GoogleIcon from "@mui/icons-material/Google";
+import { Box, Button, Grid, TextField } from "@mui/material";
+
 import {
-  logInWithEmailAndPassword,
   signInWithGoogle,
+  logInWithEmailAndPassword,
 } from "../../api/firebase";
 import { AuthContext } from "../../components/AuthWrapper/AuthWrapper";
 

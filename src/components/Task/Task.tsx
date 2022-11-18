@@ -1,6 +1,8 @@
 import { Card, CardContent, Checkbox, Typography } from "@mui/material";
 import { Container } from "@mui/system";
+
 import { format } from "date-fns";
+
 import { useTasksDispatch } from "../TasksContext/TasksContext";
 import TaskOptions from "../TaskOptions/TaskOptions";
 

@@ -1,15 +1,16 @@
-import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
+import React, { useState } from "react";
+
 import {
+  Menu,
+  Fade,
   Button,
   Dialog,
-  DialogActions,
-  DialogTitle,
-  Fade,
-  IconButton,
-  Menu,
   MenuItem,
+  IconButton,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
-import React, { useState } from "react";
+import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
 
 type TaskOptions = {
   handleEdit: () => void;

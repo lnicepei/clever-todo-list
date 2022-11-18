@@ -1,18 +1,23 @@
-import { Container, CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 import {
-  BrowserRouter as Router,
-  Navigate,
   Route,
   Routes,
+  Navigate,
+  BrowserRouter as Router,
 } from "react-router-dom";
+
+import { ThemeProvider } from "@mui/material/styles";
+import { Container, CssBaseline } from "@mui/material";
+
 import AuthWrapper from "../components/AuthWrapper/AuthWrapper";
+
 import Login from "../pages/Login/Login";
+import Tasks from "../pages/Tasks/Tasks";
 import Register from "../pages/Register/Register";
 import HomePage from "../pages/HomePage/HomePage";
 import NotFound from "../pages/NotFound/NotFound";
-import Tasks from "../pages/Tasks/Tasks";
+
 import { darkTheme } from "../themes/Themes";
+
 import "./App.css";
 
 const App = () => {

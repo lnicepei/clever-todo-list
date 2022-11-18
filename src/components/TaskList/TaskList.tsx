@@ -1,14 +1,16 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { nanoid } from "nanoid";
+import { User } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { format, isAfter, isPast, isSameDay, isToday } from "date-fns";
+
 import { Container } from "@mui/system";
 import AddIcon from "@mui/icons-material/Add";
-import { format, isAfter, isPast, isSameDay, isToday } from "date-fns";
-import { User } from "firebase/auth";
-import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+
+import Task from "../Task/Task";
 import { fetchUserData } from "../../api/firebase";
 import NewTaskDialog from "../NewTaskDialog/NewTaskDialog";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
-import Task from "../Task/Task";
 import StyledPuffLoader from "../../helpers/StyledPuffLoader/StyledPuffLoader";
 
 type TaskWrapperProps = {

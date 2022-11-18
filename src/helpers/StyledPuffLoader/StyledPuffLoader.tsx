@@ -1,5 +1,6 @@
-import { Box, useTheme } from "@mui/material";
 import { PuffLoader } from "react-spinners";
+
+import { Box, useTheme } from "@mui/material";
 
 const StyledPuffLoader = () => {
   const theme = useTheme();
