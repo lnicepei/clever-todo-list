@@ -1,18 +1,18 @@
+import {
+  addDays,
+  addMonths,
+  endOfMonth,
+  isAfter,
+  isBefore,
+  startOfMonth,
+  subDays,
+  subMonths,
+} from "date-fns";
+
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { Stack } from "@mui/system";
-
-import {
-  isAfter,
-  addDays,
-  subDays,
-  isBefore,
-  addMonths,
-  subMonths,
-  endOfMonth,
-  startOfMonth,
-} from "date-fns";
 
 import CalendarDay from "../CalendarDay/CalendarDay";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";

@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from "react";
 
 import {
-  AppBar,
-  Avatar,
   Box,
-  IconButton,
   Menu,
-  MenuItem,
-  Toolbar,
+  Avatar,
+  AppBar,
   Tooltip,
+  Toolbar,
+  MenuItem,
   Typography,
+  IconButton,
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
 

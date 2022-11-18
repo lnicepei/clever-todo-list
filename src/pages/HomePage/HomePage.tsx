@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
-import "./HomePage.css";
-import { auth } from "../../api/firebase";
 import logo from "../../../public/todo-logo.png";
+import { auth } from "../../api/firebase";
+import "./HomePage.css";
 
 const HomePage = () => {
   const [user] = useAuthState(auth);

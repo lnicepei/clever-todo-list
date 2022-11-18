@@ -1,8 +1,8 @@
+import { isPast, isToday } from "date-fns";
+
 import React from "react";
 
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-
-import { isPast, isToday } from "date-fns";
 
 import SelectTaskDateAndTime from "../TaskDateSelector/TaskDateSelector";
 import TaskNameSelector from "../TaskNameSelector/TaskNameSelector";
