@@ -2,7 +2,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { createContext, useEffect, useState } from "react";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Avatar,
   Box,
@@ -10,6 +9,7 @@ import {
   SnackbarCloseReason,
   Typography,
 } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { auth } from "../../api/firebase";
 import BasicSnackbar from "../../helpers/BasicSnackbar/BasicSnackbar";
