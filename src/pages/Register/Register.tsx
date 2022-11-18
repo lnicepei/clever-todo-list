@@ -35,7 +35,7 @@ const Register = () => {
 
   return (
     <StyledRegister component="form" onSubmit={handleSubmit}>
-      <Grid component="form" container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             variant="outlined"
