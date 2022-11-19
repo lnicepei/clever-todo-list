@@ -93,6 +93,7 @@ const tasksReducer = (state: TasksContextState, action: TaskContextAction) => {
     }
   }
 };
+
 export const TasksProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [state, dispatch] = useReducer(tasksReducer, initialState);
 
