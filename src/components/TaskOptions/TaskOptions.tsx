@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 
 import { DeleteForever, Edit, MoreHoriz } from "@mui/icons-material";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Fade,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Fade, Menu, MenuItem } from "@mui/material";
 
+import TaskDeleteDialog from "../TaskDeleteDialog/TaskDeleteDialog";
 import { StyledIconButton } from "./style";
 
 type TaskOptions = {
@@ -81,22 +74,12 @@ const TaskOptions: React.FC<TaskOptions> = ({
           &nbsp; Edit
         </MenuItem>
       </Menu>
-      <Dialog
-        open={isDialogOpen}
-        onClose={closeDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {`Delete task ${taskName}?`}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={closeDialog}>Cancel</Button>
-          <Button onClick={deleteTask} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <TaskDeleteDialog
+        taskName={taskName}
+        isDialogOpen={isDialogOpen}
+        deleteTask={deleteTask}
+        closeDialog={closeDialog}
+      />
     </>
   );
 };
