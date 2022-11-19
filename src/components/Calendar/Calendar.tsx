@@ -16,6 +16,8 @@ import CalendarDay from "../CalendarDay/CalendarDay";
 import { useTasks, useTasksDispatch } from "../TasksContext/TasksContext";
 import { CustomStack } from "./style";
 
+let didInit = false;
+
 const Calendar = () => {
   const tasksContext = useTasks();
   const dispatch = useTasksDispatch();
@@ -77,16 +79,19 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    const tempCalendar: string[] = [];
-    let startDay = startOfMonth(subMonths(new Date(), 1));
+    if (!didInit) {
+      didInit = true;
+      const tempCalendar: string[] = [];
+      let startDay = startOfMonth(subMonths(new Date(), 1));
 
-    while (isBefore(startDay, endOfMonth(new Date()))) {
-      tempCalendar.push(startDay.toDateString());
-      startDay = addDays(startDay, 1);
+      while (isBefore(startDay, endOfMonth(new Date()))) {
+        tempCalendar.push(startDay.toDateString());
+        startDay = addDays(startDay, 1);
+      }
+
+      setSelected(tempCalendar.indexOf(new Date().toDateString()));
+      setCalendar(tempCalendar);
     }
-
-    setSelected(tempCalendar.indexOf(new Date().toDateString()));
-    setCalendar(tempCalendar);
   }, []);
 
   useEffect(() => {
