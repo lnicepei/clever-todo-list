@@ -28,31 +28,35 @@ const Calendar = () => {
   const [selected, setSelected] = useState<number>(0);
 
   const appendMonthToCalendar = () => {
-    const tempCalendar: string[] = [];
-    let dayToAppend = new Date(calendar?.at(-1) ?? "");
-    const endDay = addMonths(dayToAppend, 1);
+    flushSync(() => {
+      setCalendar((prevCalendar) => {
+        const tempCalendar: string[] = [];
+        let dayToAppend = new Date(prevCalendar?.at(-1) ?? "");
+        const endDay = addMonths(dayToAppend, 1);
 
-    while (isBefore(dayToAppend, endDay)) {
-      tempCalendar.push(addDays(dayToAppend, 1).toDateString());
-      dayToAppend = addDays(dayToAppend, 1);
-    }
+        while (isBefore(dayToAppend, endDay)) {
+          tempCalendar.push(addDays(dayToAppend, 1).toDateString());
+          dayToAppend = addDays(dayToAppend, 1);
+        }
 
-    setCalendar((prevCalendar) => prevCalendar.concat(tempCalendar));
+        return prevCalendar.concat(tempCalendar);
+      });
+    });
   };
 
   const prependMonthToCalendar = () => {
-    const tempCalendar: string[] = [];
-    let dayToPrepend = new Date(calendar?.at(0) ?? "");
-    const startDay = subMonths(dayToPrepend, 1);
-
-    while (isAfter(dayToPrepend, startDay)) {
-      tempCalendar.unshift(subDays(dayToPrepend, 1).toDateString());
-      dayToPrepend = subDays(dayToPrepend, 1);
-    }
-
     flushSync(() => {
       let indexOfChosenDay = 0;
       setCalendar((prevCalendar) => {
+        const tempCalendar: string[] = [];
+        let dayToPrepend = new Date(prevCalendar?.at(0) ?? "");
+        const startDay = subMonths(dayToPrepend, 1);
+
+        while (isAfter(dayToPrepend, startDay)) {
+          tempCalendar.unshift(subDays(dayToPrepend, 1).toDateString());
+          dayToPrepend = subDays(dayToPrepend, 1);
+        }
+
         indexOfChosenDay = prevCalendar.indexOf(
           new Date(tasksContext!.dayToShowTasks).toDateString()
         );
