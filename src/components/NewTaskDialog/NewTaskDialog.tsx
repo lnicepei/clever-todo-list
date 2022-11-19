@@ -34,6 +34,10 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
     (isPast(new Date(taskContent.date)) &&
       !isToday(new Date(taskContent.date)));
 
+  const initialValue = wasNewTaskDialogEmpty
+    ? tasksContext!.dayToShowTasks
+    : taskContent.date;
+
   const createNewTask = async () => {
     dispatch?.({
       type: "CREATE",
@@ -69,11 +73,7 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
           setTaskContent={setTaskContent}
         />
         <SelectTaskDateAndTime
-          initialValue={
-            wasNewTaskDialogEmpty
-              ? tasksContext!.dayToShowTasks
-              : taskContent.date
-          }
+          initialValue={initialValue}
           taskContent={taskContent}
           setTaskContent={setTaskContent}
         />
