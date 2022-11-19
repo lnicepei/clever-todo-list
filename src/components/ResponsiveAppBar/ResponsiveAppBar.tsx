@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import {
   AppBar,
@@ -28,20 +28,17 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 }) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorElUser(event.currentTarget);
-    },
-    []
-  );
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const croppedUsername = username.includes("@")
     ? username
     : username.split(" ")[0];
 
-  const handleCloseUserMenu = useCallback(() => {
+  const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  }, []);
+  };
 
   return (
     <AppBar position="relative" color="primary">
